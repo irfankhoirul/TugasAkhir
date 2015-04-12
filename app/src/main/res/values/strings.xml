@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="app_name">SurveyoRider</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_get_direction">GetDirection</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+<!--    <string name="title_activity___home">_HomeActivity</string> -->
+    <string name="title_activity___login">Login</string>
+    <string name="title_activity___register">Register</string>
+<!--    <string name="title_activity___view_app1">_ViewApp1Activity</string>-->
+    <string name="title_activity___test_ride_app1">Road Test</string>
+<!--    <string name="title_activity___view_app2">_ViewApp2Activity</string>-->
+<!--    <string name="title_activity___submit_app2">_SubmitApp2Activity</string>-->
+    <string name="title_activity___setting">Setting</string>
+    <string name="title_activity___menu">_MenuActivity</string>
+<!--    <string name="title_activity___app1">_App1Activity</string>-->
+<!--    <string name="title_activity___app2">_App2Activity</string>-->
+<!--    <string name="title_activity___accelerometer">_AccelerometerActivity</string>-->
+    <string name="title_activity___test_ride_app1_result">Road Test Result</string>
+    <string name="title_activity___test_ride_app1_preparation">Main Map</string>
+<!--    <string name="title_activity___test_ride_app1_details">_TestRideApp1DetailsActivity</string>-->
+<!--    <string name="title_activity_navigation">Navigation</string>-->
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="title_activity_activity4__app2_go">Found Broken Road</string>
+    <string name="title_activity_activity6__app1_result_map">Road Test Result Map</string>
+    <string name="title_activity_activity7__app2_result_map">Broken Road Map</string>
+    <string name="title_activity_activity9__user_details">User Details</string>
+    <string name="title_activity_activity10__about">About</string>
+
+</resources>

@@ -1,0 +1,61 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:paddingBottom="20px"
+        android:paddingTop="20px"
+        android:gravity="center"
+        android:layout_gravity="center"
+
+        >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Username"
+            android:ems="10"
+            android:id="@+id/_act1_tf_username"
+            android:layout_marginBottom="15px"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:ems="10"
+            android:id="@+id/_act1_tf_password"
+            android:layout_marginBottom="15px"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/_act1_bt_login"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="------- or ------- "
+            android:id="@+id/textView"
+            />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/_act1_bt_register"
+            android:layout_marginBottom="15px"/>
+    </LinearLayout>
+</ScrollView>

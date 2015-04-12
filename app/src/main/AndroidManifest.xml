@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="proyekakhir.mapdemo" >
+
+    <permission
+        android:name="proyekakhir.mapdemo.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!--
+ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Required OpenGL ES 2.0. for Maps V2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- Requires OpenGL ES version 2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!--
+     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
+     option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".Activity1_Login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GetDirection"
+            android:label="@string/title_activity_get_direction" >
+        </activity>
+        <activity
+            android:name=".Activity5_Register"
+            android:label="@string/title_activity___register" >
+        </activity>
+        <activity
+            android:name=".Activity3_App1Go"
+            android:label="@string/title_activity___test_ride_app1" >
+        </activity>
+        <activity
+            android:name=".Activity8_Setting"
+            android:label="@string/title_activity___setting" >
+        </activity>
+        <activity
+            android:name=".Ukur"
+            android:label="Ukur" >
+        </activity>
+        <activity
+            android:name=".Activity3a_App1GoResult"
+            android:label="@string/title_activity___test_ride_app1_result" >
+        </activity>
+        <activity
+            android:name=".Activity2_MainMap"
+            android:label="@string/title_activity___test_ride_app1_preparation" >
+        </activity>
+        <activity
+            android:name=".DrawerActivity"
+            android:label="@string/title_activity_drawer" >
+        </activity>
+        <activity
+            android:name=".Activity4_App2Go"
+            android:label="@string/title_activity_activity4__app2_go" >
+        </activity>
+        <activity
+            android:name=".Activity6_App1ResultMap"
+            android:label="@string/title_activity_activity6__app1_result_map" >
+        </activity>
+        <activity
+            android:name=".Activity7_App2ResultMap"
+            android:label="@string/title_activity_activity7__app2_result_map" >
+        </activity>
+        <activity
+            android:name=".Activity9_UserDetails"
+            android:label="@string/title_activity_activity9__user_details" >
+        </activity>
+        <activity
+            android:name=".Activity10_About"
+            android:label="@string/title_activity_activity10__about" >
+        </activity>
+    </application>
+
+</manifest>
