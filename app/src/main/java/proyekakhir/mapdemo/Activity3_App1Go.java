@@ -11,12 +11,10 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -34,7 +32,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Activity3_App1Go extends DrawerActivity implements SensorEventListener, LocationListener {
+public class Activity3_App1Go extends FragmentActivity implements SensorEventListener, LocationListener {
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -76,43 +74,10 @@ public class Activity3_App1Go extends DrawerActivity implements SensorEventListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity3_app1go);
+
         initializeViews();
-        /// Drawer activity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity3_app1go, null,false);
-        frameLayout.addView(activityView);
-        ///
-        auth();
 
-
-//        mulai();
-    }
-
-    public void auth(){
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                boolean reta = false;
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        mulai();
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Mulai Pengukuran?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("Cancel", dialogClickListener).show();
-
-    }
-
-    public void mulai(){
         //----MAP----//
         setUpMapIfNeeded();
 
@@ -130,6 +95,10 @@ public class Activity3_App1Go extends DrawerActivity implements SensorEventListe
             Toast.makeText(getApplicationContext(), "Oops!", Toast.LENGTH_SHORT).show();
         }
 
+        mulai();
+    }
+
+    public void mulai(){
         float[] axisValue = new float[3];
         Timer T=new Timer();
         T.scheduleAtFixedRate(new TimerTask() {
@@ -219,8 +188,8 @@ public class Activity3_App1Go extends DrawerActivity implements SensorEventListe
 
             @Override
             public void onMyLocationChange(Location location) {
-            //    Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
-            //    mMap.clear();
+                //    Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
+                //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
                 if(mMap != null){
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
@@ -334,75 +303,78 @@ public class Activity3_App1Go extends DrawerActivity implements SensorEventListe
         return true;
     }
 
+    public void stop(){
+        Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
+
+        int[] time = new int[waktu.size()];
+        for(int i = 0; i<waktu.size(); i++) {
+            time[i] = waktu.get(i);
+        }
+
+        double[] xX = new double[x.size()];
+        for(int i = 0; i<x.size(); i++) {
+            xX[i] = x.get(i);
+        }
+
+        double[] yY = new double[y.size()];
+        for(int i = 0; i<y.size(); i++) {
+            yY[i] = y.get(i);
+        }
+
+        double[] zZ = new double[z.size()];
+        for(int i = 0; i<z.size(); i++) {
+            zZ[i] = z.get(i);
+        }
+
+        double[] lati = new double[arr_latitude.size()];
+        for(int i = 0; i<arr_latitude.size(); i++) {
+            lati[i] = arr_latitude.get(i);
+        }
+
+        double[] longi = new double[arr_longitude.size()];
+        for(int i = 0; i<arr_longitude.size(); i++) {
+            longi[i] = arr_longitude.get(i);
+        }
+
+        double[] v = new double[speed.size()];
+        for(int i = 0; i<speed.size(); i++) {
+            v[i] = speed.get(i);
+        }
+
+
+    //    saveData();
+        Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
+        i.putExtra("time-length",waktu.size());
+        i.putExtra("time",time);
+
+        i.putExtra("x-axis-length",x.size());
+        i.putExtra("x-axis",xX);
+
+        i.putExtra("y-axis-length",y.size());
+        i.putExtra("y-axis",yY);
+
+        i.putExtra("z-axis-length",z.size());
+        i.putExtra("z-axis",zZ);
+
+        i.putExtra("latitude-length",arr_latitude.size());
+        i.putExtra("latitude",lati);
+
+        i.putExtra("longitude-length",arr_longitude.size());
+        i.putExtra("longitude",longi);
+
+        i.putExtra("speed-length",speed.size());
+        i.putExtra("speed",v);
+
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu___test_ride_app1_stop:
-                Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
-
-                int[] time = new int[waktu.size()];
-                for(int i = 0; i<waktu.size(); i++) {
-                    time[i] = waktu.get(i);
-                }
-
-                double[] xX = new double[x.size()];
-                for(int i = 0; i<x.size(); i++) {
-                    xX[i] = x.get(i);
-                }
-
-                double[] yY = new double[y.size()];
-                for(int i = 0; i<y.size(); i++) {
-                    yY[i] = y.get(i);
-                }
-
-                double[] zZ = new double[z.size()];
-                for(int i = 0; i<z.size(); i++) {
-                    zZ[i] = z.get(i);
-                }
-
-                double[] lati = new double[arr_latitude.size()];
-                for(int i = 0; i<arr_latitude.size(); i++) {
-                    lati[i] = arr_latitude.get(i);
-                }
-
-                double[] longi = new double[arr_longitude.size()];
-                for(int i = 0; i<arr_longitude.size(); i++) {
-                    longi[i] = arr_longitude.get(i);
-                }
-
-                double[] v = new double[speed.size()];
-                for(int i = 0; i<speed.size(); i++) {
-                    v[i] = speed.get(i);
-                }
-
-
-                saveData();
-                Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
-                i.putExtra("time-length",waktu.size());
-                i.putExtra("time",time);
-
-                i.putExtra("x-axis-length",x.size());
-                i.putExtra("x-axis",xX);
-
-                i.putExtra("y-axis-length",y.size());
-                i.putExtra("y-axis",yY);
-
-                i.putExtra("z-axis-length",z.size());
-                i.putExtra("z-axis",zZ);
-
-                i.putExtra("latitude-length",arr_latitude.size());
-                i.putExtra("latitude",lati);
-
-                i.putExtra("longitude-length",arr_longitude.size());
-                i.putExtra("longitude",longi);
-
-                i.putExtra("speed-length",speed.size());
-                i.putExtra("speed",v);
-
-                startActivity(i);
-                finish();
-
+                stopQuestion();
 
                 return true;
             case R.id.menu___test_ride_app1_detail:
@@ -463,12 +435,34 @@ public class Activity3_App1Go extends DrawerActivity implements SensorEventListe
             Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     public void onBackPressed()
     {
         // code here to show dialog
-        Toast.makeText(getBaseContext(), "You must stop the test from option menu!", Toast.LENGTH_SHORT).show();
+        stopQuestion();
+    }
+
+    public void stopQuestion(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        Toast.makeText(getBaseContext(), "You have stop the measurement proccess!", Toast.LENGTH_SHORT).show();
+                        stop();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you really want to stop?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("Cancel", dialogClickListener).show();
     }
 
 }

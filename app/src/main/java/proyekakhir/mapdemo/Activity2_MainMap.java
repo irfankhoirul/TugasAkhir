@@ -348,7 +348,6 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu___test_ride_app1_preparation_start:
-
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -25,28 +24,6 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
 
     private LinearLayout mDrawer ;
 
-    public static int [] prgmImages={
-            R.drawable.afghanistan,
-            R.drawable.bangladesh,
-            R.drawable.china,
-            R.drawable.india,
-            R.drawable.japan,
-            R.drawable.nepal,
-            R.drawable.nkorea,
-            R.drawable.pakistan,
-            R.drawable.skorea,
-            R.drawable.srilanka};
-    public static String [] prgmNameList={
-            "afghanistan",
-            "bangladesh",
-            "china",
-            "india",
-            "japan",
-            "nepal",
-            "north korea",
-            "pakistan",
-            "south korea",
-            "srilanka"};
     private LinearLayout mDrawerRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +35,8 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
         mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmNameList));
-    //    mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmImages));
+    //    mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmNameList));
+        mDrawerList.setAdapter(new MySimpleArrayAdapter(this, mDrawerItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -158,6 +135,10 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     Intent intent = new Intent(DrawerActivity.this, Activity10_About.class);
                     startActivity(intent);
                     finish();
+                    break;
+                }
+                case 6: {
+
                     break;
                 }
                 default:
