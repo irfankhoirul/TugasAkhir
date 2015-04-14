@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#eeeeee">
+    android:layout_height="match_parent">
     <FrameLayout
         android:id="@+id/activity_frame"
         android:layout_height="match_parent"
@@ -14,12 +13,30 @@
     <ListView
         android:id="@+id/left_drawer"
         android:layout_height="match_parent"
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:divider="#ffffff"
-        android:dividerHeight="1dp"
-        android:background="#dddddd"
+        android:dividerHeight="0dp"
+        android:background="#ffffff"
         android:listSelector="#aaaaff"/>
 
+    <!--
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#ffffff"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/list_view_drawer"
+            android:layout_width="240dp"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:choiceMode="singleChoice" />
+
+    </LinearLayout>
+    -->
 </android.support.v4.widget.DrawerLayout> 

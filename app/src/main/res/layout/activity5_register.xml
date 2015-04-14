@@ -12,9 +12,12 @@
     >
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
         android:layout_height="fill_parent"
-        android:id="@+id/scrollView2" >
+        android:id="@+id/scrollView2"
+        android:scrollbars="none"
+        >
 
         <LinearLayout
             android:orientation="vertical"
@@ -25,9 +28,9 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginBottom="3dp"
-                android:padding="5dp"
+                android:padding="15dp"
                 android:layout_width="fill_parent"
-                android:background="#fcd846"
+                android:background="#795548"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal" >
 
@@ -36,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="ACCOUNT INFORMATION"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:id="@+id/textView12" />
             </LinearLayout>
 
@@ -47,64 +50,103 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#fff3c4"
+                android:background="#D7CCC8"
                 android:gravity="center_horizontal">
 
                 <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:hint="First Name"
-                        android:ems="10"
-                        android:layout_marginBottom="20px"
-                        android:layout_marginTop="20px"
-                        android:id="@+id/namaAwal" />
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:ems="10"
+                    android:hint="First Name"
+                    android:layout_marginBottom="20px"
+                    android:layout_marginTop="20px"
+                    android:id="@+id/reg_FirstName"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:hint="Last Name"
-                        android:ems="10"
-                        android:layout_marginBottom="20px"
-                        android:id="@+id/namaAkhir" />
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:hint="Last Name"
+                    android:ems="10"
+                    android:layout_marginBottom="20px"
+                    android:id="@+id/reg_LastName"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:hint="E-Mail"
-                        android:ems="10"
-                        android:layout_marginBottom="20px"
-                        android:id="@+id/editText3" />
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="E-Mail"
+                    android:ems="10"
+                    android:layout_marginBottom="20px"
+                    android:id="@+id/reg_Email"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:hint="Username"
-                        android:ems="10"
-                        android:id="@+id/_act2_tf_username"
-                        android:layout_marginBottom="20px"
-                        />
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="Username"
+                    android:ems="10"
+                    android:id="@+id/reg_Username"
+                    android:layout_marginBottom="20px"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:hint="Password"
-                        android:ems="10"
-                        android:id="@+id/_act2_tf_password"
-                        android:layout_marginBottom="20px"/>
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="Password"
+                    android:ems="10"
+                    android:id="@+id/reg_Password"
+                    android:layout_marginBottom="20px"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="Re-type Password"
+                    android:ems="10"
+                    android:id="@+id/reg_Password2"
+                    android:layout_marginBottom="20px"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_gravity="center_horizontal" />
+
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginBottom="3dp"
-                android:padding="5dp"
+                android:padding="15dp"
                 android:layout_width="fill_parent"
-                android:background="#fcd846"
+                android:background="#795548"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal">
 
@@ -113,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="USER INFORMATIONS"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:id="@+id/textView11" />
             </LinearLayout>
 
@@ -123,39 +165,57 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#fff3c4"
+                android:background="#D7CCC8"
                 android:gravity="center_horizontal" >
 
-                <RadioButton
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="Register as Standard User"
-                    android:id="@+id/radioButton3"
-                    android:checked="false" />
+                <RadioGroup
+                    android:id="@+id/reg_radioUser"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
 
-                <RadioButton
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="Register as Admin"
-                    android:id="@+id/radioButton4"
-                    android:checked="false" />
+                    <RadioButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Register as Standard User"
+                        android:id="@+id/reg_user_standard"
+                        android:checked="false"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px" />
+
+                    <RadioButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Register as Admin"
+                        android:id="@+id/reg_user_admin"
+                        android:checked="false"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px" />
+                </RadioGroup>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:hint="Adminstrator Token"
                     android:ems="10"
-                    android:id="@+id/editText"
-                    android:layout_marginBottom="20px" />
+                    android:id="@+id/reg_user_adminToken"
+                    android:layout_marginBottom="20px"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginBottom="3dp"
-                android:padding="5dp"
+                android:padding="15dp"
                 android:layout_width="fill_parent"
-                android:background="#fcd846"
+                android:background="#795548"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal">
 
@@ -164,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="DEVICE INFORMATIONS"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:id="@+id/textView18" />
             </LinearLayout>
 
@@ -174,7 +234,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#fff3c4"
+                android:background="#D7CCC8"
                 android:gravity="center_horizontal" >
 
                 <LinearLayout
@@ -191,21 +251,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Asus"
-                            android:id="@+id/radioButton9"
+                            android:id="@+id/reg_device_asus"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Lenovo"
-                            android:id="@+id/radioButton8"
+                            android:id="@+id/reg_device_lenovo"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Samsung"
-                            android:id="@+id/radioButton7"
+                            android:id="@+id/reg_device_samsung"
                             android:checked="false" />
                     </LinearLayout>
 
@@ -218,45 +278,53 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Sony"
-                            android:id="@+id/radioButton5"
+                            android:id="@+id/reg_device_sony"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Other, mention"
-                            android:id="@+id/radioButton6"
+                            android:id="@+id/reg_device_other"
                             android:checked="false" />
 
                         <EditText
+                            android:background="#eeeeee"
+                            android:padding="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:hint="Other"
                             android:ems="10"
-                            android:id="@+id/editText2"
+                            android:id="@+id/reg_device_otherName"
                             />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <EditText
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:hint="Type, ex : Zenfone 5"
                     android:ems="10"
-                    android:id="@+id/editText4"
-                    android:layout_marginBottom="20px" />
+                    android:id="@+id/reg_device_type"
+                    android:layout_marginBottom="20px"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_marginTop="20px" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginBottom="3dp"
-                android:padding="5dp"
+                android:padding="15dp"
                 android:layout_width="fill_parent"
-                android:background="#fcd846"
+                android:background="#795548"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal">
 
@@ -265,7 +333,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="VEHICLE INFORMATIONS"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:id="@+id/textView90" />
             </LinearLayout>
 
@@ -275,7 +343,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#fff3c4"
+                android:background="#D7CCC8"
                 android:gravity="center_horizontal" >
 
                 <LinearLayout
@@ -292,21 +360,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Honda"
-                            android:id="@+id/radioButton9a"
+                            android:id="@+id/reg_vehicle_honda"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Yamaha"
-                            android:id="@+id/radioButton8a"
+                            android:id="@+id/reg_vehicle_yamaha"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Suzuki"
-                            android:id="@+id/radioButton7a"
+                            android:id="@+id/reg_vehicle_suzuki"
                             android:checked="false" />
                     </LinearLayout>
 
@@ -319,37 +387,45 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kawasaki"
-                            android:id="@+id/radioButton5s"
+                            android:id="@+id/reg_vehicle_kawasaki"
                             android:checked="false" />
 
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Other, mention"
-                            android:id="@+id/radioButton6s"
+                            android:id="@+id/reg_vehicle_other"
                             android:checked="false" />
 
                         <EditText
+                            android:background="#eeeeee"
+                            android:padding="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:hint="Other"
                             android:ems="10"
-                            android:id="@+id/editText2s"
+                            android:id="@+id/reg_vehicle_otherName"
                             />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <EditText
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:hint="Type, ex : CBR 150"
                     android:ems="10"
-                    android:id="@+id/editText4s"
-                    android:layout_marginBottom="20px" />
+                    android:id="@+id/reg_vehicle_type"
+                    android:layout_marginBottom="20px"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10px"
+                    android:layout_marginRight="10px"
+                    android:layout_marginTop="20px" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -360,18 +436,17 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal">
 
-
                 <Button
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:text="Clear"
-                    android:id="@+id/_act5_bt_clear" />
+                    android:id="@+id/reg_clear" />
 
                 <Button
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:text="Submit"
-                    android:id="@+id/_act5_bt_submit" />
+                    android:id="@+id/reg_submit" />
             </LinearLayout>
 
         </LinearLayout>

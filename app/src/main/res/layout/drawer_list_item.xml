@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:padding="25px"
     android:textColor="#000000"
-    android:textSize="18sp"
+    android:textSize="15sp"
     android:text="here i am"
     android:minHeight="40dp">
-</TextView> 
+</TextView>

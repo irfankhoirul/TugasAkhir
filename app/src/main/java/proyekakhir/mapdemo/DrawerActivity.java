@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 
@@ -22,18 +23,43 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
     private String[] mDrawerItems;
     private ActionBarDrawerToggle mDrawerToggle = null;
 
+    private LinearLayout mDrawer ;
+
+    public static int [] prgmImages={
+            R.drawable.afghanistan,
+            R.drawable.bangladesh,
+            R.drawable.china,
+            R.drawable.india,
+            R.drawable.japan,
+            R.drawable.nepal,
+            R.drawable.nkorea,
+            R.drawable.pakistan,
+            R.drawable.skorea,
+            R.drawable.srilanka};
+    public static String [] prgmNameList={
+            "afghanistan",
+            "bangladesh",
+            "china",
+            "india",
+            "japan",
+            "nepal",
+            "north korea",
+            "pakistan",
+            "south korea",
+            "srilanka"};
+    private LinearLayout mDrawerRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
-
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+        mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmNameList));
+    //    mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmImages));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,16 +121,9 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
-            //    case 0: {
-            //        Intent intent = new Intent(DrawerActivity.this, Activity3_App1Go.class);
-            //        startActivity(intent);
-            //        finish();
-            //        break;
-            //    }
                 case 0: {
                     Intent intent = new Intent(DrawerActivity.this, Activity6_App1ResultMap.class);
                     startActivity(intent);
@@ -141,8 +160,6 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     finish();
                     break;
                 }
-
-
                 default:
                     break;
             }

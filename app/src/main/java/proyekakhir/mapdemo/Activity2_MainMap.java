@@ -37,6 +37,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import proyekakhir.mapdemo.library.DatabaseHandler;
 
 public class Activity2_MainMap extends DrawerActivity implements OnItemClickListener {
 
@@ -61,6 +64,7 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
     static ArrayList<String> resultList = null;
     static ArrayList<String> place_id_resultList = null;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +76,6 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null,false);
         frameLayout.addView(activityView);
         ///
-
 
         //////// flipper for other layout
         flipper1 = (ViewFlipper) findViewById(R.id.viewFlipper2);
@@ -86,8 +89,17 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         //----MAP----//
         setUpMapIfNeeded();
 
-    }
+        ////////////////////REG
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
+        /**
+         * Hashmap to load data from the Sqlite database
+         **/
+        HashMap<String,String> user = new HashMap<String, String>();
+        user = db.getUserDetails();
+
+
+    }
 
     //----AUTOCOMPLETE location V2----//
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
