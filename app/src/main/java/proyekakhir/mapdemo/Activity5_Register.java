@@ -25,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 public class Activity5_Register extends ActionBarActivity implements View.OnClickListener {
@@ -516,7 +515,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                         pDialog.setTitle("Getting Data");
                         pDialog.setMessage("Loading Info");
 
-                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+//                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                         JSONObject json_user = json.getJSONObject("user");
 
                         Toast.makeText(getBaseContext(), json_user.getString("username")+", Successfully Registered", Toast.LENGTH_LONG).show();
@@ -526,9 +525,9 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                          **/
                         UserFunctions logout = new UserFunctions();
                         logout.logoutUser(getApplicationContext());
-                        db.addUser(
-                                json_user.getString("username")
-                        );
+//                        db.addUser(
+//                                json_user.getString("username")
+//                        );
 
                         pDialog.dismiss();
 
@@ -537,9 +536,9 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                         finish();
                     }
 
-                    else if (Integer.parseInt(red) ==2){
+                    else if (Integer.parseInt(red) ==2 || Integer.parseInt(red) ==4){
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "User already exists", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
 
                     }
                     else if (Integer.parseInt(red) ==3){

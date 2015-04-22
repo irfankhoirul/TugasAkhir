@@ -26,16 +26,17 @@ public class UserFunctions {
 //    private static String forpassURL = "http://10.0.2.2/learn2crack_login_api/";
 //    private static String chgpassURL = "http://10.0.2.2/learn2crack_login_api/";
 
-    private static String loginURL = "http://192.168.0.104:81/SurveyoRiderServices/";
-    private static String registerURL = "http://192.168.0.104:81/SurveyoRiderServices/";
-    private static String forpassURL = "http://192.168.0.104:81/SurveyoRiderServices/";
-    private static String chgpassURL = "http://192.168.0.104:81/SurveyoRiderServices/";
+    private static String loginURL = "http://192.168.0.101:81/SurveyoRiderServices/";
+    private static String registerURL = "http://192.168.0.101:81/SurveyoRiderServices/";
+//    private static String forpassURL = "http://192.168.0.101:81/SurveyoRiderServices/";
+//    private static String chgpassURL = "http://192.168.0.101:81/SurveyoRiderServices/";
 
 
     private static String login_tag = "login";
+    private static String get_user_details_tag = "getUserDetails";
     private static String register_tag = "register";
-    private static String forpass_tag = "forpass";
-    private static String chgpass_tag = "chgpass";
+//    private static String forpass_tag = "forpass";
+//    private static String chgpass_tag = "chgpass";
 
 
     // constructor
@@ -57,9 +58,22 @@ public class UserFunctions {
     }
 
     /**
+     * Function to Get User Details
+     **/
+    public JSONObject getUserDetails(String username){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", get_user_details_tag));
+        params.add(new BasicNameValuePair("username", username));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to change password
      **/
-    public JSONObject chgPass(String newpas, String email){
+/*    public JSONObject chgPass(String newpas, String email){
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", chgpass_tag));
 
@@ -68,18 +82,18 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSONFromUrl(chgpassURL, params);
         return json;
     }
-
+*/
     /**
      * Function to reset the password
      **/
-    public JSONObject forPass(String forgotpassword){
+/*    public JSONObject forPass(String forgotpassword){
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", forpass_tag));
         params.add(new BasicNameValuePair("forgotpassword", forgotpassword));
         JSONObject json = jsonParser.getJSONFromUrl(forpassURL, params);
         return json;
     }
-
+*/
      /**
       * Function to  Register
       **/
@@ -107,7 +121,6 @@ public class UserFunctions {
         return json;
     }
 
-
     /**
      * Function to logout user
      * Resets the temporary data stored in SQLite Database
@@ -119,4 +132,3 @@ public class UserFunctions {
     }
 
 }
-

@@ -1,9 +1,5 @@
 package proyekakhir.mapdemo.library;
 
-/**
- * Created by Raj Amal on 5/30/13.
- */
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,8 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.HashMap;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
-
+/**
+ * Created by Irfan on 22/04/2015.
+ */
+public class UserDetailsDb extends SQLiteOpenHelper {
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -22,12 +20,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "surveyoRiderDb";
 
     // Login table name
-    private static final String TABLE_LOGIN = "login";
+    private static final String TABLE_USER_DETAILS = "user_details";
 
     // Login Table Columns names
-
     private static final String KEY_ID = "id";
-    private static final String KEY_USERNAME = "usernames";
+    private static final String KEY_USERNAME = "username";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_NAMA_AWAL = "nama_awal";
     private static final String KEY_NAMA_BELAKANG = "nama_belakang";
@@ -38,33 +35,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_TIPE_MOTOR = "tipe_motor";
     private static final String KEY_EMAIL = "email";
 
-    public DatabaseHandler(Context context) {
+    public UserDetailsDb(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_USERNAME + " TEXT,"
-                + KEY_USER_ID + " TEXT,"
-                + KEY_NAMA_AWAL + " TEXT,"
-                + KEY_NAMA_BELAKANG + " TEXT,"
-                + KEY_JENIS_USER + " TEXT,"
-                + KEY_MERK_SMARTPHONE + " TEXT,"
-                + KEY_TIPE_SMARTPHONE + " TEXT,"
-                + KEY_MERK_MOTOR + " TEXT,"
-                + KEY_TIPE_MOTOR + " TEXT,"
-                + KEY_EMAIL + " TEXT" + ")";
-        db.execSQL(CREATE_LOGIN_TABLE);
+        String CREATE_USER_DETAILS_TABLE =
+                "CREATE TABLE " + TABLE_USER_DETAILS + "("
+                        + KEY_ID + " INTEGER PRIMARY KEY,"
+                        + KEY_USERNAME + " TEXT,"
+                        + KEY_USER_ID + " TEXT,"
+                        + KEY_NAMA_AWAL + " TEXT,"
+                        + KEY_NAMA_BELAKANG + " TEXT,"
+                        + KEY_JENIS_USER + " TEXT,"
+                        + KEY_MERK_SMARTPHONE + " TEXT,"
+                        + KEY_TIPE_SMARTPHONE + " TEXT,"
+                        + KEY_MERK_MOTOR + " TEXT,"
+                        + KEY_TIPE_MOTOR + " TEXT,"
+                        + KEY_EMAIL + " TEXT" + ")";
+        db.execSQL(CREATE_USER_DETAILS_TABLE);
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_DETAILS);
 
         // Create tables again
         onCreate(db);
@@ -79,6 +77,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+
         values.put(KEY_USERNAME, username);
         values.put(KEY_USER_ID, user_id);
         values.put(KEY_NAMA_AWAL, nama_awal);
@@ -91,8 +90,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_EMAIL, email);
 
         // Inserting Row
-        db.insert(TABLE_LOGIN, null, values);
-        db.close(); // Closing database connection
+        db.insert(TABLE_USER_DETAILS, null, values);
+        db.close(); // Clode db
     }
 
     /**
@@ -100,7 +99,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * */
     public HashMap<String, String> getUserDetails(){
         HashMap<String,String> user = new HashMap<String,String>();
-        String selectQuery = "SELECT  * FROM " + TABLE_LOGIN;
+        String selectQuery = "SELECT  * FROM " + TABLE_USER_DETAILS;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -129,7 +128,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * return true if rows are there in table
      * */
     public int getRowCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_LOGIN;
+        String countQuery = "SELECT  * FROM " + TABLE_USER_DETAILS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int rowCount = cursor.getCount();
@@ -147,8 +146,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void resetTables(){
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
-        db.delete(TABLE_LOGIN, null, null);
+        db.delete(TABLE_USER_DETAILS, null, null);
         db.close();
     }
-
 }

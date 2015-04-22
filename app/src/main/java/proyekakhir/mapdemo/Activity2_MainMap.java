@@ -375,6 +375,16 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
                 flipper1.showNext();
 
                 return true;
+            case R.id.menu___test_ride_app1_preparation_logout:
+                DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                db.resetTables();
+
+                Intent i = new Intent (Activity2_MainMap.this, Activity1_Login.class);
+                startActivity(i);
+                finish();
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

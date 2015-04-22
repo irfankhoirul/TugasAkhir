@@ -47,6 +47,13 @@
         android:id="@+id/_act1_bt_login"
         />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bypass Login"
+        android:id="@+id/bypass_login"
+        android:checked="true" />
+
     <Button
         android:id="@+id/_act1_bt_register"
         android:layout_width="fill_parent"

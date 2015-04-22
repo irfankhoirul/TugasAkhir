@@ -3,6 +3,7 @@ package proyekakhir.mapdemo;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -120,15 +121,22 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     break;
                 }
                 case 3: {
+                    /*
                     Intent intent = new Intent(DrawerActivity.this, Activity8_Setting.class);
                     startActivity(intent);
                     finish();
+                    */
+                    Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(viewIntent);
                     break;
                 }
                 case 4: {
+
                     Intent intent = new Intent(DrawerActivity.this, Activity9_UserDetails.class);
                     startActivity(intent);
                     finish();
+
+
                     break;
                 }
                 case 5: {

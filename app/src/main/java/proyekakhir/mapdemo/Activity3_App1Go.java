@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -114,12 +115,19 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
                         getAxisValue();
                         getMapData();
                         waktu.add(detik);
+
+
+                        if(detik%5==0)
+                        {
+                            // histogram();
+                            // clearMemory();
+                        }
+
                         count++;
                     }
                 });
             }
-        },0,1000); //in second
-
+        },0,20); //50 data every second (40x25=1000 (1s))
     }
 
     public void timeConverter(int time){
@@ -342,7 +350,7 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
         }
 
 
-    //    saveData();
+        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
         i.putExtra("time-length",waktu.size());
         i.putExtra("time",time);
@@ -387,10 +395,14 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
 
     public void saveData()
     {
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+        int a = c.get(Calendar.DATE);
         String file = "This is record file\n";
         try {
 //            File myFile = new File("/sdcard/pengukuran/p"+countPengukuran+".txt");
-            File myFile = new File("/sdcard/p.txt");
+            String location = "/sdcard/"+a+"_"+seconds+".txt";
+            File myFile = new File(location);
             myFile.createNewFile();
             FileOutputStream fOut = new FileOutputStream(myFile);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
