@@ -42,10 +42,6 @@ public class Activity1_Login extends Activity {
     private static String KEY_SUCCESS = "success";
 //    private static String KEY_UID = "uid";
     private static String KEY_USERNAME = "username";
-//    private static String KEY_FIRSTNAME = "fname";
-//    private static String KEY_LASTNAME = "lname";
-//    private static String KEY_EMAIL = "email";
-//    private static String KEY_CREATED_AT = "created_at";
 
     String dbusername, user_id, nama_awal, nama_belakang, jenis_user, merk_smartphone,
             tipe_smartphone, merk_motor, tipe_motor, email;
@@ -85,6 +81,7 @@ public class Activity1_Login extends Activity {
                         Toast.makeText(getBaseContext(), "Fill Username and Password", Toast.LENGTH_SHORT).show();
                     else {
                         login(arg0);
+//                        insertData();
                     }
                 }
             }
@@ -100,6 +97,18 @@ public class Activity1_Login extends Activity {
             }
 
         });
+
+
+    }
+
+    public void insertData()
+    {
+        User user = new User(dbusername, user_id, nama_awal, nama_belakang,
+                jenis_user, merk_smartphone, tipe_smartphone, merk_motor,
+                tipe_motor, email);
+
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+        db.addUser(user);
     }
 
     public boolean cekLogin(){
@@ -211,6 +220,7 @@ public class Activity1_Login extends Activity {
                     if(Integer.parseInt(res) == 1){
                         pDialog.setMessage("Loading User Space");
                         pDialog.setTitle("Getting Data");
+                        pDialog.setTitle("Getting Data");
 //                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                         JSONObject json_user = json.getJSONObject("user");
 
@@ -281,7 +291,7 @@ public class Activity1_Login extends Activity {
                         pDialog.setMessage("Loading User Details");
                         pDialog.setTitle("Getting Data");
 
-                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+
                         JSONObject json_user = json.getJSONObject("details");
 
                         user_id = json_user.getString("user_id");
@@ -296,15 +306,15 @@ public class Activity1_Login extends Activity {
 
                         Toast.makeText(getBaseContext(),
                                 "username = "+dbusername+
-                                "user_id = "+user_id+
-                                "nama_awal = "+nama_awal+
-                                "nama_belakang = "+nama_belakang+
-                                "jenis_user = "+jenis_user+
-                                "merk_smartphone = "+merk_smartphone+
-                                "tipe_smartphone = "+tipe_smartphone+
-                                "merk_motor = "+merk_motor+
-                                "tipe_motor = "+tipe_motor+
-                                "email = "+email
+                                "\nuser_id = "+user_id+
+                                "\nnama_awal = "+nama_awal+
+                                "\nnama_belakang = "+nama_belakang+
+                                "\njenis_user = "+jenis_user+
+                                "\nmerk_smartphone = "+merk_smartphone+
+                                "\ntipe_smartphone = "+tipe_smartphone+
+                                "\nmerk_motor = "+merk_motor+
+                                "\ntipe_motor = "+tipe_motor+
+                                "\nemail = "+email
                                 ,Toast.LENGTH_LONG).show();
 
                         /**
@@ -312,18 +322,27 @@ public class Activity1_Login extends Activity {
                          **/
                         UserFunctions logout = new UserFunctions();
                         logout.logoutUser(getApplicationContext());
-                        db.addUser(
-                                dbusername, user_id, nama_awal, nama_belakang,
-                                jenis_user, merk_smartphone, tipe_smartphone, merk_motor,
-                                tipe_motor, email
-                                );
 
-                        ///////Start main activity
-//                        Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
-//                        Intent i = new Intent (Activity1_Login.this,Activity2_MainMap.class);
-//                        startActivity(i);
-                        pDialog.dismiss();
-//                        finish();
+                        try {
+                            User user = new User(dbusername, user_id, nama_awal, nama_belakang,
+                                    jenis_user, merk_smartphone, tipe_smartphone, merk_motor,
+                                    tipe_motor, email);
+
+                            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                            db.addUser(user);
+
+
+                            ///////Start main activity
+                            Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent (Activity1_Login.this,Activity2_MainMap.class);
+                            startActivity(i);
+                            pDialog.dismiss();
+                            finish();
+                        }
+                        catch(Exception e)
+                        {
+                            Toast.makeText(getBaseContext(), "Error inserting data!", Toast.LENGTH_LONG).show();
+                        }
 
                     }else{
                         pDialog.dismiss();

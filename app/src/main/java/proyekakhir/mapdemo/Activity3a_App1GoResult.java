@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,13 +31,13 @@ public class Activity3a_App1GoResult extends DrawerActivity {
 
     private static final String TAG_SUCCESS = "success";
 
-    List<Double> xX = new ArrayList<>();
-    List<Double> yY = new ArrayList<>();
-    List<Double> zZ = new ArrayList<>();
-    List<Double> lati = new ArrayList<>();
-    List<Double> longi = new ArrayList<>();
-    List<Double> v = new ArrayList<>();
-    List<Integer> tT = new ArrayList<>();
+    List<Double> xX = new ArrayList<>(); //X-axis
+    List<Double> yY = new ArrayList<>(); //Y-axis
+    List<Double> zZ = new ArrayList<>(); //z-axis
+    List<Double> lati = new ArrayList<>(); //Latitude
+    List<Double> longi = new ArrayList<>(); //Longitude
+    List<Double> v = new ArrayList<>(); //Speed
+    List<Integer> tT = new ArrayList<>(); //waktu
 
     int min;
     int[] t;
@@ -72,7 +76,8 @@ public class Activity3a_App1GoResult extends DrawerActivity {
         sendToServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                new CreateNewProduct().execute();
+        //        new CreateNewProduct().execute();
+                new saveData().execute();
                 Toast.makeText(getBaseContext(), "Saving data..", Toast.LENGTH_LONG).show();
             }
 
@@ -183,6 +188,100 @@ public class Activity3a_App1GoResult extends DrawerActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Background Async Task to Create new product
+     * */
+    class saveData extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Activity3a_App1GoResult.this);
+            pDialog.setMessage("Saving data to SD Card...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        /**
+         * Saving data to SD Card
+         * */
+        protected String doInBackground(String... args) {
+            Calendar c = Calendar.getInstance();
+            int tahun = c.get(Calendar.YEAR);
+            int bulan = c.get(Calendar.MONTH);
+            int tanggal = c.get(Calendar.DATE);
+            int jam = c.get(Calendar.HOUR);
+            int menit = c.get(Calendar.MINUTE);
+            int detik = c.get(Calendar.SECOND);
+            String file = "This is record file\n";
+            try {
+//            File myFile = new File("/sdcard/pengukuran/p"+countPengukuran+".txt");
+                String location = "/sdcard/surveyo"+tahun+bulan+tanggal+"_"+jam+menit+detik+".txt";
+                File myFile = new File(location);
+                myFile.createNewFile();
+                FileOutputStream fOut = new FileOutputStream(myFile);
+                OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+
+                //isikan data
+                file+="\nWaktu\n";
+                for(int i = 0; i<tT.size(); i++){
+                    file+=tT.get(i)+"\n";
+                }
+                file+="\nX-Axis\n";
+                for(int i = 0; i<xX.size(); i++){
+                    file+=xX.get(i)+"\n";
+                }
+                file+="\nY-Axis\n";
+                for(int i = 0; i<yY.size(); i++){
+                    file+=yY.get(i)+"\n";
+                }
+                file+="\nZ-Axis\n";
+                for(int i = 0; i<zZ.size(); i++){
+                    file+=zZ.get(i)+"\n";
+                }
+                file+="\nLatitude\n";
+                for(int i = 0; i<lati.size(); i++){
+                    file+=lati.get(i)+"\n";
+                }
+                file+="\nLongitude\n";
+                for(int i = 0; i<longi.size(); i++){
+                    file+=longi.get(i)+"\n";
+                }
+                file+="\nSpeed\n";
+                for(int i = 0; i<v.size(); i++){
+                    file+=v.get(i)+"\n";
+                }
+                file+="\n\nEnd of file";
+
+                myOutWriter.append(file);
+                myOutWriter.close();
+                fOut.close();
+            //    Toast.makeText(getBaseContext(),"Done save data to SD Card.",Toast.LENGTH_SHORT).show();
+            //    countPengukuran++;
+                Log.i("Save Data", "Data saved in SD Card.");
+            } catch (Exception e) {
+            //    Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+                Log.e("Save Data", "Error saving data!", e);
+
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once done
+            pDialog.dismiss();
+        }
+
+    }
+
 
     /**
      * Background Async Task to Create new product

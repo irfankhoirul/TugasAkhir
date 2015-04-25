@@ -42,6 +42,8 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
             imageView.setImageResource(R.drawable.ic_help);
         }else if(s.startsWith("About")) {
             imageView.setImageResource(R.drawable.ic_action);
+        }else if(s.startsWith("Logout")) {
+            imageView.setImageResource(R.drawable.ic_logout);
         }else {
             imageView.setImageResource(R.drawable.bangladesh);
         }

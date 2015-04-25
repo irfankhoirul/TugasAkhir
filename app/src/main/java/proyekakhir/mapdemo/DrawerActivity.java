@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import proyekakhir.mapdemo.library.DatabaseHandler;
+
 
 public class DrawerActivity extends ActionBarActivity implements AdapterViewCompat.OnItemClickListener {
     private DrawerLayout mDrawerLayout = null;
@@ -146,6 +148,44 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     break;
                 }
                 case 6: {
+
+                    break;
+                }
+                case 7:{
+
+                    DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                    db.resetTables();
+
+                    Intent i = new Intent (DrawerActivity.this, Activity1_Login.class);
+                    startActivity(i);
+                    finish();
+                    /*
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //Yes button clicked
+                                    DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                                    db.resetTables();
+
+                                    Intent i = new Intent (DrawerActivity.this, Activity1_Login.class);
+                                    startActivity(i);
+                                    finish();
+
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+                    builder.setMessage("Mulai Pengukuran?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("Cancel", dialogClickListener).show();
+                    */
 
                     break;
                 }

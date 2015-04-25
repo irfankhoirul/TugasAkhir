@@ -12,8 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-
 import proyekakhir.mapdemo.library.DatabaseHandler;
 
 public class Activity9_UserDetails extends DrawerActivity {
@@ -48,20 +46,21 @@ public class Activity9_UserDetails extends DrawerActivity {
 
 
         try {
+
             DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-            HashMap<String, String> user = db.getUserDetails();
+            User user = db.getUser();
+//            HashMap<String, String> user = db.getUserDetails();
 
-
-        //    _act9_txt_username.append((user.get("username")));
-        //    _act9_txt_userId.append((user.get("user_id")));
-        //    _act9_txt_namaAwal.append((user.get("nama_awal")));
-        //    _act9_txt_namaBelakang.append((user.get("nama_belakang")));
-        //    _act9_txt_jenisUser.append((user.get("jenis_user")));
-        //    _act9_txt_merkSmartphone.append((user.get("merk_smartphone")));
-        //    _act9_txt_tipeSmartphone.append((user.get("tipe_smartphone")));
-        //    _act9_txt_merkMotor.append((user.get("merk_motor")));
-        //    _act9_txt_tipeMotor.append((user.get("tipe_motor")));
-        //    _act9_txt_email.append((user.get("email")));
+            _act9_txt_username.append(user.getUsername());
+            _act9_txt_userId.append(user.getUser_id());
+            _act9_txt_namaAwal.append(user.getNama_awal());
+            _act9_txt_namaBelakang.append(user.getNama_belakang());
+            _act9_txt_jenisUser.append(user.getJenis_user());
+            _act9_txt_merkSmartphone.append(user.getMerk_smartphone());
+            _act9_txt_tipeSmartphone.append(user.getTipe_smartphone());
+            _act9_txt_merkMotor.append(user.getMerk_motor());
+            _act9_txt_tipeMotor.append(user.getTipe_motor());
+            _act9_txt_email.append(user.getEmail());
         }
         catch(Exception ex)
         {

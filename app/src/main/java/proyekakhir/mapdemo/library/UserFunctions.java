@@ -26,8 +26,8 @@ public class UserFunctions {
 //    private static String forpassURL = "http://10.0.2.2/learn2crack_login_api/";
 //    private static String chgpassURL = "http://10.0.2.2/learn2crack_login_api/";
 
-    private static String loginURL = "http://192.168.0.101:81/SurveyoRiderServices/";
-    private static String registerURL = "http://192.168.0.101:81/SurveyoRiderServices/";
+    private static String loginURL = "http://192.168.0.106:81/SurveyoRiderServices/";
+    private static String registerURL = "http://192.168.0.106:81/SurveyoRiderServices/";
 //    private static String forpassURL = "http://192.168.0.101:81/SurveyoRiderServices/";
 //    private static String chgpassURL = "http://192.168.0.101:81/SurveyoRiderServices/";
 

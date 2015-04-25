@@ -37,7 +37,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import proyekakhir.mapdemo.library.DatabaseHandler;
 
@@ -95,8 +94,8 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         /**
          * Hashmap to load data from the Sqlite database
          **/
-        HashMap<String,String> user = new HashMap<String, String>();
-        user = db.getUserDetails();
+//        HashMap<String,String> user = new HashMap<String, String>();
+//        user = db.getUserDetails();
 
 
     }

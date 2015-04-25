@@ -350,7 +350,7 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
         }
 
 
-        saveData();
+//        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
         i.putExtra("time-length",waktu.size());
         i.putExtra("time",time);
@@ -442,7 +442,7 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
             myOutWriter.close();
             fOut.close();
             Toast.makeText(getBaseContext(),"Done writing SD 'mysdfile.txt'",Toast.LENGTH_SHORT).show();
-            countPengukuran++;
+        //    countPengukuran++;
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
         }

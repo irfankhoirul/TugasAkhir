@@ -523,8 +523,8 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                         /**
                          * Removes all the previous data in the SQlite database
                          **/
-                        UserFunctions logout = new UserFunctions();
-                        logout.logoutUser(getApplicationContext());
+//                        UserFunctions logout = new UserFunctions();
+//                        logout.logoutUser(getApplicationContext());
 //                        db.addUser(
 //                                json_user.getString("username")
 //                        );
