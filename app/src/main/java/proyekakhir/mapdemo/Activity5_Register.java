@@ -477,6 +477,8 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             p_reg_vehicle = v_reg_vehicle;
             p_reg_vehicle_type = v_reg_vehicle_type;
 
+
+
             pDialog = new ProgressDialog(Activity5_Register.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Registering ...");
@@ -501,27 +503,17 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
              **/
             try {
                 if (json.getString(KEY_SUCCESS) != null) {
-                //    registerErrorMsg.setText("");
+                    Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_LONG).show();
+
                     String res = json.getString(KEY_SUCCESS);
                     String red = json.getString(KEY_ERROR);
 
                     if(Integer.parseInt(res) == 1){
                         pDialog.setTitle("Getting Data");
                         pDialog.setMessage("Loading Info");
-
-//                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                         JSONObject json_user = json.getJSONObject("user");
 
                         Toast.makeText(getBaseContext(), json_user.getString("username")+", Successfully Registered", Toast.LENGTH_LONG).show();
-
-                        /**
-                         * Removes all the previous data in the SQlite database
-                         **/
-//                        UserFunctions logout = new UserFunctions();
-//                        logout.logoutUser(getApplicationContext());
-//                        db.addUser(
-//                                json_user.getString("username")
-//                        );
 
                         pDialog.dismiss();
 
@@ -530,9 +522,14 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                         finish();
                     }
 
-                    else if (Integer.parseInt(red) ==2 || Integer.parseInt(red) ==4){
+                    else if (Integer.parseInt(red) ==2){
                         pDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else if (Integer.parseInt(red) ==4){
+                        pDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "Username already exists coy!", Toast.LENGTH_SHORT).show();
 
                     }
                     else if (Integer.parseInt(red) ==3){
@@ -546,6 +543,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                 }
 
             } catch (JSONException e) {
+                pDialog.dismiss();
                 e.printStackTrace();
                 Toast.makeText(getBaseContext(), "Exception = "+e.toString(), Toast.LENGTH_SHORT).show();
             }

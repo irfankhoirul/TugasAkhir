@@ -11,7 +11,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Activity3_App1Go extends FragmentActivity implements SensorEventListener, LocationListener {
+public class Activity3_App1Go extends ActionBarActivity implements SensorEventListener, LocationListener {
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -76,6 +76,15 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity3_app1go);
+
+        /*
+        /// Drawer activity
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null,false);
+        frameLayout.addView(activityView);
+        ///
+        */
 
         initializeViews();
 
@@ -127,7 +136,7 @@ public class Activity3_App1Go extends FragmentActivity implements SensorEventLis
                     }
                 });
             }
-        },0,20); //50 data every second (40x25=1000 (1s))
+        },0,100); //10 data every second
     }
 
     public void timeConverter(int time){
