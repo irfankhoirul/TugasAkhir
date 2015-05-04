@@ -46,12 +46,6 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
      *  JSON Response node names.
      **/
     private static String KEY_SUCCESS = "success";
-    private static String KEY_UID = "uid";
-    private static String KEY_FIRSTNAME = "fname";
-    private static String KEY_LASTNAME = "lname";
-    private static String KEY_USERNAME = "username";
-    private static String KEY_EMAIL = "email";
-    private static String KEY_CREATED_AT = "created_at";
     private static String KEY_ERROR = "error";
 
 
@@ -555,7 +549,9 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                 e.printStackTrace();
                 Toast.makeText(getBaseContext(), "Exception = "+e.toString(), Toast.LENGTH_SHORT).show();
             }
-        }}
+        }
+    }
+
     public void NetAsync(View view){
         new NetCheck().execute();
     }

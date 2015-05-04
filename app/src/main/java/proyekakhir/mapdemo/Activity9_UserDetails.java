@@ -46,7 +46,6 @@ public class Activity9_UserDetails extends DrawerActivity {
 
 
         try {
-
             DatabaseHandler db = new DatabaseHandler(getApplicationContext());
             User user = db.getUser();
 //            HashMap<String, String> user = db.getUserDetails();
@@ -94,6 +93,11 @@ public class Activity9_UserDetails extends DrawerActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.action_edit_user){
+            Intent i = new Intent (Activity9_UserDetails.this,Activity9a_UserDetailsEdit.class);
+            startActivity(i);
+        //    finish();
         }
 
         return super.onOptionsItemSelected(item);

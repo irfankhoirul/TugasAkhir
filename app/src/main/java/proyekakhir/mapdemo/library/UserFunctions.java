@@ -35,6 +35,7 @@ public class UserFunctions {
     private static String login_tag = "login";
     private static String get_user_details_tag = "getUserDetails";
     private static String register_tag = "register";
+    private static String updateUser_tag = "updateUser";
 //    private static String forpass_tag = "forpass";
 //    private static String chgpass_tag = "chgpass";
 
@@ -108,6 +109,32 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("first_name", pfirst_name));
         params.add(new BasicNameValuePair("last_name", plast_name));
         params.add(new BasicNameValuePair("email", pemail));
+        params.add(new BasicNameValuePair("username", pusername));
+        params.add(new BasicNameValuePair("password", ppassword));
+        params.add(new BasicNameValuePair("user_type", puser_type));
+        params.add(new BasicNameValuePair("admin_token", padmin_token));
+        params.add(new BasicNameValuePair("device_merk", pdevice_merk));
+        params.add(new BasicNameValuePair("device_type", pdevice_type));
+        params.add(new BasicNameValuePair("vehicle_merk", pvehicle_merk));
+        params.add(new BasicNameValuePair("vehicle_type", pvehicle_type));
+
+        JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
+        return json;
+    }
+
+    public JSONObject updateUser(String userID, String poldpassword, String pfirst_name,  String plast_name, String pusername,
+                                  String ppassword, String puser_type,
+                                   String padmin_token, String pdevice_merk, String pdevice_type,
+                                   String pvehicle_merk, String pvehicle_type){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", updateUser_tag));
+
+        params.add(new BasicNameValuePair("uid", userID));
+        params.add(new BasicNameValuePair("old_password", poldpassword));
+        params.add(new BasicNameValuePair("first_name", pfirst_name));
+        params.add(new BasicNameValuePair("last_name", plast_name));
+    //    params.add(new BasicNameValuePair("email", pemail));
         params.add(new BasicNameValuePair("username", pusername));
         params.add(new BasicNameValuePair("password", ppassword));
         params.add(new BasicNameValuePair("user_type", puser_type));

@@ -39,5 +39,6 @@
     <string name="title_activity_activity7__app2_result_map">Broken Road Map</string>
     <string name="title_activity_activity9__user_details">User Details</string>
     <string name="title_activity_activity10__about">About</string>
+    <string name="title_activity_activity9a__user_details_edit">Edit My Details</string>
 
 </resources>
