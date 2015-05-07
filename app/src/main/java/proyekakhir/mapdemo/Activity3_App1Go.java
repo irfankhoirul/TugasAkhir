@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -57,7 +58,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     List<Double> speed = new ArrayList<>();
     List<Double> arr_latitude = new ArrayList<>();
     List<Double> arr_longitude = new ArrayList<>();
-    List<Integer> waktu = new ArrayList<>();
+    List<Integer> counter = new ArrayList<>();
 
     //----ALL----//
     private TextView _act6_txt_detailLat, _act6_txt_detailLong, _act6_txt_detailSpeed,
@@ -75,6 +76,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity3_app1go);
 
         /*
@@ -108,35 +110,42 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         mulai();
     }
 
+    public void resetVariable(){
+        x.clear();
+        y.clear();
+        z.clear();
+        speed.clear();
+        arr_latitude.clear();
+        arr_longitude.clear();
+        counter.clear();
+    }
+
     public void mulai(){
         float[] axisValue = new float[3];
         Timer T=new Timer();
         T.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         int detik = count;
-                        timeConverter(detik);
+//                        timeConverter(detik);
                         getAxisValue();
                         getMapData();
-                        waktu.add(detik);
+                        counter.add(detik);
+                        _act6_txt_time.setText(Integer.toString(detik));
 
-
-                        if(detik%5==0)
-                        {
-                            // histogram();
-                            // clearMemory();
+                        if (detik % 50 == 0) { //5 detik per proses
+                            histogram();
+                            resetVariable();
                         }
 
                         count++;
                     }
                 });
             }
-        },0,100); //10 data every second
+        }, 0, 100); //10 data every second
     }
 
     public void timeConverter(int time){
@@ -149,7 +158,120 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
         timer = detik;
 
-        _act6_txt_time.setText(Integer.toString(jam)+":"+Integer.toString(menit)+":"+Integer.toString(detik));
+        _act6_txt_time.setText(Integer.toString(jam) + ":" + Integer.toString(menit) + ":" + Integer.toString(detik));
+    }
+
+    public void histogram(){
+        int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
+                j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
+                j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
+
+        for(int i=0; i<y.size(); i++) {
+            if(y.indexOf(i) >=0 && y.indexOf(i) <1){
+                j0_1++;
+            }
+            else if(y.indexOf(i) >=1 && y.indexOf(i) <2){
+                j1_2++;
+            }
+            else if(y.indexOf(i) >=2 && y.indexOf(i) <3){
+                j2_3++;
+            }
+            else if(y.indexOf(i) >=3 && y.indexOf(i) <4){
+                j3_4++;
+            }
+            else if(y.indexOf(i) >=4 && y.indexOf(i) <5){
+                j4_5++;
+            }
+            else if(y.indexOf(i) >=5 && y.indexOf(i) <6){
+                j5_6++;
+            }
+            else if(y.indexOf(i) >=6 && y.indexOf(i) <7){
+                j6_7++;
+            }
+            else if(y.indexOf(i) >=7 && y.indexOf(i) <8){
+                j7_8++;
+            }
+            else if(y.indexOf(i) >=8 && y.indexOf(i) <9){
+                j8_9++;
+            }
+            else if(y.indexOf(i) >=9 && y.indexOf(i) <10){
+                j9_10++;
+            }
+            else if(y.indexOf(i) >=10 && y.indexOf(i) <11){
+                j10_11++;
+            }
+            else if(y.indexOf(i) >=11 && y.indexOf(i) <12){
+                j11_12++;
+            }
+            else if(y.indexOf(i) >=12 && y.indexOf(i) <13){
+                j12_13++;
+            }
+            else if(y.indexOf(i) >=13 && y.indexOf(i) <14){
+                j13_14++;
+            }
+            else if(y.indexOf(i) >=14 && y.indexOf(i) <15){
+                j14_15++;
+            }
+            else if(y.indexOf(i) >=15 && y.indexOf(i) <16){
+                j15_16++;
+            }
+            else if(y.indexOf(i) >=16 && y.indexOf(i) <17){
+                j16_17++;
+            }
+            else if(y.indexOf(i) >=17 && y.indexOf(i) <18){
+                j17_18++;
+            }
+            else if(y.indexOf(i) >=18 && y.indexOf(i) <19){
+                j18_19++;
+            }
+            else if(y.indexOf(i) >=19 && y.indexOf(i) <20){
+                j19_20++;
+            }
+        }
+
+
+        //Klasifikasi
+        //Baik ==> 1+2+3 >= 90%
+        int A = (j1_2+j2_3+j3_4)/y.size();
+        //Rusak ==> 1+2+3 <90%
+        //Rusak Tipe A ==> Max di 1+2+3
+        int B1 = (j1_2+j2_3+j3_4)/y.size();
+        //Rusak Tipe B ==> Max di 4+5+6
+        int B2 = (j4_5+j5_6+j6_7)/y.size();
+        //Rusak Tipe C ==> Max di 7+8+9
+        int B3 = (j7_8+j8_9+j9_10)/y.size();
+        //Rusak Tipe D ==> Max di 10+11+12
+        int B4 = (j10_11+j11_12+j12_13)/y.size();
+        //Rusak Tipe E ==> Max di 13+14+15
+        int B5 = (j13_14+j14_15+j15_16)/y.size();
+        //Rusak Tipe F ==> Max di 16+17+18+19+20
+        int B6 = (j16_17+j17_18+j18_19+j19_20)/y.size();
+
+        if(A >= 0.9){
+            //Baik
+        }
+        else {
+            if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B1){
+                //B1
+            }
+            else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B2){
+                //B2
+            }
+            else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B3){
+                //B3
+            }
+            else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B4){
+                //B4
+            }
+            else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B5){
+                //B5
+            }
+            else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B6){
+                //B6
+            }
+        }
+
+        //Lanjut ke Pelabelan di map dengan marker
     }
 
     public void initializeViews() {
@@ -323,9 +445,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     public void stop(){
         Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
 
-        int[] time = new int[waktu.size()];
-        for(int i = 0; i<waktu.size(); i++) {
-            time[i] = waktu.get(i);
+        int[] time = new int[counter.size()];
+        for(int i = 0; i<counter.size(); i++) {
+            time[i] = counter.get(i);
         }
 
         double[] xX = new double[x.size()];
@@ -361,7 +483,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
 //        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
-        i.putExtra("time-length",waktu.size());
+        i.putExtra("time-length",counter.size());
         i.putExtra("time",time);
 
         i.putExtra("x-axis-length",x.size());
@@ -417,9 +539,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
 
             //isikan data
-            file+="\nWaktu\n";
-            for(int i = 0; i<waktu.size(); i++){
-                file+=waktu.get(i)+"\n";
+            file+="\nCounter\n";
+            for(int i = 0; i<counter.size(); i++){
+                file+=counter.get(i)+"\n";
             }
             file+="\nX-Axis\n";
             for(int i = 0; i<x.size(); i++){

@@ -32,6 +32,7 @@ public class Activity10_About extends DrawerActivity {
         return true;
     }
 
+
     @Override
     public void onBackPressed()
     {
@@ -40,6 +41,7 @@ public class Activity10_About extends DrawerActivity {
         startActivity(intent);
         finish();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -31,6 +31,7 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -110,6 +111,7 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     finish();
                     break;
                 }
+                /*
                 case 1: {
                     Intent intent = new Intent(DrawerActivity.this, Activity4_App2Go.class);
                     startActivity(intent);
@@ -122,36 +124,29 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     finish();
                     break;
                 }
-                case 3: {
-                    /*
-                    Intent intent = new Intent(DrawerActivity.this, Activity8_Setting.class);
-                    startActivity(intent);
-                    finish();
-                    */
+                */
+                case 1: {
                     Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(viewIntent);
                     break;
                 }
-                case 4: {
-
+                case 2: {
                     Intent intent = new Intent(DrawerActivity.this, Activity9_UserDetails.class);
                     startActivity(intent);
                     finish();
-
-
                     break;
                 }
-                case 5: {
+                case 3: {
                     Intent intent = new Intent(DrawerActivity.this, Activity10_About.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 6: {
+                case 4: {
 
                     break;
                 }
-                case 7:{
+                case 5:{
 
                     DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                     db.resetTables();

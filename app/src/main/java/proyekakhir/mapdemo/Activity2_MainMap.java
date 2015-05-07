@@ -106,7 +106,7 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         String plId = place_id_resultList.get(resultList.indexOf(str));
 
     //    place_id = plId;
-    //    String lct[] = location(plId);
+    //    String lct[] = location(plId);intent
 
     //    Toast.makeText(this, str +" Place Id : "+plId+" Position : "+lct[0]+","+lct[1], Toast.LENGTH_SHORT).show();
     }

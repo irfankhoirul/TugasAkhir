@@ -2,9 +2,9 @@
 <resources>
     <string-array name="left_drawer_array">
         <item>Show Road Test Results</item>
-        <item>Found Broken Road</item>
+    <!--    <item>Found Broken Road</item>
         <item>Show Broken Road</item>
-        <item>Setting</item>
+    -->    <item>Setting</item>
         <item>My Details</item>
         <item>About</item>
         <item>Help</item>
