@@ -355,7 +355,7 @@ public class Activity3a_App1GoResult extends DrawerActivity {
 
     }
 
-
+/*
     @Override
     public void onBackPressed()
     {
@@ -364,6 +364,6 @@ public class Activity3a_App1GoResult extends DrawerActivity {
         startActivity(intent);
         finish();
     }
-
+*/
 
 }

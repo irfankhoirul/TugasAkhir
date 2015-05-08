@@ -91,13 +91,6 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         ////////////////////REG
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
-        /**
-         * Hashmap to load data from the Sqlite database
-         **/
-//        HashMap<String,String> user = new HashMap<String, String>();
-//        user = db.getUserDetails();
-
-
     }
 
     //----AUTOCOMPLETE location V2----//
@@ -110,7 +103,6 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
 
     //    Toast.makeText(this, str +" Place Id : "+plId+" Position : "+lct[0]+","+lct[1], Toast.LENGTH_SHORT).show();
     }
-
 
     public static ArrayList<String> autocomplete(String input) {
     //    ArrayList<String> resultList = null;
@@ -280,17 +272,6 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
         return loc;
     }
 
-
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    protected void onPause() {
-        super.onPause();
-    }
-
-
     //---------------------------------------------------------------------------------------------------
     //----MAP----//--------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
@@ -369,11 +350,13 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
                         .setNegativeButton("Cancel", dialogClickListener).show();
 
                 return true;
+            /*
             case R.id.menu___test_ride_app1_preparation_direction:
 
                 flipper1.showNext();
 
                 return true;
+            */
             case R.id.menu___test_ride_app1_preparation_logout:
                 DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                 db.resetTables();
@@ -388,5 +371,7 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
 }

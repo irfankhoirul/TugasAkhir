@@ -6,10 +6,12 @@
         android:title="Start"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <!--
     <item android:id="@+id/menu___test_ride_app1_preparation_direction"
         android:title="Get Direction"
         android:orderInCategory="100"
         app:showAsAction="never" />
+        -->
     <item android:id="@+id/menu___test_ride_app1_preparation_logout"
         android:title="Logout"
         android:orderInCategory="100"

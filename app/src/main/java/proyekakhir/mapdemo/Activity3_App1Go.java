@@ -10,8 +10,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +38,11 @@ import java.util.TimerTask;
 
 public class Activity3_App1Go extends ActionBarActivity implements SensorEventListener, LocationListener {
 
+    int c = 0;
+
+    //Timer
+    Timer timer;
+
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Location FIRST_LOCATION;
@@ -45,7 +52,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     //----ACCELEROMETER----//
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private int count=0;
+    private int count;
     private boolean timerstart = false;
     private boolean stopSave = false;
     private boolean ACCELEROMETER_START = false;
@@ -54,21 +61,21 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     //Data yang diambil//
     List<Double> x = new ArrayList<>();
     List<Double> y = new ArrayList<>();
+//    List<Double> y_temp;
     List<Double> z = new ArrayList<>();
     List<Double> speed = new ArrayList<>();
     List<Double> arr_latitude = new ArrayList<>();
     List<Double> arr_longitude = new ArrayList<>();
     List<Integer> counter = new ArrayList<>();
 
+    //Hasil klasifikasi
+    int kualitas = 0;
+
     //----ALL----//
     private TextView _act6_txt_detailLat, _act6_txt_detailLong, _act6_txt_detailSpeed,
             _act6_txt_detailDistance, _act6_txt_xaxis, _act6_txt_yaxis, _act6_txt_zaxis,
             _act6_txt_time;
     private ViewFlipper flipper;
-
-    private double timer;
-
-    private int countPengukuran = 0;
 
     //---------------------------------------------------------------------------------------------------
     //----ALL----//--------------------------------------------------------------------------------------
@@ -118,29 +125,30 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         arr_latitude.clear();
         arr_longitude.clear();
         counter.clear();
+        Toast.makeText(getApplicationContext(), "Variable Reseted!", Toast.LENGTH_SHORT).show();
     }
 
     public void mulai(){
         float[] axisValue = new float[3];
-        Timer T=new Timer();
-        T.scheduleAtFixedRate(new TimerTask() {
+        timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        int detik = count;
-//                        timeConverter(detik);
+                        counter.add(count);
                         getAxisValue();
                         getMapData();
-                        counter.add(detik);
-                        _act6_txt_time.setText(Integer.toString(detik));
 
-                        if (detik % 50 == 0) { //5 detik per proses
+                        if (count % 50 == 0) { //5 detik per proses
                             histogram();
                             resetVariable();
+                            c++;
                         }
 
+                        _act6_txt_time.setText(Integer.toString(count));
                         count++;
                     }
                 });
@@ -148,6 +156,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         }, 0, 100); //10 data every second
     }
 
+    /*
     public void timeConverter(int time){
         int jam, menit, detik, temp;
 
@@ -160,6 +169,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
         _act6_txt_time.setText(Integer.toString(jam) + ":" + Integer.toString(menit) + ":" + Integer.toString(detik));
     }
+    */
 
     public void histogram(){
         int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
@@ -167,111 +177,144 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
 
         for(int i=0; i<y.size(); i++) {
-            if(y.indexOf(i) >=0 && y.indexOf(i) <1){
+            double nilai_Y = Math.abs(y.get(i)-9.781); //Kurangi G lalu absolutkan
+
+            if(nilai_Y >=0 && nilai_Y <1){
                 j0_1++;
             }
-            else if(y.indexOf(i) >=1 && y.indexOf(i) <2){
+            else if(nilai_Y >=1 && nilai_Y <2){
                 j1_2++;
             }
-            else if(y.indexOf(i) >=2 && y.indexOf(i) <3){
+            else if(nilai_Y >=2 && nilai_Y <3){
                 j2_3++;
             }
-            else if(y.indexOf(i) >=3 && y.indexOf(i) <4){
+            else if(nilai_Y >=3 && nilai_Y <4){
                 j3_4++;
             }
-            else if(y.indexOf(i) >=4 && y.indexOf(i) <5){
+            else if(nilai_Y >=4 && nilai_Y <5){
                 j4_5++;
             }
-            else if(y.indexOf(i) >=5 && y.indexOf(i) <6){
+            else if(nilai_Y >=5 && nilai_Y <6){
                 j5_6++;
             }
-            else if(y.indexOf(i) >=6 && y.indexOf(i) <7){
+            else if(nilai_Y >=6 && nilai_Y <7){
                 j6_7++;
             }
-            else if(y.indexOf(i) >=7 && y.indexOf(i) <8){
+            else if(nilai_Y >=7 && nilai_Y <8){
                 j7_8++;
             }
-            else if(y.indexOf(i) >=8 && y.indexOf(i) <9){
+            else if(nilai_Y >=8 && nilai_Y <9){
                 j8_9++;
             }
-            else if(y.indexOf(i) >=9 && y.indexOf(i) <10){
+            else if(nilai_Y >=9 && nilai_Y <10){
                 j9_10++;
             }
-            else if(y.indexOf(i) >=10 && y.indexOf(i) <11){
+            else if(nilai_Y >=10 && nilai_Y <11){
                 j10_11++;
             }
-            else if(y.indexOf(i) >=11 && y.indexOf(i) <12){
+            else if(nilai_Y >=11 && nilai_Y <12){
                 j11_12++;
             }
-            else if(y.indexOf(i) >=12 && y.indexOf(i) <13){
+            else if(nilai_Y >=12 && nilai_Y <13){
                 j12_13++;
             }
-            else if(y.indexOf(i) >=13 && y.indexOf(i) <14){
+            else if(nilai_Y >=13 && nilai_Y <14){
                 j13_14++;
             }
-            else if(y.indexOf(i) >=14 && y.indexOf(i) <15){
+            else if(nilai_Y >=14 && nilai_Y <15){
                 j14_15++;
             }
-            else if(y.indexOf(i) >=15 && y.indexOf(i) <16){
+            else if(nilai_Y >=15 && nilai_Y <16){
                 j15_16++;
             }
-            else if(y.indexOf(i) >=16 && y.indexOf(i) <17){
+            else if(nilai_Y >=16 && nilai_Y <17){
                 j16_17++;
             }
-            else if(y.indexOf(i) >=17 && y.indexOf(i) <18){
+            else if(nilai_Y >=17 && nilai_Y <18){
                 j17_18++;
             }
-            else if(y.indexOf(i) >=18 && y.indexOf(i) <19){
+            else if(nilai_Y >=18 && nilai_Y <19){
                 j18_19++;
             }
-            else if(y.indexOf(i) >=19 && y.indexOf(i) <20){
+            else if(nilai_Y >=19 && nilai_Y <20){
                 j19_20++;
             }
         }
 
-
         //Klasifikasi
         //Baik ==> 1+2+3 >= 90%
-        int A = (j1_2+j2_3+j3_4)/y.size();
+        double A = (j0_1+j1_2+j2_3+j3_4);
         //Rusak ==> 1+2+3 <90%
         //Rusak Tipe A ==> Max di 1+2+3
-        int B1 = (j1_2+j2_3+j3_4)/y.size();
+        double B1 = (j1_2+j2_3+j3_4);
         //Rusak Tipe B ==> Max di 4+5+6
-        int B2 = (j4_5+j5_6+j6_7)/y.size();
+        double B2 = (j4_5+j5_6+j6_7);
         //Rusak Tipe C ==> Max di 7+8+9
-        int B3 = (j7_8+j8_9+j9_10)/y.size();
+        double B3 = (j7_8+j8_9+j9_10);
         //Rusak Tipe D ==> Max di 10+11+12
-        int B4 = (j10_11+j11_12+j12_13)/y.size();
+        double B4 = (j10_11+j11_12+j12_13);
         //Rusak Tipe E ==> Max di 13+14+15
-        int B5 = (j13_14+j14_15+j15_16)/y.size();
+        double B5 = (j13_14+j14_15+j15_16);
         //Rusak Tipe F ==> Max di 16+17+18+19+20
-        int B6 = (j16_17+j17_18+j18_19+j19_20)/y.size();
+        double B6 = (j16_17+j17_18+j18_19+j19_20);
 
-        if(A >= 0.9){
-            //Baik
+        if(A >= 0.9*50){
+            kualitas = 1;
         }
         else {
             if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B1){
-                //B1
+                kualitas = 2;
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B2){
-                //B2
+                kualitas = 3;
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B3){
-                //B3
+                kualitas = 4;
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B4){
-                //B4
+                kualitas = 5;
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B5){
-                //B5
+                kualitas = 6;
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B6){
-                //B6
+                kualitas = 7;
             }
         }
 
-        //Lanjut ke Pelabelan di map dengan marker
+        Toast.makeText(getApplicationContext(), "Histogram created. Output : "+kualitas, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
+        Log.d("Data Histogram ke-" + c, " Max : "+kualitas
+                        + "; 0-1: " + Double.toString(j0_1)
+                        + "; 1-2: " + Double.toString(j1_2)
+                        + "; 2-3: " + Double.toString(j2_3)
+                        + "; 3-4: " + Double.toString(j3_4)
+                        + "; 4-5: " + Double.toString(j4_5)
+                        + "; 5-6: " + Double.toString(j5_6)
+                        + "; 6-7: " + Double.toString(j6_7)
+                        + "; 7-8: " + Double.toString(j7_8)
+                        + "; 8-9: " + Double.toString(j8_9)
+                        + "; 9-10: " + Double.toString(j9_10)
+                        + "; 10-11: " + Double.toString(j10_11)
+                        + "; 11-12: " + Double.toString(j11_12)
+                        + "; 12-13: " + Double.toString(j12_13)
+                        + "; 13-14: " + Double.toString(j13_14)
+                        + "; 14-15: " + Double.toString(j14_15)
+                        + "; 15-16: " + Double.toString(j15_16)
+                        + "; 16-17: " + Double.toString(j16_17)
+                        + "; 17-18: " + Double.toString(j17_18)
+                        + "; 18-19: " + Double.toString(j18_19)
+                        + "; 19-20: " + Double.toString(j19_20));
+        Log.d("Persentase",
+                " A:"+ Double.toString(A) +
+                "; B1:"+ Double.toString(B1) +
+                "; B2:"+ Double.toString(B2) +
+                "; B3:"+ Double.toString(B3) +
+                "; B4:"+ Double.toString(B4) +
+                "; B5:"+ Double.toString(B5) +
+                "; B6:"+ Double.toString(B6)
+        );
+    //    _act6_txt_time.append("#");
     }
 
     public void initializeViews() {
@@ -285,19 +328,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         _act6_txt_time = (TextView) findViewById(R.id._act6_txt_time); //test
         flipper = (ViewFlipper) findViewById(R.id.viewFlipper2);
     }
-
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    protected void onPause() {
-        super.onPause();
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//    }
 
     //---------------------------------------------------------------------------------------------------
     //----MAP----//--------------------------------------------------------------------------------------
@@ -336,19 +366,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 tempLat = location.getLatitude();
                 tempLong = location.getLongitude();
                 tempSpeed = location.getSpeed()*36/10;
-
-                if(firstChange==true) {
-//                    now.setLatitude(location.getLatitude());
-//                    now.setLongitude(location.getLongitude());
-                    firstChange=false;
-                    Toast.makeText(getApplicationContext(), "First Change!", Toast.LENGTH_SHORT).show();
-                }else {
-//                    prev = now;
-//                    now.setLatitude(location.getLatitude());
-//                    now.setLongitude(location.getLongitude());
-
-//                    distance+=prev.distanceTo(now);
-                }
 
                 _act6_txt_detailDistance.setText(Double.toString(distance));
             }
@@ -394,22 +411,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     }
 
-    public ArrayList<Float> hitungF(ArrayList yy){
-        ArrayList<Float> F = new ArrayList<Float>();
-        float tempM = 0,k=0;
-        int batas = yy.size();
-        int sisa = batas%10;
-        batas-=sisa;
-        for(int i = 0; i<batas; i+=10) {
-            for (int j = i; j < i+10; j++) {
-                tempM += (Float) yy.get(j);
-            }
-            F.add(tempM);
-            tempM=0;
-        }
-        return F;
-    }
-
     //---------------------------------------------------------------------------------------------------
     //----SPEED----//------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
@@ -443,6 +444,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     }
 
     public void stop(){
+        timer.cancel();
         Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
 
         int[] time = new int[counter.size()];
@@ -479,7 +481,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         for(int i = 0; i<speed.size(); i++) {
             v[i] = speed.get(i);
         }
-
 
 //        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
@@ -578,6 +579,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
+    
     @Override
     public void onBackPressed()
     {
@@ -606,6 +608,25 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Do you really want to stop?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener).show();
+    }
+
+    /**
+     * Async Task to count histogram
+     **/
+    private class HistogramBackgroundTask extends AsyncTask<String, String, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... args) {
+            histogram();
+            resetVariable();
+            c++;
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean out) {
+
+        }
     }
 
 }
