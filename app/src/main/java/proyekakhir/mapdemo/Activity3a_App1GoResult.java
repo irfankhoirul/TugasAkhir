@@ -65,12 +65,12 @@ public class Activity3a_App1GoResult extends DrawerActivity {
         Calendar c = Calendar.getInstance();
         String jam = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
         String menit = Integer.toString(c.get(Calendar.MINUTE));
-        Toast.makeText(getBaseContext(), jam+":"+menit, Toast.LENGTH_LONG).show();
+    //    Toast.makeText(getBaseContext(), jam+":"+menit, Toast.LENGTH_LONG).show();
         timeEnd = jam+":"+menit;
 
         getAllIntentData();
 
-        Toast.makeText(getBaseContext(), "Jumlah data = "+min, Toast.LENGTH_LONG).show();
+    //    Toast.makeText(getBaseContext(), "Jumlah data = "+min, Toast.LENGTH_LONG).show();
 
         sendToServer = (Button)findViewById(R.id.bt_sendToServer);
         sendToServer.setOnClickListener(new View.OnClickListener() {

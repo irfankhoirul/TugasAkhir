@@ -54,10 +54,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GetDirection"
-            android:label="@string/title_activity_get_direction" >
-        </activity>
-        <activity
             android:name=".Activity5_Register"
             android:label="@string/title_activity___register" >
         </activity>
@@ -68,10 +64,6 @@
         <activity
             android:name=".Activity8_Setting"
             android:label="@string/title_activity___setting" >
-        </activity>
-        <activity
-            android:name=".Ukur"
-            android:label="Ukur" >
         </activity>
         <activity
             android:name=".Activity3a_App1GoResult"

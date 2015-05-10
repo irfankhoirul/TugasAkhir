@@ -1,16 +1,17 @@
 package proyekakhir.mapdemo;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.os.AsyncTask;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -22,10 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,6 +47,13 @@ import java.util.TimerTask;
 public class Activity3_App1Go extends ActionBarActivity implements SensorEventListener, LocationListener {
 
     int c = 0;
+    boolean ready = false;
+    LocationManager locMan;
+    LatLng nowLoc, lastLoc;
+    boolean isFirstLocation = true;
+    boolean belumDimulai = true;
+    int awal = 0, akhir = 1;
+    private ProgressDialog pDialog;
 
     //Timer
     Timer timer;
@@ -68,6 +83,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     List<Double> arr_longitude = new ArrayList<>();
     List<Integer> counter = new ArrayList<>();
 
+    //List lokasi marker
+    List<LatLng> startPoint = new ArrayList<>();
+
     //Hasil klasifikasi
     int kualitas = 0;
 
@@ -86,14 +104,12 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity3_app1go);
 
-        /*
-        /// Drawer activity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null,false);
-        frameLayout.addView(activityView);
-        ///
-        */
+        pDialog = new ProgressDialog(Activity3_App1Go.this);
+        pDialog.setTitle("Waiting for GPS connection");
+        pDialog.setMessage("Please Wait ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         initializeViews();
 
@@ -114,7 +130,10 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             Toast.makeText(getApplicationContext(), "Oops!", Toast.LENGTH_SHORT).show();
         }
 
-        mulai();
+        locMan = (LocationManager)getSystemService(LOCATION_SERVICE);
+
+        if(ready)
+            mulai();
     }
 
     public void resetVariable(){
@@ -125,11 +144,15 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         arr_latitude.clear();
         arr_longitude.clear();
         counter.clear();
-        Toast.makeText(getApplicationContext(), "Variable Reseted!", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(getApplicationContext(), "Variable Reseted!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void rute(){
+
     }
 
     public void mulai(){
-        float[] axisValue = new float[3];
+        belumDimulai = false;
         timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -143,17 +166,35 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                         getMapData();
 
                         if (count % 50 == 0) { //5 detik per proses
-                            histogram();
+                            int qual = histogram();
                             resetVariable();
+                            showMarker(qual);
                             c++;
+                            if(!isFirstLocation){
+                            //    showDirection(startPoint.get(awal), startPoint.get(akhir));
+                            //    awal++; akhir++;
+                            }
                         }
-
                         _act6_txt_time.setText(Integer.toString(count));
                         count++;
                     }
                 });
             }
         }, 0, 100); //10 data every second
+    }
+
+    public void showDirection(LatLng sourcePosition, LatLng destPosition){
+        Route md = new Route();
+        Document doc = md.getDocument(sourcePosition, destPosition,
+                Route.MODE_DRIVING);
+        ArrayList<LatLng> directionPoint = md.getDirection(doc);
+        PolylineOptions rectLine = new PolylineOptions().width(3).color(
+                Color.RED);
+
+        for (int i = 0; i < directionPoint.size(); i++) {
+            rectLine.add(directionPoint.get(i));
+        }
+        Polyline polyline = mMap.addPolyline(rectLine);
     }
 
     /*
@@ -171,7 +212,54 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     }
     */
 
-    public void histogram(){
+    public void showMarker(int quality){
+        if(ready) {
+            if(quality == 1) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Baik")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+            else if(quality == 2) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Bergelombang Tipe 1")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+            else if(quality == 3) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Bergelombang Tipe 1")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+            else if(quality == 4) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Bergelombang Tipe 1")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+            else if(quality == 5) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Bergelombang Tipe 1")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+            else if(quality == 6 || quality == 7) {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(tempLat, tempLong))
+                        .title("Jalan Bergelombang Tipe 1")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
+                startPoint.add(new LatLng(tempLat, tempLong));
+            }
+        }
+    }
+
+    public int histogram(){
         int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
                 j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
                 j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
@@ -282,8 +370,8 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             }
         }
 
-        Toast.makeText(getApplicationContext(), "Histogram created. Output : "+kualitas, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(getApplicationContext(), "Histogram created. Output : "+kualitas, Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
         Log.d("Data Histogram ke-" + c, " Max : "+kualitas
                         + "; 0-1: " + Double.toString(j0_1)
                         + "; 1-2: " + Double.toString(j1_2)
@@ -315,6 +403,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 "; B6:"+ Double.toString(B6)
         );
     //    _act6_txt_time.append("#");
+        return kualitas;
     }
 
     public void initializeViews() {
@@ -349,16 +438,10 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
-            Location prev, now;
-            boolean firstChange = true;
-            double distance = 0.0;
 
+        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
-                //    Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
-                //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
                 if(mMap != null){
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
@@ -367,11 +450,28 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 tempLong = location.getLongitude();
                 tempSpeed = location.getSpeed()*36/10;
 
-                _act6_txt_detailDistance.setText(Double.toString(distance));
+                if(location.getAccuracy() <= 20) {
+                    ready = true; //Menentukan apakah aplikasi siap dimulai
+                    if(belumDimulai) {
+                        pDialog.setMessage("GPS Connection Ready");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        pDialog.dismiss();
+                        mulai();
+                    }
+                //    if(isFirstLocation){
+                //        isFirstLocation = false;
+                //    }
+                }
+            //    if(!isFirstLocation)
+                    _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
             }
         };
 
-        mMap.setOnMyLocationChangeListener(myLocationChangeListener);
+       mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
     }
 
@@ -408,29 +508,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    //---------------------------------------------------------------------------------------------------
-    //----SPEED----//------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
 
     }
 
@@ -610,23 +687,10 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 .setNegativeButton("Cancel", dialogClickListener).show();
     }
 
-    /**
-     * Async Task to count histogram
-     **/
-    private class HistogramBackgroundTask extends AsyncTask<String, String, Boolean> {
+    @Override
+    public void onLocationChanged(Location location) {
 
-        @Override
-        protected Boolean doInBackground(String... args) {
-            histogram();
-            resetVariable();
-            c++;
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean out) {
-
-        }
     }
+
 
 }

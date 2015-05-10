@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -334,8 +335,14 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                Intent i = new Intent (Activity2_MainMap.this,Activity3_App1Go.class);
-                                startActivity(i);
+                                final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+                                if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                                    Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
+                                    startActivity(i);
+                                }
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
