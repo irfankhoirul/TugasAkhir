@@ -29,7 +29,7 @@ public class UserFunctions {
 //    private static String registerURL = "http://muhlish.com/ta/SurveyoRiderServices/";
 
     //Onlune free
-    private static String loginURL = "http://surveyorider.zz.mu/SurveyoRiderServices/";
+    private static String loginURL    = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private static String registerURL = "http://surveyorider.zz.mu/SurveyoRiderServices/";
 
 
@@ -44,6 +44,7 @@ public class UserFunctions {
     // constructor
     public UserFunctions(){
         jsonParser = new JSONParser();
+
     }
 
     /**
@@ -56,6 +57,22 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        return json;
+    }
+
+    /**
+     * Sending data
+     **/
+    public JSONObject sendData(String idUser, String string_json){
+        // Building Parameters
+
+        JSONParser jp = new JSONParser();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "insert"));
+        params.add(new BasicNameValuePair("idUser", idUser));
+        params.add(new BasicNameValuePair("json", string_json));
+        JSONObject json = jp.getJSONFromUrl(loginURL, params);
+
         return json;
     }
 

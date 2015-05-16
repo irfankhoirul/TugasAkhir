@@ -59,7 +59,8 @@
         </activity>
         <activity
             android:name=".Activity3_App1Go"
-            android:label="@string/title_activity___test_ride_app1" >
+            android:label="@string/title_activity___test_ride_app1"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Activity8_Setting"
@@ -100,6 +101,10 @@
         <activity
             android:name=".Activity9a_UserDetailsEdit"
             android:label="@string/title_activity_activity9a__user_details_edit" >
+        </activity>
+        <activity
+            android:name=".Activity3b_App1Preview"
+            android:label="@string/title_activity_activity3b__app1_preview" >
         </activity>
     </application>
 

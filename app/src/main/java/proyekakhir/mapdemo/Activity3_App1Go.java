@@ -12,6 +12,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -33,11 +34,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,7 +54,7 @@ import java.util.TimerTask;
 
 public class Activity3_App1Go extends ActionBarActivity implements SensorEventListener, LocationListener {
 
-    int c = 0;
+    int c = 0, qual;
     boolean ready = false;
     LocationManager locMan;
     LatLng nowLoc, lastLoc;
@@ -54,6 +62,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     boolean belumDimulai = true;
     int awal = 0, akhir = 1;
     private ProgressDialog pDialog;
+    double lat, lon;
 
     //Timer
     Timer timer;
@@ -73,18 +82,23 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     private boolean ACCELEROMETER_START = false;
     private double tempX, tempY, tempZ;
 
-    //Data yang diambil//
-    List<Double> x = new ArrayList<>();
+    //--Penampung Data yang diambil--//
+//    List<Double> x = new ArrayList<>();
     List<Double> y = new ArrayList<>();
-//    List<Double> y_temp;
-    List<Double> z = new ArrayList<>();
-    List<Double> speed = new ArrayList<>();
-    List<Double> arr_latitude = new ArrayList<>();
-    List<Double> arr_longitude = new ArrayList<>();
+//    List<Double> z = new ArrayList<>();
+//    List<Double> speed = new ArrayList<>();
+
     List<Integer> counter = new ArrayList<>();
 
+    //--Penampung Temporary--//
+    List<Double> arr_latitude = new ArrayList<>();
+    List<Double> arr_longitude = new ArrayList<>();
+    List<Double> y_temp = new ArrayList<>();
+
     //List lokasi marker
-    List<LatLng> startPoint = new ArrayList<>();
+    List<Double> marker_lat = new ArrayList<>();
+    List<Double> marker_lon = new ArrayList<>();
+    List<Integer> marker_quality = new ArrayList<>();
 
     //Hasil klasifikasi
     int kualitas = 0;
@@ -137,18 +151,16 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     }
 
     public void resetVariable(){
-        x.clear();
-        y.clear();
-        z.clear();
-        speed.clear();
-        arr_latitude.clear();
-        arr_longitude.clear();
-        counter.clear();
+    //    x.clear();
+    //    y.clear();
+    //    z.clear();
+    //    speed.clear();
+    //    arr_latitude.clear();
+    //    arr_longitude.clear();
+    //    counter.clear();
     //    Toast.makeText(getApplicationContext(), "Variable Reseted!", Toast.LENGTH_SHORT).show();
-    }
 
-    public void rute(){
-
+        y_temp.clear();
     }
 
     public void mulai(){
@@ -165,16 +177,20 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                         getAxisValue();
                         getMapData();
 
-                        if (count % 50 == 0) { //5 detik per proses
-                            int qual = histogram();
+                        if (count % 10 == 0) { //1 detik per proses
+                            qual = histogram();
                             resetVariable();
-                            showMarker(qual);
+                            new SnapToRoad().execute();
+                            showMarker(qual, lat, lon);
+
                             c++;
                             if(!isFirstLocation){
                             //    showDirection(startPoint.get(awal), startPoint.get(akhir));
                             //    awal++; akhir++;
                             }
                         }
+
+
                         _act6_txt_time.setText(Integer.toString(count));
                         count++;
                     }
@@ -212,49 +228,61 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     }
     */
 
-    public void showMarker(int quality){
-        if(ready) {
-            if(quality == 1) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Baik")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
-                startPoint.add(new LatLng(tempLat, tempLong));
-            }
-            else if(quality == 2) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Bergelombang Tipe 1")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
-                startPoint.add(new LatLng(tempLat, tempLong));
-            }
-            else if(quality == 3) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Bergelombang Tipe 1")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
-                startPoint.add(new LatLng(tempLat, tempLong));
-            }
-            else if(quality == 4) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Bergelombang Tipe 1")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
-                startPoint.add(new LatLng(tempLat, tempLong));
-            }
-            else if(quality == 5) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Bergelombang Tipe 1")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
-                startPoint.add(new LatLng(tempLat, tempLong));
-            }
-            else if(quality == 6 || quality == 7) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(tempLat, tempLong))
-                        .title("Jalan Bergelombang Tipe 1")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
-                startPoint.add(new LatLng(tempLat, tempLong));
+    public void showMarker(int quality, double lat, double lon){
+        if(lat!=0.0 || lon!=0.0) {
+            if (ready) {
+//            Toast.makeText(getApplicationContext(), "Add marker", Toast.LENGTH_SHORT).show();
+                Log.v("Latitude inside", Double.toString(lat));
+                Log.v("Longitude inside", Double.toString(lon));
+                if (quality == 1) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Baik")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(1);
+                } else if (quality == 2) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Bergelombang Tipe 1")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(2);
+                } else if (quality == 3) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Bergelombang Tipe 1")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(3);
+                } else if (quality == 4) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Bergelombang Tipe 1")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(4);
+                } else if (quality == 5) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Bergelombang Tipe 1")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(5);
+                } else if (quality == 6 || quality == 7) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Jalan Bergelombang Tipe 1")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
+                    marker_lat.add(lat);
+                    marker_lon.add(lon);
+                    marker_quality.add(6);
+                }
             }
         }
     }
@@ -264,8 +292,8 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                 j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
                 j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
 
-        for(int i=0; i<y.size(); i++) {
-            double nilai_Y = Math.abs(y.get(i)-9.781); //Kurangi G lalu absolutkan
+        for(int i=0; i<y_temp.size(); i++) {
+            double nilai_Y = Math.abs(y_temp.get(i)-9.781); //Kurangi G lalu absolutkan
 
             if(nilai_Y >=0 && nilai_Y <1){
                 j0_1++;
@@ -331,7 +359,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
         //Klasifikasi
         //Baik ==> 1+2+3 >= 90%
-        double A = (j0_1+j1_2+j2_3+j3_4);
+        double A = (j0_1+j1_2);
         //Rusak ==> 1+2+3 <90%
         //Rusak Tipe A ==> Max di 1+2+3
         double B1 = (j1_2+j2_3+j3_4);
@@ -346,7 +374,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         //Rusak Tipe F ==> Max di 16+17+18+19+20
         double B6 = (j16_17+j17_18+j18_19+j19_20);
 
-        if(A >= 0.9*50){
+        if(A >= 0.9*10){
             kualitas = 1;
         }
         else {
@@ -480,9 +508,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         _act6_txt_detailLat.setText(Double.toString(tempLat));
         _act6_txt_detailLong.setText(Double.toString(tempLong));
         _act6_txt_detailSpeed.setText(Double.toString(tempSpeed));
-        arr_latitude.add(tempLat);
-        arr_longitude.add(tempLong);
-        speed.add(tempSpeed);
+    //    arr_latitude.add(tempLat);
+    //    arr_longitude.add(tempLong);
+    //    speed.add(tempSpeed);
     }
 
 
@@ -498,12 +526,13 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     public void getAxisValue()
     {
-        _act6_txt_xaxis.setText(Double.toString(tempX));
-        _act6_txt_yaxis.setText(Double.toString(tempY));
-        _act6_txt_zaxis.setText(Double.toString(tempZ));
-        x.add(tempX);
-        y.add(tempY);
-        z.add(tempZ);
+        _act6_txt_xaxis.setText(Double.toString(Math.abs(tempX)));
+        _act6_txt_yaxis.setText(Double.toString(Math.abs(tempY-9.781)));
+        _act6_txt_zaxis.setText(Double.toString(Math.abs(tempZ)));
+    //    x.add(tempX);
+    //    y.add(tempY);
+        y_temp.add(tempY);
+    //    z.add(tempZ);
     }
 
     @Override
@@ -522,28 +551,56 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     public void stop(){
         timer.cancel();
-        Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Jumlah Data : "+marker_quality.size(), Toast.LENGTH_SHORT).show();
 
+        //Latitude
+        double[] lat = new double[marker_lat.size()];
+        for(int i = 0; i<marker_lat.size(); i++) {
+            lat[i] = marker_lat.get(i);
+        }
+
+        //Longitude
+        double[] lon = new double[marker_lon.size()];
+        for(int i = 0; i<marker_lon.size(); i++) {
+            lon[i] = marker_lon.get(i);
+        }
+
+        //Quality
+        int[] qual = new int[marker_quality.size()];
+        for(int i = 0; i<marker_quality.size(); i++) {
+            qual[i] = marker_quality.get(i);
+        }
+
+
+        /*
         int[] time = new int[counter.size()];
         for(int i = 0; i<counter.size(); i++) {
             time[i] = counter.get(i);
         }
+        */
 
+        /*
         double[] xX = new double[x.size()];
         for(int i = 0; i<x.size(); i++) {
             xX[i] = x.get(i);
         }
+        */
 
+        /*
         double[] yY = new double[y.size()];
         for(int i = 0; i<y.size(); i++) {
             yY[i] = y.get(i);
         }
+        */
 
+        /*
         double[] zZ = new double[z.size()];
         for(int i = 0; i<z.size(); i++) {
             zZ[i] = z.get(i);
         }
+        */
 
+        /*
         double[] lati = new double[arr_latitude.size()];
         for(int i = 0; i<arr_latitude.size(); i++) {
             lati[i] = arr_latitude.get(i);
@@ -553,34 +610,49 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         for(int i = 0; i<arr_longitude.size(); i++) {
             longi[i] = arr_longitude.get(i);
         }
+        */
 
+        /*
         double[] v = new double[speed.size()];
         for(int i = 0; i<speed.size(); i++) {
             v[i] = speed.get(i);
         }
+        */
 
 //        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
+        i.putExtra("qual-prev", qual);
+        i.putExtra("lat-prev", lat);
+        i.putExtra("lon-prev", lon);
+
+        /*
         i.putExtra("time-length",counter.size());
         i.putExtra("time",time);
-
+        */
+        /*
         i.putExtra("x-axis-length",x.size());
         i.putExtra("x-axis",xX);
+        */
 
+        /*
         i.putExtra("y-axis-length",y.size());
         i.putExtra("y-axis",yY);
-
+        */
+        /*
         i.putExtra("z-axis-length",z.size());
         i.putExtra("z-axis",zZ);
-
+        */
+        /*
         i.putExtra("latitude-length",arr_latitude.size());
         i.putExtra("latitude",lati);
 
         i.putExtra("longitude-length",arr_longitude.size());
         i.putExtra("longitude",longi);
-
+        */
+        /*
         i.putExtra("speed-length",speed.size());
         i.putExtra("speed",v);
+        */
 
         startActivity(i);
         finish();
@@ -602,7 +674,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         }
     }
 
-    public void saveData()
+    public void saveData() //Untuk save data
     {
         Calendar c = Calendar.getInstance();
         int seconds = c.get(Calendar.SECOND);
@@ -621,18 +693,29 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             for(int i = 0; i<counter.size(); i++){
                 file+=counter.get(i)+"\n";
             }
+
+            /*
             file+="\nX-Axis\n";
             for(int i = 0; i<x.size(); i++){
                 file+=x.get(i)+"\n";
             }
+            */
+
+            /*
             file+="\nY-Axis\n";
             for(int i = 0; i<y.size(); i++){
                 file+=y.get(i)+"\n";
             }
+            */
+
+            /*
             file+="\nZ-Axis\n";
             for(int i = 0; i<z.size(); i++){
                 file+=z.get(i)+"\n";
             }
+            */
+
+            /*
             file+="\nLatitude\n";
             for(int i = 0; i<arr_latitude.size(); i++){
                 file+=arr_latitude.get(i)+"\n";
@@ -641,10 +724,14 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             for(int i = 0; i<arr_longitude.size(); i++){
                 file+=arr_longitude.get(i)+"\n";
             }
+            */
+            /*
             file+="\nSpeed\n";
             for(int i = 0; i<speed.size(); i++){
                 file+=speed.get(i)+"\n";
             }
+            */
+
             file+="\n\nEnd of file";
 
             myOutWriter.append(file);
@@ -692,5 +779,54 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
     }
 
+    public class SnapToRoad extends AsyncTask<Void, Void, Void> {
+
+        private final String TAG = SnapToRoad.class.getSimpleName();
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Reader rd = null;
+
+            try {
+                URL url = new URL("http://maps.google.com/maps/api/directions/json?origin="
+                        + tempLat + "," + tempLong +"&destination="+tempLat+","+tempLong+"&sensor=true");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setReadTimeout(5000 /* milliseconds */);
+                con.setConnectTimeout(5000 /* milliseconds */);
+                con.connect();
+                if (con.getResponseCode() == 200) {
+                    rd = new InputStreamReader(con.getInputStream());
+                    StringBuffer sb = new StringBuffer();
+                    final char[] buf = new char[1024];
+                    int read;
+                    while ((read = rd.read(buf)) > 0) {
+                        sb.append(buf, 0, read);
+                    }
+                //    Log.v("INI Json", sb.toString());
+
+                    JSONObject jsonObj = new JSONObject(sb.toString());
+                    JSONArray predsJsonArray = jsonObj.getJSONArray("routes");
+                    lat = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lat");
+                    lon = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lng");
+                    Log.v("Latitude", Double.toString(lat));
+                    Log.v("Longitude", Double.toString(lon));
+
+
+                }
+                con.disconnect();
+            } catch (Exception e) {
+                Log.e("foo", "bar", e);
+            } finally {
+                if (rd != null) {
+                    try {
+                        rd.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, "", e);
+                    }
+                }
+            }
+            return null;
+        }
+    }
 
 }
