@@ -52,9 +52,9 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
 
     private static final String TAG_SUCCESS = "success";
 
-//    List<Double> xX = new ArrayList<>(); //X-axis
+    //    List<Double> xX = new ArrayList<>(); //X-axis
     List<Double> yY = new ArrayList<>(); //Y-axis
-//    List<Double> zZ = new ArrayList<>(); //z-axis
+    //    List<Double> zZ = new ArrayList<>(); //z-axis
     List<Double> lati = new ArrayList<>(); //Latitude
     List<Double> longi = new ArrayList<>(); //Longitude
 //    List<Double> v = new ArrayList<>(); //Speed
@@ -69,7 +69,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
     //send to server
     int[] qual_preview;
     double[] lat_preview, lon_preview;
-    String[] street_preview, city_preview, kec_preview;
+    String[] street_preview, city_preview, kec_preview, prov_preview;
 
     String temp_parT,temp_parX,temp_parY,temp_parZ,temp_parLat,temp_parLong,temp_parV;
     String timeEnd, tempTimeEnd;
@@ -84,7 +84,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
         Calendar c = Calendar.getInstance();
         String jam = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
         String menit = Integer.toString(c.get(Calendar.MINUTE));
-    //    Toast.makeText(getBaseContext(), jam+":"+menit, Toast.LENGTH_LONG).show();
+        //    Toast.makeText(getBaseContext(), jam+":"+menit, Toast.LENGTH_LONG).show();
         timeEnd = jam+":"+menit;
 
         getAllIntentData();
@@ -94,7 +94,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
         User user = db.getUser();
         ID_USER = user.getUser_id();
 
-    //    Toast.makeText(getBaseContext(), "Jumlah data = "+min, Toast.LENGTH_LONG).show();
+        //    Toast.makeText(getBaseContext(), "Jumlah data = "+min, Toast.LENGTH_LONG).show();
 
         sendToServer = (Button)findViewById(R.id.act3a_bt_sendToServer);
         sendToServer.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
                 completingData();
 
 
-        //        new saveData().execute();
+                //        new saveData().execute();
                 Toast.makeText(getBaseContext(), "Completing data...", Toast.LENGTH_SHORT).show();
             }
 
@@ -143,9 +143,9 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
     }
 
     public String createJsonArray(int[] qual_preview, double[] lat_preview,
-                                      double[] lon_preview, String[] street_preview,
-                                      String[] city_preview, String[] kec_preview,
-                                      int numberOfData) throws JSONException {
+                                  double[] lon_preview, String[] street_preview,
+                                  String[] city_preview, String[] kec_preview, String[] prov_preview,
+                                  int numberOfData) throws JSONException {
         JSONObject obj = null;
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < numberOfData; i++) {
@@ -157,6 +157,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
                 obj.put("nama", street_preview[i]);
                 obj.put("kec", kec_preview[i]);
                 obj.put("kota", city_preview[i]);
+                obj.put("prov", prov_preview[i]);
                 obj.put("kualitas", qual_preview[i]);
 
             } catch (JSONException e) {
@@ -168,7 +169,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
 
         JSONObject finalobject = new JSONObject();
         finalobject.put("data", jsonArray);
-    //    String ret = "'"+jsonArray.toString()+"'";
+        //    String ret = "'"+jsonArray.toString()+"'";
         return jsonArray.toString();
     }
 
@@ -176,10 +177,11 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
         street_preview = new String[qual_preview.length];
         city_preview = new String[qual_preview.length];
         kec_preview = new String[qual_preview.length];
+        prov_preview = new String[qual_preview.length];
         new NetCheck().execute();
 
         for(int i=0; i<street_preview.length; i++){
-            Log.v("Point-"+i,street_preview[i]+","+kec_preview[i]+","+city_preview[i]);
+            Log.v("Point-"+i,street_preview[i]+","+kec_preview[i]+","+city_preview[i]+","+prov_preview[i]);
         }
     }
 
@@ -263,7 +265,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
         }
         */
 
-    //    min = Math.min(tT.size(), Math.min(xX.size(), Math.min(yY.size(), Math.min(zZ.size(), Math.min(lati.size(), Math.min(longi.size(), v.size()))))));
+        //    min = Math.min(tT.size(), Math.min(xX.size(), Math.min(yY.size(), Math.min(zZ.size(), Math.min(lati.size(), Math.min(longi.size(), v.size()))))));
     }
 
     @Override
@@ -379,16 +381,18 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
             try {
                 //Completing Data
                 for(int i=0; i<qual_preview.length; i++) {
-                    Geocoder gcd = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    Geocoder gcd = new Geocoder(getApplicationContext(), Locale.ENGLISH);
                     List<Address> addresses = gcd.getFromLocation(lat_preview[i], lon_preview[i], 1);
                     if (addresses.size() > 0) {
                         Log.v("Alamat ke-"+i,
                                 addresses.get(0).getThoroughfare()+
-                                ","+addresses.get(0).getLocality()+
-                                ","+addresses.get(0).getSubAdminArea());
+                                        ","+addresses.get(0).getLocality()+
+                                        ","+addresses.get(0).getSubAdminArea()+
+                                        ","+addresses.get(0).getAdminArea());
                         street_preview[i] = addresses.get(0).getThoroughfare();
                         city_preview[i] = addresses.get(0).getSubAdminArea();
                         kec_preview[i] = addresses.get(0).getLocality();
+                        prov_preview[i] = addresses.get(0).getAdminArea();
                     }
                 }
                 return true;
@@ -408,7 +412,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
                 pDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Error in Completing Proccess!", Toast.LENGTH_SHORT).show();
             }
-            
+
         }
     }
 
@@ -434,7 +438,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
             try{
                 //Creating JSON Array of data
                 data = createJsonArray(qual_preview, lat_preview, lon_preview, street_preview,
-                        city_preview, kec_preview, qual_preview.length);
+                        city_preview, kec_preview, prov_preview, qual_preview.length);
                 Log.v("JSON Data", data.toString());
                 return true;
             }catch (Exception e)

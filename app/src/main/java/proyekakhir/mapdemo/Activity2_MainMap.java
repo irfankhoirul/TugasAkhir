@@ -294,6 +294,7 @@ public class Activity2_MainMap extends DrawerActivity implements OnItemClickList
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
         mMap.setBuildingsEnabled(true); //add
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 

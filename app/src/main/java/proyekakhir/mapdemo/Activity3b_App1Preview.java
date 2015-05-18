@@ -105,6 +105,7 @@ public class Activity3b_App1Preview extends ActionBarActivity {
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override
@@ -126,7 +127,7 @@ public class Activity3b_App1Preview extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu___test_ride_app1_preparation, menu);
+        inflater.inflate(R.menu.menu_activity3b__app1_preview, menu);
 
         return true;
     }

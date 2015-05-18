@@ -90,6 +90,18 @@ public class UserFunctions {
     }
 
     /**
+     * Function to Get All Roads
+     **/
+    public JSONObject getAllRoadData(){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "getRoadDataByAll"));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to change password
      **/
 /*    public JSONObject chgPass(String newpas, String email){
