@@ -47,6 +47,8 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private String ID_USER = "";
 
+    public Locale INDONESIA = new Locale("id_ID");;
+
     private static String url_create_product = "http://muhlish.com/ta/webservice/create_product.php";    //internet
 //    private static String url_create_product = "http://192.168.0.105:81/mysqlphpandroidcrud/create_product.php"; //local
 
@@ -381,7 +383,7 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
             try {
                 //Completing Data
                 for(int i=0; i<qual_preview.length; i++) {
-                    Geocoder gcd = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+                    Geocoder gcd = new Geocoder(getApplicationContext(), INDONESIA);
                     List<Address> addresses = gcd.getFromLocation(lat_preview[i], lon_preview[i], 1);
                     if (addresses.size() > 0) {
                         Log.v("Alamat ke-"+i,

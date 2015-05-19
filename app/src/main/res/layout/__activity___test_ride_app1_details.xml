@@ -1,58 +1,37 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="20px"
-    android:layout_marginRight="20px"
-    android:paddingBottom="20px"
-    android:paddingTop="20px"
-    android:gravity="center"
-    android:layout_gravity="center"
-    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
-    <ScrollView
+    tools:context="proyekakhir.mapdemo.Activity3b_App1Preview"
+    android:orientation="vertical">
+    <!--
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/scrollView2" >
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center_horizontal">
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
 
-            <RadioButton
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Register as Admin"
-                android:id="@+id/radioButton"
-                android:checked="false" />
+        />
+        -->
 
-            <RadioButton
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Register as User"
-                android:id="@+id/radioButton2"
-                android:checked="false" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Admin Token"
-                android:ems="10"
-                android:id="@+id/_act2_tf_token"
-                android:layout_marginBottom="15px"
-                />
-
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Next"
-                android:id="@+id/_act2_bt_next"
-                android:layout_marginBottom="15px"/>
-        </LinearLayout>
-    </ScrollView>
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load JSON"
+        android:id="@+id/act6_bt_load"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <ExpandableListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ExpandableListView>
 </LinearLayout>
