@@ -84,6 +84,7 @@
         </activity>
         <activity
             android:name=".Activity6_App1ResultMap"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_activity6__app1_result_map" >
         </activity>
         <activity
@@ -105,6 +106,10 @@
         <activity
             android:name=".Activity3b_App1Preview"
             android:label="@string/title_activity_activity3b__app1_preview" >
+        </activity>
+        <activity
+            android:name=".Activity6a_App1ResultMapDetails"
+            android:label="@string/title_activity_activity6a__app1_result_map_details" >
         </activity>
     </application>
 

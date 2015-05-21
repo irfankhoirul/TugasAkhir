@@ -3,133 +3,110 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity6_App1ResultMap extends DrawerActivity {
-    public boolean dataLoaded = false;
-    List<String> resultNamaJalan;
-    List<String> resultKualitas;
-    List<String> resultKec;
-    List<String> resultKota;
-    List<String> resultProv;
-    List<String> resultPersentase;
+public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
+    private GoogleMap mMap;
+    public String fullAddress = "";
 
-    private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
-
-    SparseArray<Group> groups = new SparseArray<Group>();
-
-    Button act6_bt_load;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //    setContentView(R.layout.activity2_mainmap);
+        setContentView(R.layout.activity6a_app1_result_map_details);
 
-        /// Drawer activity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity6_app1resultmap, null,false);
-        frameLayout.addView(activityView);
-        ///
+        Intent intent = getIntent();
+        fullAddress = intent.getStringExtra("fullAddress");
 
         new NetCheck().execute();
+        setUpMapIfNeeded();
+    }
 
-        act6_bt_load = (Button) findViewById(R.id.act6_bt_load);
-        act6_bt_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (dataLoaded) {
-                    Toast.makeText(getApplicationContext(), "Data Have Been Loaded!", Toast.LENGTH_SHORT).show();
-                    //Get disict value of city
-                    Set<String> uniqueCity = new HashSet<String>(resultKota);
-
-                    for (int j = 0; j < uniqueCity.size(); j++) {
-                        Group group = new Group("" + uniqueCity.toArray()[j]);
-                        for (int i = 0; i < resultNamaJalan.size(); i++) {
-                            if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
-                                group.namaJalan.add(resultNamaJalan.get(i));
-                            //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
-                                group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
-                                group.nilaiKondisi.add(resultKualitas.get(i));
-                                group.kec.add(resultKec.get(i));
-                                group.kota.add(resultKota.get(i));
-                                group.prov.add(resultProv.get(i));
-                            }
-                        }
-                        groups.append(j, group);
-                    }
-
-                    ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                    MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
-                    listView.setAdapter(adapter);
-
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "Data Have Not Been Loaded! Load First!", Toast.LENGTH_SHORT).show();
+    //---------------------------------------------------------------------------------------------------
+    //----MAP----//--------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
             }
+            else if(mMap == null)
+                Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private void setUpMap() {
+        mMap.setMyLocationEnabled(true);
+        mMap.setBuildingsEnabled(true); //add
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        });
+//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude())
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                //        Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
+                //    mMap.clear();
+                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                if(mMap != null){
+                    //    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+                }
+            }
+        };
+
+        mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
     }
 
-    //Option Menu//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity6__app1_result_map, menu);
-
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_activity6a__app1_result_map_details, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu___test_ride_app1_preparation_start:
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
-    }
 
-    @Override
-    public void onBackPressed()
-    {
-        // code here to show dialog
-        Intent intent = new Intent(Activity6_App1ResultMap.this, Activity2_MainMap.class);
-        startActivity(intent);
-        finish();
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -143,7 +120,7 @@ public class Activity6_App1ResultMap extends DrawerActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            nDialog = new ProgressDialog(Activity6_App1ResultMap.this);
+            nDialog = new ProgressDialog(Activity6a_App1ResultMapDetails.this);
             nDialog.setTitle("Contacting Server");
             nDialog.setMessage("Please Wait ...");
             nDialog.setIndeterminate(false);
@@ -196,7 +173,7 @@ public class Activity6_App1ResultMap extends DrawerActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Activity6_App1ResultMap.this);
+            pDialog = new ProgressDialog(Activity6a_App1ResultMapDetails.this);
             pDialog.setTitle("Getting Data");
             pDialog.setMessage("Please Wait ...");
             pDialog.setIndeterminate(false);
@@ -207,17 +184,21 @@ public class Activity6_App1ResultMap extends DrawerActivity {
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.getAllRoadData();
+            JSONObject json = userFunction.getRoadDataDetails(fullAddress);
             return json;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
             try{
-                if(Integer.parseInt(json.getString("success")) == 1){
-                    JSONObject jsonObj = new JSONObject(json.toString());
-                    JSONArray daftarJalan = jsonObj.getJSONArray("data");
+                Log.v("Road Details", json.toString());
 
+                if(Integer.parseInt(json.getString("success")) == 1){
+                    Log.v("Hasil Success", "Success Detected!");
+                //    JSONObject jsonObj = new JSONObject(json.toString());
+                //    JSONArray daftarJalan = jsonObj.getJSONArray("data");
+
+                    /*
                     resultNamaJalan = new ArrayList<String>(daftarJalan.length());
                     resultKualitas = new ArrayList<String>(daftarJalan.length());
                     resultKec = new ArrayList<String>(daftarJalan.length());
@@ -234,7 +215,11 @@ public class Activity6_App1ResultMap extends DrawerActivity {
                         resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
                     }
                     dataLoaded = true;
+                    */
                 }
+                else
+                    Log.v("Hasil Success", "Success Not Detected!");
+
             }catch(Exception ex)
             {
                 Log.e("Error ehen getting json", ex.getMessage());

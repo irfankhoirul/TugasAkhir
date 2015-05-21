@@ -10,7 +10,9 @@ public class Group {
 
     public String string;
     public final List<String> namaJalan = new ArrayList<String>();
-    public final List<String> alamatJalan = new ArrayList<String>();
+    public final List<String> kec = new ArrayList<String>();
+    public final List<String> kota = new ArrayList<String>();
+    public final List<String> prov = new ArrayList<String>();
     public final List<String> kondisiJalan = new ArrayList<String>();
     public final List<String> nilaiKondisi = new ArrayList<>();
 

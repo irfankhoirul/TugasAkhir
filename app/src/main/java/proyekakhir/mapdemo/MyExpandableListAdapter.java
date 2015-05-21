@@ -5,6 +5,7 @@ package proyekakhir.mapdemo;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +38,14 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return groups.get(groupPosition).namaJalan.get(childPosition);
     }
 
-    public Object getAlamatJalan(int groupPosition, int childPosition) {
-        return groups.get(groupPosition).alamatJalan.get(childPosition);
+    public Object getKec(int groupPosition, int childPosition) {
+        return groups.get(groupPosition).kec.get(childPosition);
+    }
+    public Object getKota(int groupPosition, int childPosition) {
+        return groups.get(groupPosition).kota.get(childPosition);
+    }
+    public Object getProv(int groupPosition, int childPosition) {
+        return groups.get(groupPosition).prov.get(childPosition);
     }
 
     public Object getKondisiJalan(int groupPosition, int childPosition) {
@@ -58,7 +65,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final String namaJalan = (String) getNamaJalan(groupPosition, childPosition);
-        final String alamatJalan = (String) getAlamatJalan(groupPosition, childPosition);
+        final String kec = (String) getKec(groupPosition, childPosition);
+        final String kota = (String) getKota(groupPosition, childPosition);
+        final String prov = (String) getProv(groupPosition, childPosition);
         final String kondisiJalan = (String) getKondisiJalan(groupPosition, childPosition);
         final String nilaiKondisi = (String) getNilaiKondisi(groupPosition, childPosition);
 
@@ -90,7 +99,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         alamat = (TextView) convertView.findViewById(R.id.alamat);
-        alamat.setText(alamatJalan);
+        alamat.setText(kec+", "+kota+", "+prov);
 
         kondisi = (TextView) convertView.findViewById(R.id.kondisi);
         kondisi.setText(kondisiJalan);
@@ -101,8 +110,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, namaJalan,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, namaJalan+", "+kec+", "+kota+", "+prov, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(activity, Activity6a_App1ResultMapDetails.class);
+                i.putExtra("fullAddress", namaJalan+"-"+kec+"-"+kota);
+                activity.startActivity(i);
             }
         });
         return convertView;
