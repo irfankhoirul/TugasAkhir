@@ -50,7 +50,6 @@ public class Activity1_Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity1_login);
         bypass_login = (CheckBox)findViewById(R.id.bypass_login);
         _act1_tf_username = (EditText)findViewById(R.id._act1_tf_username);

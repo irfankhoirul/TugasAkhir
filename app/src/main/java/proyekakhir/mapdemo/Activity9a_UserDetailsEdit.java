@@ -609,7 +609,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
 
 //                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
-                        Toast.makeText(getBaseContext(), json.getString("success_msg")+" Please re-login!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), json.getString("success_msg")+" jPlease re-login!", Toast.LENGTH_LONG).show();
 
                         /**
                          * Removes all the previous data in the SQlite database

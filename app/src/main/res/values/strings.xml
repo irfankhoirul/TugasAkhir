@@ -42,5 +42,6 @@
     <string name="title_activity_activity9a__user_details_edit">Edit My Details</string>
     <string name="title_activity_activity3b__app1_preview">Result Preview</string>
     <string name="title_activity_activity6a__app1_result_map_details">Details</string>
+    <string name="title_activity_email_verification">Email Verification</string>
 
 </resources>

@@ -2,6 +2,7 @@ package proyekakhir.mapdemo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -72,22 +73,13 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
 
         reg_submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-            //    getValue();
-            //    Toast.makeText(getBaseContext(), "Device Name : "+v_reg_device+"\n Manufacturer : "+v_reg_device_type, Toast.LENGTH_SHORT).show();
-
-
                 boolean allow = valueCheck();
                 if(allow == true) {
                     getValue();
                     NetAsync(v);
-                //    Toast.makeText(getBaseContext(), "Device Name : "+v_reg_device+"\n Manufacturer : "+v_reg_device_type, Toast.LENGTH_SHORT).show();
-
                 }
                 else
                     Toast.makeText(getBaseContext(), "Please check again!", Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }
@@ -544,20 +536,22 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
 
                         pDialog.dismiss();
 
-                    //    Intent login = new Intent(getApplicationContext(), Activity1_Login.class);
-                    //    startActivity(login);
-                        finish();
+                        // Send Email Verification
+                        Intent i = new Intent(getApplicationContext(), EmailVerification.class);
+                        startActivity(i);
+
+                    //      Intent login = new Intent(getApplicationContext(), Activity1_Login.class);
+                    //      startActivity(login);
+//                        finish();
                     }
 
                     else if (Integer.parseInt(red) ==2){
                         pDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
-
                     }
                     else if (Integer.parseInt(red) ==4){
                         pDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Username already exists coy!", Toast.LENGTH_SHORT).show();
-
                     }
                     else if (Integer.parseInt(red) ==3){
                         pDialog.dismiss();

@@ -111,6 +111,10 @@
             android:name=".Activity6a_App1ResultMapDetails"
             android:label="@string/title_activity_activity6a__app1_result_map_details" >
         </activity>
+        <activity
+            android:name=".EmailVerification"
+            android:label="@string/title_activity_email_verification" >
+        </activity>
     </application>
 
 </manifest>
