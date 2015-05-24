@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -37,37 +36,38 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             edit_Username,
             edit_Password,
             edit_Password2,
-            edit_user_adminToken,
-            edit_device_otherName,
-            edit_device_type,
+//            edit_user_adminToken,
+//            edit_device_otherName,
+//            edit_device_type,
             edit_vehicle_otherName,
             edit_vehicle_type;
 
     EditText edit_OldPassword;
 
     RadioButton
-            edit_user_standard,
-            edit_user_admin,
-            edit_device_asus,
-            edit_device_lenovo,
-            edit_device_samsung,
-            edit_device_sony,
-            edit_device_other,
+    //        edit_user_standard,
+    //        edit_user_admin,
+    //        edit_device_asus,
+    //        edit_device_lenovo,
+    //        edit_device_samsung,
+    //        edit_device_sony,
+    //        edit_device_other,
             edit_vehicle_honda,
             edit_vehicle_yamaha,
             edit_vehicle_suzuki,
             edit_vehicle_kawasaki,
             edit_vehicle_other;
 
-    RadioGroup edit_radioUser;
+//    RadioGroup edit_radioUser;
     Button edit_submit;
 
     String v_edit_FirstName, v_edit_LastName,
             v_edit_Email, v_edit_Username,
-            v_edit_Password,
-            v_edit_Password2, v_edit_device_otherName, v_edit_device_type, v_edit_vehicle_otherName,
+            v_edit_Password, v_edit_Password2,
+    //        v_edit_device_otherName, v_edit_device_type, v_edit_device,
+            v_edit_vehicle_otherName,
             v_edit_vehicle_type,
-            v_edit_user_adminToken, v_edit_device, v_edit_vehicle, v_edit_OldPassword,
+            v_edit_user_adminToken, v_edit_vehicle, v_edit_OldPassword,
             userID;
 
     int v_edit_user;
@@ -88,29 +88,29 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
         edit_Username = (EditText) findViewById(R.id.edit_Username);
         edit_Password = (EditText) findViewById(R.id.edit_Password);
         edit_Password2 = (EditText) findViewById(R.id.edit_Password2);
-        edit_user_adminToken = (EditText) findViewById(R.id.edit_user_adminToken);
-        edit_device_otherName = (EditText) findViewById(R.id.edit_device_otherName);
-        edit_device_type = (EditText) findViewById(R.id.edit_device_type);
+    //    edit_user_adminToken = (EditText) findViewById(R.id.edit_user_adminToken);
+    //    edit_device_otherName = (EditText) findViewById(R.id.edit_device_otherName);
+    //    edit_device_type = (EditText) findViewById(R.id.edit_device_type);
         edit_vehicle_otherName = (EditText) findViewById(R.id.edit_vehicle_otherName);
         edit_vehicle_type = (EditText) findViewById(R.id.edit_vehicle_type);
 
         edit_OldPassword = (EditText) findViewById(R.id.edit_OldPassword);
 
-        edit_radioUser = (RadioGroup)findViewById(R.id.edit_radioUser);
-        edit_user_standard = (RadioButton) findViewById(R.id.edit_user_standard);
-        edit_user_admin = (RadioButton) findViewById(R.id.edit_user_admin);;
-        edit_device_asus = (RadioButton) findViewById(R.id.edit_device_asus);;
-        edit_device_lenovo = (RadioButton) findViewById(R.id.edit_device_lenovo);;
-        edit_device_samsung = (RadioButton) findViewById(R.id.edit_device_samsung);;
-        edit_device_sony = (RadioButton) findViewById(R.id.edit_device_sony);;
-        edit_device_other = (RadioButton) findViewById(R.id.edit_device_other);;
+    //    edit_radioUser = (RadioGroup)findViewById(R.id.edit_radioUser);
+    //    edit_user_standard = (RadioButton) findViewById(R.id.edit_user_standard);
+    //    edit_user_admin = (RadioButton) findViewById(R.id.edit_user_admin);;
+    //    edit_device_asus = (RadioButton) findViewById(R.id.edit_device_asus);;
+    //    edit_device_lenovo = (RadioButton) findViewById(R.id.edit_device_lenovo);;
+    //    edit_device_samsung = (RadioButton) findViewById(R.id.edit_device_samsung);;
+    //    edit_device_sony = (RadioButton) findViewById(R.id.edit_device_sony);;
+    //    edit_device_other = (RadioButton) findViewById(R.id.edit_device_other);;
         edit_vehicle_honda = (RadioButton) findViewById(R.id.edit_vehicle_honda);;
         edit_vehicle_yamaha = (RadioButton) findViewById(R.id.edit_vehicle_yamaha);;
         edit_vehicle_suzuki = (RadioButton) findViewById(R.id.edit_vehicle_suzuki);;
         edit_vehicle_kawasaki = (RadioButton) findViewById(R.id.edit_vehicle_kawasaki);;
         edit_vehicle_other = (RadioButton) findViewById(R.id.edit_vehicle_other);;
 
-        radioGroupDevice();
+//        radioGroupDevice();
         radioGroupVehicle();
 
         try {
@@ -124,6 +124,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             edit_FirstName.setText(user.getNama_awal());
             edit_LastName.setText(user.getNama_belakang());
 
+            /*
             //Show Jenis User
             if(user.getJenis_user().equals("1")) {
                 edit_user_admin.setChecked(false);
@@ -133,7 +134,8 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
                 edit_user_admin.setChecked(true);
                 edit_user_standard.setChecked(false);
             }
-
+            */
+            /*
             //Show Merk Smartphone
             if(user.getMerk_smartphone().equalsIgnoreCase("Asus")) {
                 edit_device_asus.setChecked(true);
@@ -171,9 +173,10 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
                 edit_device_other.setChecked(true);
                 edit_device_otherName.setText(user.getMerk_smartphone());
             }
+            */
 
             //Get tipe / seri smartphone
-            edit_device_type.setText(user.getTipe_smartphone());
+//            edit_device_type.setText(user.getTipe_smartphone());
 
             //Get merk motor
             if(user.getMerk_motor().equalsIgnoreCase("Honda")) {
@@ -254,11 +257,12 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
         v_edit_OldPassword = edit_OldPassword.getText().toString();
         v_edit_Password = edit_Password.getText().toString();
         v_edit_Password2 = edit_Password2.getText().toString();
-        v_edit_device_otherName = edit_device_otherName.getText().toString();
-        v_edit_device_type = edit_device_type.getText().toString();
+//        v_edit_device_otherName = edit_device_otherName.getText().toString();
+//        v_edit_device_type = edit_device_type.getText().toString();
         v_edit_vehicle_otherName = edit_vehicle_otherName.getText().toString();
         v_edit_vehicle_type = edit_vehicle_type.getText().toString();
 
+        /*
         if(edit_user_standard.isChecked()) {
             v_edit_user = 1;
             v_edit_user_adminToken = "";
@@ -267,7 +271,9 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             v_edit_user = 2;
             v_edit_user_adminToken = edit_user_adminToken.getText().toString();
         }
+        */
 
+        /*
         if(edit_device_asus.isChecked())
             v_edit_device = "asus";
         else if(edit_device_lenovo.isChecked())
@@ -278,6 +284,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             v_edit_device = "sony";
         else if(edit_device_other.isChecked())
             v_edit_device = v_edit_device_otherName.toLowerCase();
+        */
 
         if(edit_vehicle_honda.isChecked())
             v_edit_vehicle = "honda";
@@ -294,6 +301,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
 
     public boolean valueCheck(){
         boolean ret = false;
+        /*
         if(
                 edit_user_standard.isChecked() == false &&
                         edit_user_admin.isChecked() == false
@@ -301,7 +309,8 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 1", Toast.LENGTH_SHORT).show();
         }
-        else if(
+        */
+        if(
                 edit_FirstName.getText().toString().equals("") ||
                 edit_LastName.getText().toString().equals("") ||
         //        edit_Email.getText().toString().equals("") ||
@@ -309,12 +318,13 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
                 edit_OldPassword.getText().toString().equals("") ||
                 edit_Password.getText().toString().equals("") ||
                 edit_Password2.getText().toString().equals("") ||
-                edit_device_type.getText().toString().equals("") ||
+        //        edit_device_type.getText().toString().equals("") ||
                 edit_vehicle_type.getText().toString().equals("")
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 2", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 edit_device_asus.isChecked() == false &&
                 edit_device_lenovo.isChecked() == false &&
@@ -325,6 +335,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 3", Toast.LENGTH_SHORT).show();
         }
+        */
         else if(
                 edit_vehicle_honda.isChecked() == false &&
                         edit_vehicle_yamaha.isChecked() == false &&
@@ -335,24 +346,28 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 4", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 edit_device_other.isChecked() == true && edit_device_otherName.getText().toString().equals("")
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 5", Toast.LENGTH_SHORT).show();
         }
+        */
         else if(
                 edit_vehicle_other.isChecked() == true && edit_vehicle_otherName.getText().toString().equals("")
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 6", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 edit_user_admin.isChecked() == true && edit_user_adminToken.getText().toString().equals("")
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 7", Toast.LENGTH_SHORT).show();
         }
+        */
         else if(
                 !(edit_Password.getText().toString().equals(edit_Password2.getText().toString()))
                 ) {
@@ -365,6 +380,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
         return ret;
     }
 
+    /*
     public void radioGroupDevice(){
         edit_device_asus.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -416,6 +432,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             }
         });
     }
+    */
 
     public void radioGroupVehicle(){
         edit_vehicle_honda.setOnClickListener(new View.OnClickListener() {
@@ -549,10 +566,10 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
             p_reg_Username = v_edit_Username;
             p_reg_OldPassword = v_edit_OldPassword;
             p_reg_Password = v_edit_Password;
-            p_reg_user = Integer.toString(v_edit_user);
-            p_reg_user_adminToken = v_edit_user_adminToken;
-            p_reg_device = v_edit_device;
-            p_reg_device_type = v_edit_device_type;
+//            p_reg_user = Integer.toString(v_edit_user);
+//            p_reg_user_adminToken = v_edit_user_adminToken;
+            p_reg_device = android.os.Build.MANUFACTURER;
+            p_reg_device_type = android.os.Build.MODEL;
             p_reg_vehicle = v_edit_vehicle;
             p_reg_vehicle_type = v_edit_vehicle_type;
 
@@ -568,9 +585,10 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
             JSONObject json = userFunction.updateUser(userID, p_reg_OldPassword, p_reg_FirstName,
-                    p_reg_LastName, p_reg_Username,
-                    p_reg_Password, p_reg_user, p_reg_user_adminToken,
-                    p_reg_device, p_reg_device_type, p_reg_vehicle, p_reg_vehicle_type);
+                    p_reg_LastName, p_reg_Username, p_reg_Password,
+            //        p_reg_user, p_reg_user_adminToken,
+                    p_reg_device, p_reg_device_type,
+                    p_reg_vehicle, p_reg_vehicle_type);
             return json;
         }
 
@@ -591,7 +609,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
 
 //                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
-                        Toast.makeText(getBaseContext(), json.getString("success_msg")+"Please re-login!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), json.getString("success_msg")+" Please re-login!", Toast.LENGTH_LONG).show();
 
                         /**
                          * Removes all the previous data in the SQlite database
@@ -608,7 +626,7 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
 
                     else if (Integer.parseInt(red) == 1){
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Invalid Email id", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Incorrect Password!", Toast.LENGTH_SHORT).show();
                     }
 
                 }   else{

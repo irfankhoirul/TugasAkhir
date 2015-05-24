@@ -1,3 +1,4 @@
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -5,7 +6,6 @@
 
     tools:context="proyekakhir.mapdemo.Activity3b_App1Preview"
     android:orientation="vertical">
-
 
     <Button
         android:layout_width="wrap_content"
@@ -15,9 +15,27 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+
+        <ExpandableListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ExpandableListView>
+
+</LinearLayout>
+
+-->
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <ExpandableListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ExpandableListView>
-</LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

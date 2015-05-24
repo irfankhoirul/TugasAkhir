@@ -55,7 +55,6 @@ public class Activity1_Login extends Activity {
         bypass_login = (CheckBox)findViewById(R.id.bypass_login);
         _act1_tf_username = (EditText)findViewById(R.id._act1_tf_username);
         _act1_tf_password = (EditText)findViewById(R.id._act1_tf_password);
-
         _act1_bt_login = (Button)findViewById(R.id._act1_bt_login);
 
         boolean cek = false;
@@ -297,7 +296,7 @@ public class Activity1_Login extends Activity {
                         user_id = json_user.getString("user_id");
                         nama_awal = json_user.getString("nama_awal");
                         nama_belakang = json_user.getString("nama_belakang");
-                        jenis_user = json_user.getString("jenis_user");
+                        jenis_user = "null";
                         merk_smartphone = json_user.getString("merk_smartphone");
                         tipe_smartphone = json_user.getString("tipe_smartphone");
                         merk_motor = json_user.getString("merk_motor");
@@ -309,7 +308,7 @@ public class Activity1_Login extends Activity {
                                 "\nuser_id = "+user_id+
                                 "\nnama_awal = "+nama_awal+
                                 "\nnama_belakang = "+nama_belakang+
-                                "\njenis_user = "+jenis_user+
+                        //        "\njenis_user = "+jenis_user+
                                 "\nmerk_smartphone = "+merk_smartphone+
                                 "\ntipe_smartphone = "+tipe_smartphone+
                                 "\nmerk_motor = "+merk_motor+

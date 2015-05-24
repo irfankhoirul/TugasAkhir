@@ -142,8 +142,9 @@ public class UserFunctions {
       * Function to  Register
       **/
     public JSONObject registerUser(String pfirst_name, String plast_name, String pemail,
-                                   String pusername, String ppassword, String puser_type,
-                                   String padmin_token, String pdevice_merk, String pdevice_type,
+                                   String pusername, String ppassword,
+                            //       String puser_type, String padmin_token,
+                                   String pdevice_merk, String pdevice_type,
                                    String pvehicle_merk, String pvehicle_type){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -154,8 +155,8 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("email", pemail));
         params.add(new BasicNameValuePair("username", pusername));
         params.add(new BasicNameValuePair("password", ppassword));
-        params.add(new BasicNameValuePair("user_type", puser_type));
-        params.add(new BasicNameValuePair("admin_token", padmin_token));
+//        params.add(new BasicNameValuePair("user_type", puser_type));
+//        params.add(new BasicNameValuePair("admin_token", padmin_token));
         params.add(new BasicNameValuePair("device_merk", pdevice_merk));
         params.add(new BasicNameValuePair("device_type", pdevice_type));
         params.add(new BasicNameValuePair("vehicle_merk", pvehicle_merk));
@@ -165,10 +166,11 @@ public class UserFunctions {
         return json;
     }
 
-    public JSONObject updateUser(String userID, String poldpassword, String pfirst_name,  String plast_name, String pusername,
-                                  String ppassword, String puser_type,
-                                   String padmin_token, String pdevice_merk, String pdevice_type,
-                                   String pvehicle_merk, String pvehicle_type){
+    public JSONObject updateUser(String userID, String poldpassword, String pfirst_name,
+                                 String plast_name, String pusername, String ppassword,
+    //                             String puser_type, String padmin_token,
+                                 String pdevice_merk, String pdevice_type,
+                                 String pvehicle_merk, String pvehicle_type){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", updateUser_tag));
@@ -180,8 +182,8 @@ public class UserFunctions {
     //    params.add(new BasicNameValuePair("email", pemail));
         params.add(new BasicNameValuePair("username", pusername));
         params.add(new BasicNameValuePair("password", ppassword));
-        params.add(new BasicNameValuePair("user_type", puser_type));
-        params.add(new BasicNameValuePair("admin_token", padmin_token));
+    //    params.add(new BasicNameValuePair("user_type", puser_type));
+    //    params.add(new BasicNameValuePair("admin_token", padmin_token));
         params.add(new BasicNameValuePair("device_merk", pdevice_merk));
         params.add(new BasicNameValuePair("device_type", pdevice_type));
         params.add(new BasicNameValuePair("vehicle_merk", pvehicle_merk));

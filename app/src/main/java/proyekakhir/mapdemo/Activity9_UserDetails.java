@@ -37,7 +37,7 @@ public class Activity9_UserDetails extends DrawerActivity {
         _act9_txt_userId = (TextView)findViewById(R.id._act9_txt_userId);
         _act9_txt_namaAwal = (TextView)findViewById(R.id._act9_txt_namaAwal);
         _act9_txt_namaBelakang = (TextView)findViewById(R.id._act9_txt_namaBelakang);
-        _act9_txt_jenisUser = (TextView)findViewById(R.id._act9_txt_jenisUser);
+//        _act9_txt_jenisUser = (TextView)findViewById(R.id._act9_txt_jenisUser);
         _act9_txt_merkSmartphone = (TextView)findViewById(R.id._act9_txt_merkSmartphone);
         _act9_txt_tipeSmartphone = (TextView)findViewById(R.id._act9_txt_tipeSmartphone);
         _act9_txt_merkMotor = (TextView)findViewById(R.id._act9_txt_merkMotor);
@@ -54,7 +54,7 @@ public class Activity9_UserDetails extends DrawerActivity {
             _act9_txt_userId.append(user.getUser_id());
             _act9_txt_namaAwal.append(user.getNama_awal());
             _act9_txt_namaBelakang.append(user.getNama_belakang());
-            _act9_txt_jenisUser.append(user.getJenis_user());
+//            _act9_txt_jenisUser.append(user.getJenis_user());
             _act9_txt_merkSmartphone.append(user.getMerk_smartphone());
             _act9_txt_tipeSmartphone.append(user.getTipe_smartphone());
             _act9_txt_merkMotor.append(user.getMerk_motor());

@@ -82,7 +82,7 @@ public class UserDetailsDb extends SQLiteOpenHelper {
         values.put(KEY_USER_ID, user_id);
         values.put(KEY_NAMA_AWAL, nama_awal);
         values.put(KEY_NAMA_BELAKANG, nama_belakang);
-        values.put(KEY_JENIS_USER, jenis_user);
+        values.put(KEY_JENIS_USER, "null");
         values.put(KEY_MERK_SMARTPHONE, merk_smartphone);
         values.put(KEY_TIPE_SMARTPHONE, tipe_smartphone);
         values.put(KEY_MERK_MOTOR, merk_motor);

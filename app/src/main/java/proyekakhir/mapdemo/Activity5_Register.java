@@ -2,10 +2,10 @@ package proyekakhir.mapdemo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -42,6 +42,8 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             v_reg_device, v_reg_vehicle;
     int v_reg_user;
 
+    String device, deviceName, deviceMan;
+
     /**
      *  JSON Response node names.
      **/
@@ -56,7 +58,11 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         setContentView(R.layout.activity5_register);
         initialize();
         radioGroupVehicle();
-        radioGroupDevice();
+//        radioGroupDevice();
+
+        device = Devices.getDeviceName();
+        deviceName = android.os.Build.MODEL;
+        deviceMan = android.os.Build.MANUFACTURER;
 
         reg_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,22 +72,24 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
 
         reg_submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+            //    getValue();
+            //    Toast.makeText(getBaseContext(), "Device Name : "+v_reg_device+"\n Manufacturer : "+v_reg_device_type, Toast.LENGTH_SHORT).show();
+
+
                 boolean allow = valueCheck();
                 if(allow == true) {
-//                    Toast.makeText(getBaseContext(), "Right Value", Toast.LENGTH_SHORT).show();
                     getValue();
-//                    register();
                     NetAsync(v);
+                //    Toast.makeText(getBaseContext(), "Device Name : "+v_reg_device+"\n Manufacturer : "+v_reg_device_type, Toast.LENGTH_SHORT).show();
+
                 }
                 else
                     Toast.makeText(getBaseContext(), "Please check again!", Toast.LENGTH_SHORT).show();
+
+
             }
         });
-    }
-
-    public void register(){
-        // Register Button Click event
-
     }
 
     public void getValue(){
@@ -91,11 +99,14 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         v_reg_Username = reg_Username.getText().toString();
         v_reg_Password = reg_Password.getText().toString();
         v_reg_Password2 = reg_Password2.getText().toString();
-        v_reg_device_otherName = reg_device_otherName.getText().toString();
-        v_reg_device_type = reg_device_type.getText().toString();
+
+    //    v_reg_device_otherName = reg_device_otherName.getText().toString();
+    //    v_reg_device_type = reg_device_type.getText().toString();
         v_reg_vehicle_otherName = reg_vehicle_otherName.getText().toString();
+        v_reg_device_type = android.os.Build.MODEL;
         v_reg_vehicle_type = reg_vehicle_type.getText().toString();
 
+        /*
         if(reg_user_standard.isChecked()) {
             v_reg_user = 1;
             v_reg_user_adminToken = "";
@@ -104,7 +115,11 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             v_reg_user = 2;
             v_reg_user_adminToken = reg_user_adminToken.getText().toString();
         }
+        */
 
+
+        v_reg_device = Build.MANUFACTURER;
+        /*
         if(reg_device_asus.isChecked())
             v_reg_device = "asus";
         else if(reg_device_lenovo.isChecked())
@@ -115,6 +130,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             v_reg_device = "sony";
         else if(reg_device_other.isChecked())
             v_reg_device = v_reg_device_otherName.toLowerCase();
+            */
 
         if(reg_vehicle_honda.isChecked())
             v_reg_vehicle = "honda";
@@ -131,6 +147,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
 
     public boolean valueCheck(){
         boolean ret = false;
+        /*
         if(
                 reg_user_standard.isChecked() == false &&
                 reg_user_admin.isChecked() == false
@@ -138,19 +155,21 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 1", Toast.LENGTH_SHORT).show();
         }
-        else if(
+        */
+        if(
                 reg_FirstName.getText().toString().equals("") ||
                 reg_LastName.getText().toString().equals("") ||
                 reg_Email.getText().toString().equals("") ||
                 reg_Username.getText().toString().equals("") ||
                 reg_Password.getText().toString().equals("") ||
                 reg_Password2.getText().toString().equals("") ||
-                reg_device_type.getText().toString().equals("") ||
+        //        reg_device_type.getText().toString().equals("") ||
                 reg_vehicle_type.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 2", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 reg_device_asus.isChecked() == false &&
                 reg_device_lenovo.isChecked() == false &&
@@ -160,7 +179,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 3", Toast.LENGTH_SHORT).show();
-        }
+        }*/
         else if(
                 reg_vehicle_honda.isChecked() == false &&
                 reg_vehicle_yamaha.isChecked() == false &&
@@ -171,24 +190,28 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 4", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 reg_device_other.isChecked() == true && reg_device_otherName.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 5", Toast.LENGTH_SHORT).show();
         }
+        */
         else if(
                 reg_vehicle_other.isChecked() == true && reg_vehicle_otherName.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 6", Toast.LENGTH_SHORT).show();
         }
+        /*
         else if(
                 reg_user_admin.isChecked() == true && reg_user_adminToken.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 7", Toast.LENGTH_SHORT).show();
         }
+        */
         else if(
                 !(reg_Password.getText().toString().equals(reg_Password2.getText().toString()))
         ) {
@@ -200,6 +223,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         return ret;
     }
 
+    /*
     public void radioGroupDevice(){
         reg_device_asus.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -251,7 +275,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             }
         });
     }
-
+*/
     public void radioGroupVehicle(){
         reg_vehicle_honda.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -311,26 +335,30 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         reg_Username = (EditText)findViewById(R.id.reg_Username);
         reg_Password = (EditText)findViewById(R.id.reg_Password);
         reg_Password2 = (EditText)findViewById(R.id.reg_Password2);
-        reg_user_adminToken = (EditText)findViewById(R.id.reg_user_adminToken);
-        reg_device_otherName = (EditText)findViewById(R.id.reg_device_otherName);
-        reg_device_type = (EditText)findViewById(R.id.reg_device_type);
+    //    reg_user_adminToken = (EditText)findViewById(R.id.reg_user_adminToken);
+
+//        reg_device_otherName = (EditText)findViewById(R.id.reg_device_otherName);
+//        reg_device_type = (EditText)findViewById(R.id.reg_device_type);
+
         reg_vehicle_otherName = (EditText)findViewById(R.id.reg_vehicle_otherName);
         reg_vehicle_type = (EditText)findViewById(R.id.reg_vehicle_type);
 
-        reg_user_standard = (RadioButton)findViewById(R.id.reg_user_standard);
-        reg_user_admin = (RadioButton)findViewById(R.id.reg_user_admin);
-        reg_device_asus = (RadioButton)findViewById(R.id.reg_device_asus);
-        reg_device_lenovo = (RadioButton)findViewById(R.id.reg_device_lenovo);
-        reg_device_samsung = (RadioButton)findViewById(R.id.reg_device_samsung);
-        reg_device_sony = (RadioButton)findViewById(R.id.reg_device_sony);
-        reg_device_other = (RadioButton)findViewById(R.id.reg_device_other);
+//        reg_user_standard = (RadioButton)findViewById(R.id.reg_user_standard);
+//        reg_user_admin = (RadioButton)findViewById(R.id.reg_user_admin);
+
+//        reg_device_asus = (RadioButton)findViewById(R.id.reg_device_asus);
+//        reg_device_lenovo = (RadioButton)findViewById(R.id.reg_device_lenovo);
+//        reg_device_samsung = (RadioButton)findViewById(R.id.reg_device_samsung);
+//        reg_device_sony = (RadioButton)findViewById(R.id.reg_device_sony);
+//        reg_device_other = (RadioButton)findViewById(R.id.reg_device_other);
+
         reg_vehicle_honda = (RadioButton)findViewById(R.id.reg_vehicle_honda);
         reg_vehicle_yamaha = (RadioButton)findViewById(R.id.reg_vehicle_yamaha);
         reg_vehicle_suzuki = (RadioButton)findViewById(R.id.reg_vehicle_suzuki);
         reg_vehicle_kawasaki = (RadioButton)findViewById(R.id.reg_vehicle_kawasaki);
         reg_vehicle_other = (RadioButton)findViewById(R.id.reg_vehicle_other);
 
-        reg_radioUser = (RadioGroup)findViewById(R.id.reg_radioUser);
+//        reg_radioUser = (RadioGroup)findViewById(R.id.reg_radioUser);
 
         reg_clear = (Button)findViewById(R.id.reg_clear);
         reg_submit = (Button)findViewById(R.id.reg_submit);
@@ -343,19 +371,19 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         reg_Username.setText(null);
         reg_Password.setText(null);
         reg_Password2.setText(null);
-        reg_user_adminToken.setText(null);
-        reg_device_otherName.setText(null);
-        reg_device_type.setText(null);
+    //    reg_user_adminToken.setText(null);
+    //    reg_device_otherName.setText(null);
+    //    reg_device_type.setText(null);
         reg_vehicle_otherName.setText(null);
         reg_vehicle_type.setText(null);
 
-        reg_user_standard.setChecked(false);
-        reg_user_admin.setChecked(false);
-        reg_device_asus.setChecked(false);
-        reg_device_lenovo.setChecked(false);
-        reg_device_samsung.setChecked(false);
-        reg_device_sony.setChecked(false);
-        reg_device_other.setChecked(false);
+    //    reg_user_standard.setChecked(false);
+    //    reg_user_admin.setChecked(false);
+    //    reg_device_asus.setChecked(false);
+    //    reg_device_lenovo.setChecked(false);
+    //    reg_device_samsung.setChecked(false);
+    //    reg_device_sony.setChecked(false);
+    //    reg_device_other.setChecked(false);
         reg_vehicle_honda.setChecked(false);
         reg_vehicle_yamaha.setChecked(false);
         reg_vehicle_suzuki.setChecked(false);
@@ -470,14 +498,12 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             p_reg_Email = v_reg_Email;
             p_reg_Username = v_reg_Username;
             p_reg_Password = v_reg_Password;
-            p_reg_user = Integer.toString(v_reg_user);
-            p_reg_user_adminToken = v_reg_user_adminToken;
-            p_reg_device = v_reg_device;
-            p_reg_device_type = v_reg_device_type;
+//            p_reg_user = Integer.toString(v_reg_user);
+//            p_reg_user_adminToken = v_reg_user_adminToken;
+            p_reg_device = Build.MANUFACTURER;;
+            p_reg_device_type = Build.MODEL;;
             p_reg_vehicle = v_reg_vehicle;
             p_reg_vehicle_type = v_reg_vehicle_type;
-
-
 
             pDialog = new ProgressDialog(Activity5_Register.this);
             pDialog.setTitle("Contacting Servers");
@@ -491,7 +517,8 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
             JSONObject json = userFunction.registerUser(p_reg_FirstName, p_reg_LastName, p_reg_Email,
-                    p_reg_Username, p_reg_Password, p_reg_user, p_reg_user_adminToken,
+                    p_reg_Username, p_reg_Password,
+            //        p_reg_user, p_reg_user_adminToken,
                     p_reg_device, p_reg_device_type, p_reg_vehicle, p_reg_vehicle_type);
             return json;
         }
@@ -503,7 +530,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
              **/
             try {
                 if (json.getString(KEY_SUCCESS) != null) {
-                    Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_LONG).show();
+                //    Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_LONG).show();
 
                     String res = json.getString(KEY_SUCCESS);
                     String red = json.getString(KEY_ERROR);
@@ -517,8 +544,8 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
 
                         pDialog.dismiss();
 
-                        Intent login = new Intent(getApplicationContext(), Activity1_Login.class);
-                        startActivity(login);
+                    //    Intent login = new Intent(getApplicationContext(), Activity1_Login.class);
+                    //    startActivity(login);
                         finish();
                     }
 

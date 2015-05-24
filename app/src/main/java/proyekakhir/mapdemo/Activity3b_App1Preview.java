@@ -136,8 +136,7 @@ public class Activity3b_App1Preview extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu___test_ride_app1_preparation_start:
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

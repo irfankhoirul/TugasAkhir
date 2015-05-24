@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -34,7 +36,7 @@ import java.util.Set;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity6_App1ResultMap extends DrawerActivity {
+public class Activity6_App1ResultMap extends DrawerActivity implements SwipeRefreshLayout.OnRefreshListener {
     public boolean dataLoaded = false;
     List<String> resultNamaJalan;
     List<String> resultKualitas;
@@ -44,6 +46,7 @@ public class Activity6_App1ResultMap extends DrawerActivity {
     List<String> resultPersentase;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
+    private SwipeRefreshLayout swipeLayout;
 
     SparseArray<Group> groups = new SparseArray<Group>();
 
@@ -62,15 +65,24 @@ public class Activity6_App1ResultMap extends DrawerActivity {
 
         new NetCheck().execute();
 
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_purple,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        /*
         act6_bt_load = (Button) findViewById(R.id.act6_bt_load);
         act6_bt_load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (dataLoaded) {
                     Toast.makeText(getApplicationContext(), "Data Have Been Loaded!", Toast.LENGTH_SHORT).show();
+
                     //Get disict value of city
                     Set<String> uniqueCity = new HashSet<String>(resultKota);
-
                     for (int j = 0; j < uniqueCity.size(); j++) {
                         Group group = new Group("" + uniqueCity.toArray()[j]);
                         for (int i = 0; i < resultNamaJalan.size(); i++) {
@@ -96,8 +108,20 @@ public class Activity6_App1ResultMap extends DrawerActivity {
                     Toast.makeText(getApplicationContext(), "Data Have Not Been Loaded! Load First!", Toast.LENGTH_SHORT).show();
             }
 
-
         });
+        */
+
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeLayout.setRefreshing(false);
+                new NetCheck().execute();
+            }
+        }, 3000);
 
     }
 
@@ -114,9 +138,7 @@ public class Activity6_App1ResultMap extends DrawerActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu___test_ride_app1_preparation_start:
 
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -234,6 +256,28 @@ public class Activity6_App1ResultMap extends DrawerActivity {
                         resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
                     }
                     dataLoaded = true;
+
+                    //Get disict value of city
+                    Set<String> uniqueCity = new HashSet<String>(resultKota);
+                    for (int j = 0; j < uniqueCity.size(); j++) {
+                        Group group = new Group("" + uniqueCity.toArray()[j]);
+                        for (int i = 0; i < resultNamaJalan.size(); i++) {
+                            if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
+                                group.namaJalan.add(resultNamaJalan.get(i));
+                                //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
+                                group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
+                                group.nilaiKondisi.add(resultKualitas.get(i));
+                                group.kec.add(resultKec.get(i));
+                                group.kota.add(resultKota.get(i));
+                                group.prov.add(resultProv.get(i));
+                            }
+                        }
+                        groups.append(j, group);
+                    }
+
+                    ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
+                    MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
+                    listView.setAdapter(adapter);
                 }
             }catch(Exception ex)
             {

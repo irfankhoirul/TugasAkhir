@@ -14,10 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -194,9 +198,54 @@ public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
                 Log.v("Road Details", json.toString());
 
                 if(Integer.parseInt(json.getString("success")) == 1){
-                    Log.v("Hasil Success", "Success Detected!");
-                //    JSONObject jsonObj = new JSONObject(json.toString());
-                //    JSONArray daftarJalan = jsonObj.getJSONArray("data");
+                    JSONObject jsonObj = new JSONObject(json.toString());
+                    JSONArray daftarTitik = jsonObj.getJSONArray("data");
+                    Double lat = 0.0, lon = 0.0;
+
+                    for(int i=0; i<daftarTitik.length(); i++){
+                        lat = Double.parseDouble(daftarTitik.getJSONObject(i).getString("lat"));
+                        lon = Double.parseDouble(daftarTitik.getJSONObject(i).getString("lon"));
+                        int qual = Integer.parseInt(daftarTitik.getJSONObject(i).getString("kualitas"));
+                        if(qual == 1) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q1")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
+                        }
+                        else if(qual == 2) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q2")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
+                        }
+                        else if(qual == 3) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q3")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
+                        }
+                        else if(qual == 4) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q4")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
+                        }
+                        else if(qual == 5) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q5")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
+                        }
+                        else if(qual == 6) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(lat, lon))
+                                    .title("Q6")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
+                        }
+                        Log.v("Titik", "Titik Ke-"+i );
+                    }
+                    LatLng loc = new LatLng(lat, lon);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
 
                     /*
                     resultNamaJalan = new ArrayList<String>(daftarJalan.length());
