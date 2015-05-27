@@ -6,15 +6,24 @@ package proyekakhir.mapdemo;
 public class User {
     //private variables
     String username, user_id, nama_awal, nama_belakang, jenis_user, merk_smartphone, tipe_smartphone,
-            merk_motor, tipe_motor, email;
+            merk_motor, tipe_motor, email, verified;
     // Empty constructor
     public User(){
 
     }
+
+    public String getVerified() {
+        return verified;
+    }
+
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
+
     // constructor
     public User(String username, String user_id, String nama_awal, String nama_belakang,
                 String jenis_user, String merk_smartphone, String tipe_smartphone, String merk_motor,
-                String tipe_motor, String email){
+                String tipe_motor, String email, String verified){
         this.username = username;
         this.user_id = user_id;
 
@@ -26,6 +35,7 @@ public class User {
         this.merk_motor = merk_motor;
         this.tipe_motor = tipe_motor;
         this.email = email;
+        this.verified = verified;
 
     }
 

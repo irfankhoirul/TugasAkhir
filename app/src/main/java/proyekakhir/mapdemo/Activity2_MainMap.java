@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -144,23 +143,32 @@ public class Activity2_MainMap extends DrawerActivity {
 
     }
 
-    //Option Menu//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu___test_ride_app1_preparation, menu);
-
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu___test_ride_app1_preparation, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
+        int id = item.getItemId();
 
-            default:
-                return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menu_mainMap_satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//            mMap.invalidate();
+            return(true);
         }
+        else if (id == R.id.menu_maimMap_terrain) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            return(true);
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
     }
 
 }

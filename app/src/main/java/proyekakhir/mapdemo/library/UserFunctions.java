@@ -12,12 +12,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,57 +87,16 @@ public class UserFunctions {
     }
 
     /**
-     * Function to Get User Details
+     * Function to Verify User
      **/
-    public String verificationEmail(String username, String email){
+    public JSONObject verifyUser(String email){
         // Building Parameters
-    //    List<NameValuePair> params = new ArrayList<NameValuePair>();
-    //    params.add(new BasicNameValuePair("tag", "verificationEmail"));
-    //    params.add(new BasicNameValuePair("username", username));
-    //    params.add(new BasicNameValuePair("email", email));
-    //    JSONObject json = jsonParser.getJSONFromUrl(emailURL, params);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "verifyUser"));
+        params.add(new BasicNameValuePair("email", email));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
 
-    //    return json.toString();
-
-        HttpURLConnection connection;
-        OutputStreamWriter request = null;
-
-        URL url = null;
-        String response = null;
-        String parameters = "username="+username+"&email="+email;
-
-        try
-        {
-            url = new URL(emailURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestMethod("POST");
-
-            request = new OutputStreamWriter(connection.getOutputStream());
-            request.write(parameters);
-            request.flush();
-            request.close();
-            String line = "";
-            InputStreamReader isr = new InputStreamReader(connection.getInputStream());
-            BufferedReader reader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null)
-            {
-                sb.append(line + "\n");
-            }
-            // Response from server after login process will be stored in response variable.
-            response = sb.toString();
-            // You can perform UI operations here
-
-            isr.close();
-            reader.close();
-            return response;
-        }
-        catch(IOException e)
-        {
-            return "Error!";
-        }
+        return json;
     }
 
     /**

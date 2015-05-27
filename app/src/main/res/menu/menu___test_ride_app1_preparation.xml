@@ -1,7 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="proyekakhir.mapdemo.Activity3_App1Go">
+    tools:context="proyekakhir.mapdemo.Activity2_MainMap">
+
+    <item android:id="@+id/menu_mainMap_satellite"
+        android:title="Satellite View"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/menu_maimMap_terrain"
+        android:title="Terrain View"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
     <!--
     <item android:id="@+id/menu___test_ride_app1_preparation_start"

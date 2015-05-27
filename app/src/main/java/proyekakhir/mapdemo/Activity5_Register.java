@@ -613,7 +613,7 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
                         pDialog.setMessage("Loading Info");
                         JSONObject json_user = json.getJSONObject("user");
 
-                        Toast.makeText(getBaseContext(), json_user.getString("username")+", Successfully Registered", Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(getBaseContext(), json_user.getString("username")+", Successfully Registered", Toast.LENGTH_LONG).show();
 
                         pDialog.dismiss();
 
@@ -703,6 +703,9 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
             if(Integer.parseInt(json)==1){
                 Intent i = new Intent(Activity5_Register.this, EmailVerification.class);
                 i.putExtra("token", generateToken(v_reg_Username));
+                i.putExtra("email", v_reg_Email);
+                i.putExtra("activity", "register");
+                i.putExtra("username", v_reg_Username);
                 startActivity(i);
                 finish();
             }

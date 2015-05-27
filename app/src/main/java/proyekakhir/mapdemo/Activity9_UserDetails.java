@@ -19,7 +19,7 @@ public class Activity9_UserDetails extends DrawerActivity {
     Button _act9_bt_show;
     TextView _act9_txt_username, _act9_txt_userId, _act9_txt_namaAwal, _act9_txt_namaBelakang,
             _act9_txt_jenisUser, _act9_txt_merkSmartphone, _act9_txt_tipeSmartphone,
-            _act9_txt_merkMotor, _act9_txt_tipeMotor, _act9_txt_email;
+            _act9_txt_merkMotor, _act9_txt_tipeMotor, _act9_txt_email, _act9_txt_verified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class Activity9_UserDetails extends DrawerActivity {
         _act9_txt_merkMotor = (TextView)findViewById(R.id._act9_txt_merkMotor);
         _act9_txt_tipeMotor = (TextView)findViewById(R.id._act9_txt_tipeMotor);
         _act9_txt_email = (TextView)findViewById(R.id._act9_txt_email);
+        _act9_txt_verified = (TextView)findViewById(R.id._act9_txt_verified);
 
 
         try {
@@ -60,6 +61,7 @@ public class Activity9_UserDetails extends DrawerActivity {
             _act9_txt_merkMotor.append(user.getMerk_motor());
             _act9_txt_tipeMotor.append(user.getTipe_motor());
             _act9_txt_email.append(user.getEmail());
+            _act9_txt_verified.append(user.getVerified());
         }
         catch(Exception ex)
         {

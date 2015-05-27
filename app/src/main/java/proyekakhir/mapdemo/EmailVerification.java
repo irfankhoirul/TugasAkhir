@@ -17,15 +17,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import proyekakhir.mapdemo.library.UserFunctions;
 
 
 public class EmailVerification extends ActionBarActivity {
     EditText verificationCode, newEmail;
     Button bt_verify, bt_reSendVerification, bt_changeEmail;
+    String email, activity, username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +49,108 @@ public class EmailVerification extends ActionBarActivity {
         setContentView(R.layout.activity_email_verification);
         initializeComponent();
 
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        activity = intent.getStringExtra("activity");
+        username = intent.getStringExtra("username");
+        Toast.makeText(getBaseContext(), "Email : "+email, Toast.LENGTH_LONG).show();
+
+        bt_reSendVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                new EmailVer().execute();
+            }
+        });
+
         bt_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent intent = getIntent();
                 String token = intent.getStringExtra("token");
+
                 String txt = verificationCode.getText().toString();
-            //    Toast.makeText(getBaseContext(), "Token : "+token, Toast.LENGTH_LONG).show();
-            //    Toast.makeText(getBaseContext(), "Text : "+verificationCode.getText(), Toast.LENGTH_LONG).show();
                 if(txt.equals(token)) {
                     Toast.makeText(getBaseContext(), "Token Accepted!", Toast.LENGTH_LONG).show();
-//                    new NetCheck().execute();
+                    new NetCheck().execute();
                 }
                 else
                     Toast.makeText(getBaseContext(), "Token Incorrect!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public String generateToken(String input){
+        StringBuilder token = new StringBuilder(input);
+        StringBuilder newToken = token;
+        newToken = newToken.reverse();
+        if(token.length() < 10){
+            int size = token.length();
+            int generated = 10 - size;
+            for(int i=0; i<generated; i++){
+                newToken.append(token.charAt(i));
+            }
+        }
+        else if(token.length() > 10){
+            String newToken0 = newToken.substring(0,10);
+            newToken = new StringBuilder(newToken0);
+        }
+        String newToken1 = newToken.toString().toUpperCase();
+        newToken = new StringBuilder(newToken1);
+
+
+        int ch;
+        int[] c1= {1,2,3,1,2,3,1,2,3,1};
+        int[] c2= {5,4,3,2,1,5,4,3,2,1};
+        int[] c3= {0,9,1,8,2,7,3,6,4,5};
+        char cha;
+
+        StringBuilder progress1 = new StringBuilder();
+        for(int i=0; i<10; i++){
+            ch = (int) newToken.charAt(i);
+
+            if(i==0 || i%2==0) ch-=c1[i];
+            else ch+=c1[i];
+
+            if(ch<65) ch=65;
+            else if(ch>90) ch=90;
+
+            cha = (char) ch;
+            progress1.append(cha);
+        }
+        progress1 = progress1.reverse();
+
+        StringBuilder progress2 = new StringBuilder();
+        for(int i=0; i<10; i++){
+            ch = (int) progress1.charAt(i);
+
+            if(i==0) ch+=c2[i];
+            else if(i==1) ch-=c2[i];
+            else if(i==2) ch+=c2[i];
+            else if(i==3) ch-=c2[i];
+            else if(i==4) ch+=c2[i];
+            else if(i==5) ch-=c2[i];
+            else if(i==6) ch+=c2[i];
+            else if(i==7) ch-=c2[i];
+            else if(i==8) ch+=c2[i];
+            else if(i==9) ch-=c2[i];
+
+            if(ch<65)
+                ch=65;
+            else if(ch>90)
+                ch=90;
+
+            cha = (char) ch;
+            progress2.append(cha);
+        }
+
+        StringBuilder progress3 = new StringBuilder();
+        for(int i=0; i<10; i++) {
+            cha = progress2.charAt(c3[i]);
+            progress3.append(cha);
+        }
+
+        return progress3.toString();
+//        Toast.makeText(getBaseContext(), progress3.toString(), Toast.LENGTH_LONG).show();
     }
 
     public void initializeComponent(){
@@ -158,7 +260,7 @@ public class EmailVerification extends ActionBarActivity {
 
             if(th == true){
                 nDialog.dismiss();
-            //    new UpdateUserActivation().execute();
+                new verifyUser().execute();
             }
             else{
                 nDialog.dismiss();
@@ -168,5 +270,105 @@ public class EmailVerification extends ActionBarActivity {
         }
     }
 
+    /**
+     * Async Task to get and send data to My Sql database through JSON respone.
+     **/
+    private class verifyUser extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Verifying ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            UserFunctions userFunction = new UserFunctions();
+            JSONObject json = userFunction.verifyUser(email);
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                if (json.getString("success") != null) {
+                    Toast.makeText(getBaseContext(), "Verification Success. Please Login.", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent (EmailVerification.this, Activity1_Login.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    pDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Failed to Verify User!", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class EmailVer extends AsyncTask<String, String, String> {
+        /**
+         * Defining Process dialog
+         **/
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Sending Verification Email ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            // Create a new HttpClient and Post Header
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://muhlish.com/ta/mail.php");
+            HttpResponse response = null;
+            String str = "";
+
+            try {
+                // Add your data
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
+                nameValuePairs.add(new BasicNameValuePair("email", email));
+                nameValuePairs.add(new BasicNameValuePair("token", generateToken(username)));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                // Execute HTTP Post Request
+                response = httpclient.execute(httppost);
+                str =  EntityUtils.toString(response.getEntity());
+
+            } catch (ClientProtocolException e) {
+                // TODO Auto-generated catch block
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+            }
+            return str;
+        }
+
+        @Override
+        protected void onPostExecute(String json) {
+            if(Integer.parseInt(json)==1){
+                Toast.makeText(getBaseContext(), "Verification Sent. Please Check Your Email!", Toast.LENGTH_LONG).show();
+            }
+
+            pDialog.dismiss();
+        }
+    }
 
 }

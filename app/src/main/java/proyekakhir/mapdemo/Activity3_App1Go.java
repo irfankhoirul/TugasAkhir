@@ -151,15 +151,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
     }
 
     public void resetVariable(){
-    //    x.clear();
-    //    y.clear();
-    //    z.clear();
-    //    speed.clear();
-    //    arr_latitude.clear();
-    //    arr_longitude.clear();
-    //    counter.clear();
-    //    Toast.makeText(getApplicationContext(), "Variable Reseted!", Toast.LENGTH_SHORT).show();
-
         y_temp.clear();
     }
 
@@ -184,10 +175,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                             showMarker(qual, lat, lon);
 
                             c++;
-                            if(!isFirstLocation){
-                            //    showDirection(startPoint.get(awal), startPoint.get(akhir));
-                            //    awal++; akhir++;
-                            }
                         }
 
 
@@ -212,21 +199,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         }
         Polyline polyline = mMap.addPolyline(rectLine);
     }
-
-    /*
-    public void timeConverter(int time){
-        int jam, menit, detik, temp;
-
-        jam = time/3600;
-        temp = time%3600;
-        menit = temp/60;
-        detik = temp%60;
-
-        timer = detik;
-
-        _act6_txt_time.setText(Integer.toString(jam) + ":" + Integer.toString(menit) + ":" + Integer.toString(detik));
-    }
-    */
 
     public void showMarker(int quality, double lat, double lon){
         if(lat!=0.0 || lon!=0.0) {
@@ -398,39 +370,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             }
         }
 
-    //    Toast.makeText(getApplicationContext(), "Histogram created. Output : "+kualitas, Toast.LENGTH_SHORT).show();
-    //    Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
-        Log.d("Data Histogram ke-" + c, " Max : "+kualitas
-                        + "; 0-1: " + Double.toString(j0_1)
-                        + "; 1-2: " + Double.toString(j1_2)
-                        + "; 2-3: " + Double.toString(j2_3)
-                        + "; 3-4: " + Double.toString(j3_4)
-                        + "; 4-5: " + Double.toString(j4_5)
-                        + "; 5-6: " + Double.toString(j5_6)
-                        + "; 6-7: " + Double.toString(j6_7)
-                        + "; 7-8: " + Double.toString(j7_8)
-                        + "; 8-9: " + Double.toString(j8_9)
-                        + "; 9-10: " + Double.toString(j9_10)
-                        + "; 10-11: " + Double.toString(j10_11)
-                        + "; 11-12: " + Double.toString(j11_12)
-                        + "; 12-13: " + Double.toString(j12_13)
-                        + "; 13-14: " + Double.toString(j13_14)
-                        + "; 14-15: " + Double.toString(j14_15)
-                        + "; 15-16: " + Double.toString(j15_16)
-                        + "; 16-17: " + Double.toString(j16_17)
-                        + "; 17-18: " + Double.toString(j17_18)
-                        + "; 18-19: " + Double.toString(j18_19)
-                        + "; 19-20: " + Double.toString(j19_20));
-        Log.d("Persentase",
-                " A:"+ Double.toString(A) +
-                "; B1:"+ Double.toString(B1) +
-                "; B2:"+ Double.toString(B2) +
-                "; B3:"+ Double.toString(B3) +
-                "; B4:"+ Double.toString(B4) +
-                "; B5:"+ Double.toString(B5) +
-                "; B6:"+ Double.toString(B6)
-        );
-    //    _act6_txt_time.append("#");
         return kualitas;
     }
 
@@ -490,9 +429,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                         pDialog.dismiss();
                         mulai();
                     }
-                //    if(isFirstLocation){
-                //        isFirstLocation = false;
-                //    }
+
                 }
             //    if(!isFirstLocation)
                     _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
@@ -508,9 +445,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         _act6_txt_detailLat.setText(Double.toString(tempLat));
         _act6_txt_detailLong.setText(Double.toString(tempLong));
         _act6_txt_detailSpeed.setText(Double.toString(tempSpeed));
-    //    arr_latitude.add(tempLat);
-    //    arr_longitude.add(tempLong);
-    //    speed.add(tempSpeed);
     }
 
 
@@ -529,10 +463,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         _act6_txt_xaxis.setText(Double.toString(Math.abs(tempX)));
         _act6_txt_yaxis.setText(Double.toString(Math.abs(tempY-9.781)));
         _act6_txt_zaxis.setText(Double.toString(Math.abs(tempZ)));
-    //    x.add(tempX);
-    //    y.add(tempY);
         y_temp.add(tempY);
-    //    z.add(tempZ);
     }
 
     @Override
@@ -571,88 +502,11 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             qual[i] = marker_quality.get(i);
         }
 
-
-        /*
-        int[] time = new int[counter.size()];
-        for(int i = 0; i<counter.size(); i++) {
-            time[i] = counter.get(i);
-        }
-        */
-
-        /*
-        double[] xX = new double[x.size()];
-        for(int i = 0; i<x.size(); i++) {
-            xX[i] = x.get(i);
-        }
-        */
-
-        /*
-        double[] yY = new double[y.size()];
-        for(int i = 0; i<y.size(); i++) {
-            yY[i] = y.get(i);
-        }
-        */
-
-        /*
-        double[] zZ = new double[z.size()];
-        for(int i = 0; i<z.size(); i++) {
-            zZ[i] = z.get(i);
-        }
-        */
-
-        /*
-        double[] lati = new double[arr_latitude.size()];
-        for(int i = 0; i<arr_latitude.size(); i++) {
-            lati[i] = arr_latitude.get(i);
-        }
-
-        double[] longi = new double[arr_longitude.size()];
-        for(int i = 0; i<arr_longitude.size(); i++) {
-            longi[i] = arr_longitude.get(i);
-        }
-        */
-
-        /*
-        double[] v = new double[speed.size()];
-        for(int i = 0; i<speed.size(); i++) {
-            v[i] = speed.get(i);
-        }
-        */
-
 //        saveData();
         Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
         i.putExtra("qual-prev", qual);
         i.putExtra("lat-prev", lat);
         i.putExtra("lon-prev", lon);
-
-        /*
-        i.putExtra("time-length",counter.size());
-        i.putExtra("time",time);
-        */
-        /*
-        i.putExtra("x-axis-length",x.size());
-        i.putExtra("x-axis",xX);
-        */
-
-        /*
-        i.putExtra("y-axis-length",y.size());
-        i.putExtra("y-axis",yY);
-        */
-        /*
-        i.putExtra("z-axis-length",z.size());
-        i.putExtra("z-axis",zZ);
-        */
-        /*
-        i.putExtra("latitude-length",arr_latitude.size());
-        i.putExtra("latitude",lati);
-
-        i.putExtra("longitude-length",arr_longitude.size());
-        i.putExtra("longitude",longi);
-        */
-        /*
-        i.putExtra("speed-length",speed.size());
-        i.putExtra("speed",v);
-        */
 
         startActivity(i);
         finish();
@@ -693,44 +547,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             for(int i = 0; i<counter.size(); i++){
                 file+=counter.get(i)+"\n";
             }
-
-            /*
-            file+="\nX-Axis\n";
-            for(int i = 0; i<x.size(); i++){
-                file+=x.get(i)+"\n";
-            }
-            */
-
-            /*
-            file+="\nY-Axis\n";
-            for(int i = 0; i<y.size(); i++){
-                file+=y.get(i)+"\n";
-            }
-            */
-
-            /*
-            file+="\nZ-Axis\n";
-            for(int i = 0; i<z.size(); i++){
-                file+=z.get(i)+"\n";
-            }
-            */
-
-            /*
-            file+="\nLatitude\n";
-            for(int i = 0; i<arr_latitude.size(); i++){
-                file+=arr_latitude.get(i)+"\n";
-            }
-            file+="\nLongitude\n";
-            for(int i = 0; i<arr_longitude.size(); i++){
-                file+=arr_longitude.get(i)+"\n";
-            }
-            */
-            /*
-            file+="\nSpeed\n";
-            for(int i = 0; i<speed.size(); i++){
-                file+=speed.get(i)+"\n";
-            }
-            */
 
             file+="\n\nEnd of file";
 
@@ -802,16 +618,12 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                     while ((read = rd.read(buf)) > 0) {
                         sb.append(buf, 0, read);
                     }
-                //    Log.v("INI Json", sb.toString());
-
                     JSONObject jsonObj = new JSONObject(sb.toString());
                     JSONArray predsJsonArray = jsonObj.getJSONArray("routes");
                     lat = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lat");
                     lon = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lng");
-                    Log.v("Latitude", Double.toString(lat));
-                    Log.v("Longitude", Double.toString(lon));
-
-
+                //    Log.v("Latitude", Double.toString(lat));
+                //    Log.v("Longitude", Double.toString(lon));
                 }
                 con.disconnect();
             } catch (Exception e) {
