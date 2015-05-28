@@ -100,6 +100,20 @@ public class UserFunctions {
     }
 
     /**
+     * Function to Change Email
+     **/
+    public JSONObject updateEmail(String email, String newEmailAddress){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "updateEmail"));
+        params.add(new BasicNameValuePair("old_email", email));
+        params.add(new BasicNameValuePair("new_email", newEmailAddress));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to Get All Roads
      **/
     public JSONObject getAllRoadData(){

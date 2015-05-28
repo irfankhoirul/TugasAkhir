@@ -41,7 +41,7 @@ import proyekakhir.mapdemo.library.UserFunctions;
 public class EmailVerification extends ActionBarActivity {
     EditText verificationCode, newEmail;
     Button bt_verify, bt_reSendVerification, bt_changeEmail;
-    String email, activity, username;
+    String email, activity, username, newEmailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,21 @@ public class EmailVerification extends ActionBarActivity {
         email = intent.getStringExtra("email");
         activity = intent.getStringExtra("activity");
         username = intent.getStringExtra("username");
-        Toast.makeText(getBaseContext(), "Email : "+email, Toast.LENGTH_LONG).show();
+    //    Toast.makeText(getBaseContext(), "Email : "+email, Toast.LENGTH_LONG).show();
+
+        bt_changeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if(newEmail.equals(null)){
+                    Toast.makeText(getBaseContext(), "Please Type Your New Email!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    newEmailAddress = newEmail.getText().toString();
+                    new ChangeEmail().execute();
+                }
+
+            }
+        });
 
         bt_reSendVerification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,6 +382,47 @@ public class EmailVerification extends ActionBarActivity {
             }
 
             pDialog.dismiss();
+        }
+    }
+
+    private class ChangeEmail extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Updating Your Email Address ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            UserFunctions userFunction = new UserFunctions();
+            JSONObject json = userFunction.updateEmail(email, newEmailAddress);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
+            try {
+                if (json.getString("success") != null) {
+                    email = newEmailAddress;
+                //    Toast.makeText(getBaseContext(), "Your Email successfully changed. Please check your new Email to get your verification code.", Toast.LENGTH_SHORT).show();
+                    new EmailVer().execute();
+                }else{
+                    Toast.makeText(getBaseContext(), "Failed to Verify User!", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
