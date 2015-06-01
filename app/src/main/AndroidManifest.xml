@@ -79,17 +79,9 @@
             android:label="@string/title_activity_drawer" >
         </activity>
         <activity
-            android:name=".Activity4_App2Go"
-            android:label="@string/title_activity_activity4__app2_go" >
-        </activity>
-        <activity
             android:name=".Activity6_App1ResultMap"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_activity6__app1_result_map" >
-        </activity>
-        <activity
-            android:name=".Activity7_App2ResultMap"
-            android:label="@string/title_activity_activity7__app2_result_map" >
         </activity>
         <activity
             android:name=".Activity9_UserDetails"
@@ -114,6 +106,10 @@
         <activity
             android:name=".EmailVerification"
             android:label="@string/title_activity_email_verification" >
+        </activity>
+        <activity
+            android:name=".ResultFilter"
+            android:label="@string/title_activity_result_filter" >
         </activity>
     </application>
 

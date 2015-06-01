@@ -9,16 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -36,7 +34,7 @@ import java.util.Set;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity6_App1ResultMap extends DrawerActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Activity6_App1ResultMap extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
     public boolean dataLoaded = false;
     List<String> resultNamaJalan;
     List<String> resultKualitas;
@@ -54,13 +52,13 @@ public class Activity6_App1ResultMap extends DrawerActivity implements SwipeRefr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //    setContentView(R.layout.activity2_mainmap);
+        setContentView(R.layout.activity6_app1resultmap);
 
         /// Drawer activity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity6_app1resultmap, null,false);
-        frameLayout.addView(activityView);
+    //    FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+    //    LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    //    View activityView = layoutInflater.inflate(R.layout.activity6_app1resultmap, null,false);
+    //    frameLayout.addView(activityView);
         ///
 
         new NetCheck().execute();
@@ -137,12 +135,16 @@ public class Activity6_App1ResultMap extends DrawerActivity implements SwipeRefr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
+        int id = item.getItemId();
 
-
-            default:
-                return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.filterQuery) {
+            Intent i = new Intent(Activity6_App1ResultMap.this, ResultFilter.class);
+            startActivity(i);
+            return(true);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -139,6 +139,18 @@ public class UserFunctions {
     }
 
     /**
+     * Function to Get Road Details
+     **/
+    public JSONObject getFilter(){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "getFilter"));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to change password
      **/
 /*    public JSONObject chgPass(String newpas, String email){

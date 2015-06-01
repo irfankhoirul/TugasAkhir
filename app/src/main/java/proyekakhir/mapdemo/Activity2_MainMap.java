@@ -1,6 +1,7 @@
 package proyekakhir.mapdemo;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 public class Activity2_MainMap extends DrawerActivity {
 
+    int umumKhusus = 0;
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -39,33 +41,17 @@ public class Activity2_MainMap extends DrawerActivity {
         ///
         setUpMapIfNeeded();
 
-
         FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Write here anything that you wish to do on click of FAB
-
+                showDialog(2);
                 /*
-                    AlertDialog alertDialog = new AlertDialog.Builder(Activity2_MainMap.this).create(); //Read Update
-                    alertDialog.setTitle("");
-                    alertDialog.setMessage("this is my app");
-
-                    alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(Activity2_MainMap.this, "Clicked!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    alertDialog.show();  //<-- See This!
-                */
-
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
                                 final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
                                 if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                                     Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
@@ -85,23 +71,72 @@ public class Activity2_MainMap extends DrawerActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity2_MainMap.this);
                 builder.setTitle("Pengukuran Baru");
-                builder.setMessage("Mulai Pengukuran?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("Mulai Pengukuran?")
+                        .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("Cancel", dialogClickListener).show();
+                */
 
             }
         });
 
-        /*
-        FloatingActionButton myLoc = (FloatingActionButton) findViewById(R.id.loc_now);
-        myLoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Write here anything that you wish to do on click of FAB
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-            }
-        });
-        */
+    }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case 1:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Pengukuran Baru");
+                builder.setMessage(
+                        "Mulai Pengukuran?")
+                        .setCancelable(false)
+                        .setPositiveButton("Ya",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+                                        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                                            Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
+                                            i.putExtra("Jenis", umumKhusus);
+                                            startActivity(i);
+                                        }
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog dialog = builder.create();
+                return dialog;
+
+            case 2:
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setTitle("Jenis Pengukuran");
+                builder2.setMessage(
+                        "Tentukan Jenis Pengukuran");
+                builder2.setCancelable(false);
+                builder2.setPositiveButton("Umum",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                umumKhusus = 1;
+                                Activity2_MainMap.this.showDialog(1);
+                            }
+                        });
+                builder2.setNegativeButton("Khusus",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                umumKhusus = 2;
+                                Activity2_MainMap.this.showDialog(1);
+                            }
+                        });
+                AlertDialog dialog2 = builder2.create();
+                return dialog2;
+        }
+        return null;
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -157,12 +192,12 @@ public class Activity2_MainMap extends DrawerActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_mainMap_satellite) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //            mMap.invalidate();
             return(true);
         }
         else if (id == R.id.menu_maimMap_terrain) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
             return(true);
         }
 

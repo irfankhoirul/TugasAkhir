@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,12 +30,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,7 +136,7 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             ACCELEROMETER_START = true;
         }
         else {
-            // fai! we dont have an accelerometer!
+            // fail! we dont have an accelerometer!
             Toast.makeText(getApplicationContext(), "Oops!", Toast.LENGTH_SHORT).show();
         }
 
@@ -176,8 +172,6 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
 
                             c++;
                         }
-
-
                         _act6_txt_time.setText(Integer.toString(count));
                         count++;
                     }
@@ -186,24 +180,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         }, 0, 100); //10 data every second
     }
 
-    public void showDirection(LatLng sourcePosition, LatLng destPosition){
-        Route md = new Route();
-        Document doc = md.getDocument(sourcePosition, destPosition,
-                Route.MODE_DRIVING);
-        ArrayList<LatLng> directionPoint = md.getDirection(doc);
-        PolylineOptions rectLine = new PolylineOptions().width(3).color(
-                Color.RED);
-
-        for (int i = 0; i < directionPoint.size(); i++) {
-            rectLine.add(directionPoint.get(i));
-        }
-        Polyline polyline = mMap.addPolyline(rectLine);
-    }
-
     public void showMarker(int quality, double lat, double lon){
         if(lat!=0.0 || lon!=0.0) {
             if (ready) {
-//            Toast.makeText(getApplicationContext(), "Add marker", Toast.LENGTH_SHORT).show();
                 Log.v("Latitude inside", Double.toString(lat));
                 Log.v("Longitude inside", Double.toString(lon));
                 if (quality == 1) {
@@ -214,7 +193,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                     marker_lat.add(lat);
                     marker_lon.add(lon);
                     marker_quality.add(1);
-                } else if (quality == 2) {
+                }
+                /*
+                else if (quality == 2) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
                             .title("Jalan Bergelombang Tipe 1")
@@ -238,28 +219,32 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
                     marker_lat.add(lat);
                     marker_lon.add(lon);
                     marker_quality.add(4);
-                } else if (quality == 5) {
+                }
+                */
+                else if (quality == 2) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
-                            .title("Jalan Bergelombang Tipe 1")
+                            .title("Jalan Sedang")
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
                     marker_lat.add(lat);
                     marker_lon.add(lon);
-                    marker_quality.add(5);
-                } else if (quality == 6 || quality == 7) {
+                    marker_quality.add(2);
+                } else if (quality == 3) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
-                            .title("Jalan Bergelombang Tipe 1")
+                            .title("Jalan Rusak")
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
                     marker_lat.add(lat);
                     marker_lon.add(lon);
-                    marker_quality.add(6);
+                    marker_quality.add(3);
                 }
             }
         }
     }
 
     public int histogram(){
+        // 6 Criteria
+        /*
         int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
                 j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
                 j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
@@ -367,6 +352,95 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
             }
             else if(Math.max(B1,Math.max(B2, Math.max(B3, Math.max(B4, Math.max(B5, B6))))) == B6){
                 kualitas = 7;
+            }
+        }
+        */
+
+        // 3 Criteria
+        int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
+                j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
+                j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
+
+        for(int i=0; i<y_temp.size(); i++) {
+            double nilai_Y = Math.abs(y_temp.get(i)-9.781); //Kurangi G lalu absolutkan
+
+            if(nilai_Y >=0 && nilai_Y <1){
+                j0_1++;
+            }
+            else if(nilai_Y >=1 && nilai_Y <2){
+                j1_2++;
+            }
+            else if(nilai_Y >=2 && nilai_Y <3){
+                j2_3++;
+            }
+            else if(nilai_Y >=3 && nilai_Y <4){
+                j3_4++;
+            }
+            else if(nilai_Y >=4 && nilai_Y <5){
+                j4_5++;
+            }
+            else if(nilai_Y >=5 && nilai_Y <6){
+                j5_6++;
+            }
+            else if(nilai_Y >=6 && nilai_Y <7){
+                j6_7++;
+            }
+            else if(nilai_Y >=7 && nilai_Y <8){
+                j7_8++;
+            }
+            else if(nilai_Y >=8 && nilai_Y <9){
+                j8_9++;
+            }
+            else if(nilai_Y >=9 && nilai_Y <10){
+                j9_10++;
+            }
+            else if(nilai_Y >=10 && nilai_Y <11){
+                j10_11++;
+            }
+            else if(nilai_Y >=11 && nilai_Y <12){
+                j11_12++;
+            }
+            else if(nilai_Y >=12 && nilai_Y <13){
+                j12_13++;
+            }
+            else if(nilai_Y >=13 && nilai_Y <14){
+                j13_14++;
+            }
+            else if(nilai_Y >=14 && nilai_Y <15){
+                j14_15++;
+            }
+            else if(nilai_Y >=15 && nilai_Y <16){
+                j15_16++;
+            }
+            else if(nilai_Y >=16 && nilai_Y <17){
+                j16_17++;
+            }
+            else if(nilai_Y >=17 && nilai_Y <18){
+                j17_18++;
+            }
+            else if(nilai_Y >=18 && nilai_Y <19){
+                j18_19++;
+            }
+            else if(nilai_Y >=19 && nilai_Y <20){
+                j19_20++;
+            }
+        }
+
+        //Klasifikasi
+        double A = (j0_1+j1_2);
+        double B = (j1_2+j2_3+j3_4);
+        double C = (j4_5+j5_6+j6_7+j7_8+j8_9+j9_10+j10_11+j11_12+j12_13+j13_14+j14_15+j15_16+j16_17+j17_18+j18_19+j19_20);
+
+
+        if(A >= 0.9*10){
+            kualitas = 1;
+        }
+        else {
+            if(Math.max(B, C) == B){
+                kualitas = 2;
+            }
+            else if(Math.max(B, C) == C){
+                kualitas = 3;
             }
         }
 

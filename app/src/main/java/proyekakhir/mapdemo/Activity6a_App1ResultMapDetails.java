@@ -212,6 +212,7 @@ public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
                                     .title("Q1")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
                         }
+                        /*
                         else if(qual == 2) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
@@ -230,19 +231,20 @@ public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
                                     .title("Q4")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
                         }
-                        else if(qual == 5) {
+                        */
+                        else if(qual == 2) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
-                                    .title("Q5")
+                                    .title("Q2")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
                         }
-                        else if(qual == 6) {
+                        else if(qual == 3) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
-                                    .title("Q6")
+                                    .title("Q3")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
                         }
-                        Log.v("Titik", "Titik Ke-"+i );
+                    //    Log.v("Titik", "Titik Ke-"+i );
                     }
                     LatLng loc = new LatLng(lat, lon);
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));

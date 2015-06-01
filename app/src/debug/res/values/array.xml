@@ -10,4 +10,26 @@
         <item>Help</item>
         <item>Logout</item>
     </string-array>
+
+    <string-array name="filter">
+        <item></item>
+        <item>Nama Jalan</item>
+        <item>Kecamatan</item>
+        <item>Kota</item>
+        <item>Provinsi</item>
+        <item>Range Waktu</item>
+        <item>Kualitas</item>
+        <item>Merk Smartphone</item>
+        <item>Model Smartphone</item>
+        <item>Merk Motor</item>
+        <item>Model Motor</item>
+    </string-array>
+
+    <string-array name="filter1">
+        <item>Choose Filter</item>
+        <item>Choose Filter</item>
+        <item>Choose Filter</item>
+        <item>Choose Filter</item>
+    </string-array>
+
 </resources>

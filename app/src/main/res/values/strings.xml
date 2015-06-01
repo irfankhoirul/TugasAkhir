@@ -43,5 +43,6 @@
     <string name="title_activity_activity3b__app1_preview">Result Preview</string>
     <string name="title_activity_activity6a__app1_result_map_details">Details</string>
     <string name="title_activity_email_verification">Email Verification</string>
+    <string name="title_activity_result_filter">ResultFilter</string>
 
 </resources>

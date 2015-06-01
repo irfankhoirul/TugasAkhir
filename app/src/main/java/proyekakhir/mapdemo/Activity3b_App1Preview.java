@@ -53,6 +53,7 @@ public class Activity3b_App1Preview extends ActionBarActivity {
                         .title("Q1")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
             }
+            /*
             else if(qual_prev[i] == 2) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
@@ -71,13 +72,14 @@ public class Activity3b_App1Preview extends ActionBarActivity {
                         .title("Q4")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
             }
-            else if(qual_prev[i] == 5) {
+            */
+            else if(qual_prev[i] == 2) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
                         .title("Q5")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
             }
-            else if(qual_prev[i] == 6) {
+            else if(qual_prev[i] == 3) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
                         .title("Q6")

@@ -82,6 +82,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         if(nilaiKondisi.equalsIgnoreCase("1")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_blue);
         }
+        /*
         else if(nilaiKondisi.equalsIgnoreCase("2")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_light_blue);
         }
@@ -91,7 +92,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         else if(nilaiKondisi.equalsIgnoreCase("4")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_yellow);
         }
-        else if(nilaiKondisi.equalsIgnoreCase("5")){
+        */
+        else if(nilaiKondisi.equalsIgnoreCase("2")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_orange);
         }
         else {
