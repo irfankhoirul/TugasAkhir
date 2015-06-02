@@ -1,9 +1,11 @@
 package proyekakhir.mapdemo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class Activity3b_App1Preview extends ActionBarActivity {
+public class Activity3b_App1Preview extends AppCompatActivity {
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -28,6 +30,9 @@ public class Activity3b_App1Preview extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity3b_app1_preview);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
 
         //----MAP----//
         setUpMapIfNeeded();

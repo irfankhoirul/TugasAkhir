@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,7 +15,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +50,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Activity3_App1Go extends ActionBarActivity implements SensorEventListener, LocationListener {
+public class Activity3_App1Go extends AppCompatActivity implements SensorEventListener, LocationListener {
 
     int c = 0, qual;
     boolean ready = false;
@@ -113,6 +115,9 @@ public class Activity3_App1Go extends ActionBarActivity implements SensorEventLi
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity3_app1go);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
 
         pDialog = new ProgressDialog(Activity3_App1Go.this);
         pDialog.setTitle("Waiting for GPS connection");

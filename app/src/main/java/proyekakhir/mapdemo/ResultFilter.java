@@ -3,11 +3,13 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +35,7 @@ import java.util.List;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class ResultFilter extends ActionBarActivity {
+public class ResultFilter extends AppCompatActivity {
     TextView actResultFilter_filterAdded, daftarFilter;
     Button actResultFilter_bt_addFilter, actResultFilter_bt_show;
     String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9;
@@ -68,6 +70,9 @@ public class ResultFilter extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_filter);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
         //Get Value for filter
         new NetCheck().execute();

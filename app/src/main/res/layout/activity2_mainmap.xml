@@ -44,9 +44,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         fab:image_size="24dp"
-        fab:fab_colorNormal="#FF5722"
-        fab:fab_colorPressed="#5D4037"
-        fab:fab_colorRipple="#F06292"
+        fab:fab_colorNormal="#689F38"
+        fab:fab_colorPressed="#FBC02D"
+        fab:fab_colorRipple="#FFEB3B"
         android:layout_gravity="right|bottom" />
 
 

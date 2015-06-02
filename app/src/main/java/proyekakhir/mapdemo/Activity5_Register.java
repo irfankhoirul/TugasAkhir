@@ -3,12 +3,14 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +41,7 @@ import java.util.List;
 
 import proyekakhir.mapdemo.library.UserFunctions;
 
-public class Activity5_Register extends ActionBarActivity implements View.OnClickListener {
+public class Activity5_Register extends AppCompatActivity implements View.OnClickListener {
 
     EditText reg_FirstName, reg_LastName, reg_Email, reg_Username, reg_Password, reg_Password2,
             reg_user_adminToken, reg_device_otherName, reg_device_type, reg_vehicle_otherName, reg_vehicle_type;
@@ -66,8 +68,11 @@ public class Activity5_Register extends ActionBarActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity5_register);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5D4037")));
+
         initialize();
         radioGroupVehicle();
 //        radioGroupDevice();

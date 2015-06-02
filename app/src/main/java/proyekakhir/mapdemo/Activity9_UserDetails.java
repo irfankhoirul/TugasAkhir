@@ -2,6 +2,8 @@ package proyekakhir.mapdemo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +27,9 @@ public class Activity9_UserDetails extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity9_userdetails);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00796B")));
 
         /// Drawer activity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);

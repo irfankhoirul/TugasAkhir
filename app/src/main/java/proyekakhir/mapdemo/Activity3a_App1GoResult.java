@@ -3,13 +3,15 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +43,7 @@ import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity3a_App1GoResult extends ActionBarActivity {
+public class Activity3a_App1GoResult extends AppCompatActivity {
 
     String data = null;
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
@@ -81,6 +83,9 @@ public class Activity3a_App1GoResult extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity3a_app1goresult);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
 
         //get date for pengukuran table
         Calendar c = Calendar.getInstance();

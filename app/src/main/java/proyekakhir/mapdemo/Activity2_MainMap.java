@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -39,6 +41,10 @@ public class Activity2_MainMap extends DrawerActivity {
         View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null,false);
         frameLayout.addView(activityView);
         ///
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#689F38")));
+
+
         setUpMapIfNeeded();
 
         FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);

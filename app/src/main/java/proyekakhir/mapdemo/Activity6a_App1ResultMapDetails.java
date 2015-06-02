@@ -3,12 +3,14 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +34,7 @@ import java.net.URL;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
+public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
     private GoogleMap mMap;
     public String fullAddress = "";
 
@@ -40,6 +42,9 @@ public class Activity6a_App1ResultMapDetails extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity6a_app1_result_map_details);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
         Intent intent = getIntent();
         fullAddress = intent.getStringExtra("fullAddress");

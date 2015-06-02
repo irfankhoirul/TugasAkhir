@@ -3,13 +3,15 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -34,7 +36,7 @@ import java.util.Set;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity6_App1ResultMap extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public boolean dataLoaded = false;
     List<String> resultNamaJalan;
     List<String> resultKualitas;
@@ -53,6 +55,9 @@ public class Activity6_App1ResultMap extends ActionBarActivity implements SwipeR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity6_app1resultmap);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
         /// Drawer activity
     //    FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);

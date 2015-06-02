@@ -3,11 +3,13 @@ package proyekakhir.mapdemo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +30,7 @@ import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity9a_UserDetailsEdit extends ActionBarActivity {
+public class Activity9a_UserDetailsEdit extends AppCompatActivity {
     EditText
             edit_FirstName,
             edit_LastName,
@@ -79,6 +81,9 @@ public class Activity9a_UserDetailsEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity9a_userdetailsedit);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5D4037")));
 
         edit_submit = (Button) findViewById(R.id.edit_submit);
 

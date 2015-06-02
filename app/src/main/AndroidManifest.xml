@@ -49,7 +49,6 @@
         <activity android:name=".Activity1_Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -110,6 +109,10 @@
         <activity
             android:name=".ResultFilter"
             android:label="@string/title_activity_result_filter" >
+        </activity>
+        <activity
+            android:name=".Activity11_Help"
+            android:label="@string/title_activity_activity11__help" >
         </activity>
     </application>
 

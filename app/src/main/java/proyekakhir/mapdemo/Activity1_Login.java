@@ -46,6 +46,7 @@ public class Activity1_Login extends Activity {
     boolean cek = false;
     CheckBox bypass_login;
     String username = "";
+    View arg0_view;
 
     /**
      * Called when the activity is first created.
@@ -60,8 +61,8 @@ public class Activity1_Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity1_login);
+
         bypass_login = (CheckBox)findViewById(R.id.bypass_login);
         _act1_tf_username = (EditText)findViewById(R.id._act1_tf_username);
         _act1_tf_password = (EditText)findViewById(R.id._act1_tf_password);
@@ -86,9 +87,12 @@ public class Activity1_Login extends Activity {
                     startActivity(i);
                     finish();
                 }else {
-                    if (_act1_tf_username.getText().toString().equals("") || _act1_tf_password.getText().toString().equals(""))
+                    if (_act1_tf_username.getText().toString().equals("") || _act1_tf_password.getText().toString().equals("")) {
                         Toast.makeText(getBaseContext(), "Fill Username and Password", Toast.LENGTH_SHORT).show();
+                    //    Snackbar.make(arg0, "Fill Your Username and Password", Snackbar.LENGTH_SHORT).show();
+                    }
                     else {
+                        arg0_view = arg0;
                         login(arg0);
 //                        insertData();
                     }
@@ -263,6 +267,7 @@ public class Activity1_Login extends Activity {
             else{
                 nDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+//                Snackbar.make(arg0_view, "Error in Network Connection", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -323,6 +328,7 @@ public class Activity1_Login extends Activity {
                     }else{
                         pDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Incorrect Username or Password2!", Toast.LENGTH_SHORT).show();
+//                        Snackbar.make(arg0_view, "Incorrect Username or Password!", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             } catch (JSONException e) {
@@ -380,6 +386,7 @@ public class Activity1_Login extends Activity {
                         email = json_user.getString("email");
                         verified = json_user.getString("verified");
 
+                        /*
                         Toast.makeText(getBaseContext(),
                                 "username = "+dbusername+
                                 "\nuser_id = "+user_id+
@@ -392,6 +399,7 @@ public class Activity1_Login extends Activity {
                                 "\nemail = "+email+
                                 "\nverified = "+verified
                                 ,Toast.LENGTH_LONG).show();
+                        */
 
                         /**
                          * Clear all previous data in SQlite database.
@@ -409,6 +417,7 @@ public class Activity1_Login extends Activity {
                                 DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                                 db.addUser(user);
                                 Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+//                                Snackbar.make(arg0_view, "Login Successful!", Snackbar.LENGTH_SHORT).show();
                                 Intent i = new Intent(Activity1_Login.this, Activity2_MainMap.class);
                                 startActivity(i);
                                 pDialog.dismiss();
@@ -416,7 +425,7 @@ public class Activity1_Login extends Activity {
                             }
                             else {
                                 Toast.makeText(getBaseContext(), "You haven't verified yet. Please verify your email!", Toast.LENGTH_SHORT).show();
-                            //    Intent i = new Intent(Activity1_Login.this, EmailVerification.class);
+//                                Snackbar.make(arg0_view, "You haven't verified yet. Please verify your email!", Snackbar.LENGTH_SHORT).show();                            //    Intent i = new Intent(Activity1_Login.this, EmailVerification.class);
                             //    i.putExtra("token", generateToken(dbusername));
                             //    i.putExtra("email", email);
                             //    i.putExtra("activity", "login");
@@ -425,15 +434,18 @@ public class Activity1_Login extends Activity {
                                 new EmailVer().execute();
                             //    finish();
                             }
+
                         }
                         catch(Exception e)
                         {
                             Toast.makeText(getBaseContext(), "Error inserting data!", Toast.LENGTH_LONG).show();
+//                            Snackbar.make(arg0_view, "Error inserting data!", Snackbar.LENGTH_SHORT).show();
                         }
 
                     }else{
                         pDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Failed get user details!", Toast.LENGTH_SHORT).show();
+//                        Snackbar.make(arg0_view, "Failed get user details!", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             } catch (JSONException e) {

@@ -9,7 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +38,7 @@ import java.util.List;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class EmailVerification extends ActionBarActivity {
+public class EmailVerification extends AppCompatActivity {
     EditText verificationCode, newEmail;
     Button bt_verify, bt_reSendVerification, bt_changeEmail;
     String email, activity, username, newEmailAddress;

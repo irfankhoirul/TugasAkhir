@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +19,7 @@ import android.widget.ListView;
 import proyekakhir.mapdemo.library.DatabaseHandler;
 
 
-public class DrawerActivity extends ActionBarActivity implements AdapterViewCompat.OnItemClickListener {
+public class DrawerActivity extends AppCompatActivity implements AdapterViewCompat.OnItemClickListener {
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private String[] mDrawerItems;
@@ -37,22 +37,18 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
-
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-    //    mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, prgmNameList));
         mDrawerList.setAdapter(new MySimpleArrayAdapter(this, mDrawerItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this,
-                mDrawerLayout, R.drawable.ic_drawer,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerOpened(View view) {
                 invalidateOptionsMenu();
             }
-
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu();
             }
@@ -143,7 +139,9 @@ public class DrawerActivity extends ActionBarActivity implements AdapterViewComp
                     break;
                 }
                 case 4: {
-
+                    Intent intent = new Intent(DrawerActivity.this, Activity11_Help.class);
+                    startActivity(intent);
+                    finish();
                     break;
                 }
                 case 5:{
