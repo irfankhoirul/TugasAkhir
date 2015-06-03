@@ -5,18 +5,19 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="64px"
-        android:layout_height="64px"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="4px"
         android:layout_marginRight="10px"
-        android:layout_marginTop="4px"
         android:src="@drawable/ic_launcher"
         android:layout_gravity="center">
     </ImageView>
 
     <TextView
         android:id="@+id/label"
-        android:layout_width="210dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="@+id/label"
         android:paddingTop="25px"
@@ -24,7 +25,7 @@
         android:paddingLeft="10px"
         android:paddingRight="10px"
         android:textColor="#000000"
-        android:textSize="15sp" >
+        android:textSize="14sp" >
     </TextView>
 
 </LinearLayout> 

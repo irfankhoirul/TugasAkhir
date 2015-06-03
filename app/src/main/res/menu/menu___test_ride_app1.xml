@@ -10,5 +10,13 @@
         android:title="Show / Hide Detail"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/menu_mainMap_satellite"
+        android:title="Satellite View"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/menu_maimMap_terrain"
+        android:title="Terrain View"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 </menu>

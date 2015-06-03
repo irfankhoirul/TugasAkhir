@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import proyekakhir.mapdemo.library.DatabaseHandler;
 
@@ -26,19 +28,40 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
     private ActionBarDrawerToggle mDrawerToggle = null;
 
     private LinearLayout mDrawer ;
+    String Username, Email;
 
     private LinearLayout mDrawerRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_drawer);
+
+        try {
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            User user = db.getUser();
+            Username = user.getUsername();
+            Email = user.getEmail();
+
+
+        }
+        catch(Exception ex)
+        {
+            Toast.makeText(getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
+        }
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new MySimpleArrayAdapter(this, mDrawerItems));
+        View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
+        TextView u = (TextView) header.findViewById(R.id.drawer_username);
+        u.setText(Username);
+        TextView e = (TextView) header.findViewById(R.id.drawer_email);
+        e.setText(Email);
+
+        mDrawerList.addHeaderView(header);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,6 +77,7 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
     }
 
     @Override
@@ -101,50 +125,36 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
-                case 0: {
+                case 1: {
                     Intent intent = new Intent(DrawerActivity.this, Activity6_App1ResultMap.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                /*
-                case 1: {
-                    Intent intent = new Intent(DrawerActivity.this, Activity4_App2Go.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-                }
                 case 2: {
-                    Intent intent = new Intent(DrawerActivity.this, Activity7_App2ResultMap.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-                }
-                */
-                case 1: {
                     Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(viewIntent);
                     break;
                 }
-                case 2: {
+                case 3: {
                     Intent intent = new Intent(DrawerActivity.this, Activity9_UserDetails.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 3: {
+                case 4: {
                     Intent intent = new Intent(DrawerActivity.this, Activity10_About.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 4: {
+                case 5: {
                     Intent intent = new Intent(DrawerActivity.this, Activity11_Help.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 5:{
+                case 6:{
 
                     DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                     db.resetTables();
@@ -152,34 +162,6 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
                     Intent i = new Intent (DrawerActivity.this, Activity1_Login.class);
                     startActivity(i);
                     finish();
-                    /*
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
-                                case DialogInterface.BUTTON_POSITIVE:
-                                    //Yes button clicked
-                                    DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                                    db.resetTables();
-
-                                    Intent i = new Intent (DrawerActivity.this, Activity1_Login.class);
-                                    startActivity(i);
-                                    finish();
-
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    //No button clicked
-                                    break;
-                            }
-                        }
-                    };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
-                    builder.setMessage("Mulai Pengukuran?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("Cancel", dialogClickListener).show();
-                    */
-
                     break;
                 }
                 default:

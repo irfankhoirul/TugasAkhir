@@ -594,17 +594,21 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu___test_ride_app1_stop:
-                stopQuestion();
-
-                return true;
-            case R.id.menu___test_ride_app1_detail:
-                flipper.showNext();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.menu___test_ride_app1_stop) {
+            stopQuestion();
+            return(true);
         }
+        else if (id == R.id.menu_mainMap_satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//            mMap.invalidate();
+            return(true);
+        }
+        else if (id == R.id.menu_maimMap_terrain) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            return(true);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void saveData() //Untuk save data

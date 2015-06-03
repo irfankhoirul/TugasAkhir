@@ -105,17 +105,23 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle item selection
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.menu_mainMap_satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//            mMap.invalidate();
+            return(true);
+        }
+        else if (id == R.id.menu_maimMap_terrain) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            return(true);
         }
 
+
         return super.onOptionsItemSelected(item);
+
     }
 
     /**

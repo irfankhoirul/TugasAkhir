@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
 import com.melnykov.fab.FloatingActionButton;
 
 public class Activity2_MainMap extends DrawerActivity {
@@ -47,43 +48,15 @@ public class Activity2_MainMap extends DrawerActivity {
 
         setUpMapIfNeeded();
 
+
         FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(2);
-                /*
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-                                if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-                                    Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
-                                    startActivity(i);
-                                }
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Activity2_MainMap.this);
-                builder.setTitle("Pengukuran Baru");
-                builder.setMessage("Mulai Pengukuran?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("Cancel", dialogClickListener).show();
-                */
-
             }
         });
+
 
     }
 

@@ -26,18 +26,16 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         TextView textView = (TextView) rowView.findViewById(R.id.label);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         textView.setText(values[position]);
+
+
         // Change the icon for Windows and iPhone
         String s = values[position];
         if (s.startsWith("Show Road Test Results")) {
             imageView.setImageResource(R.drawable.ic_map);
-        }else if(s.startsWith("Found Broken Road")){
-            imageView.setImageResource(R.drawable.ic_camera);
-        }else if(s.startsWith("Show Broken Road")) {
-            imageView.setImageResource(R.drawable.ic_location);
         }else if(s.startsWith("Setting")) {
             imageView.setImageResource(R.drawable.ic_setting);
         }else if(s.startsWith("My Details")){
-            imageView.setImageResource(R.drawable.ic_person);
+            imageView.setImageResource(R.drawable.ic_accounts);
         }else if(s.startsWith("Help")) {
             imageView.setImageResource(R.drawable.ic_help);
         }else if(s.startsWith("About")) {
@@ -50,4 +48,5 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 
         return rowView;
     }
+
 }

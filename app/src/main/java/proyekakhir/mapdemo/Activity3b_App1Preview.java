@@ -142,11 +142,22 @@ public class Activity3b_App1Preview extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
+        int id = item.getItemId();
 
-            default:
-                return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menu_mainMap_satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//            mMap.invalidate();
+            return(true);
         }
+        else if (id == R.id.menu_maimMap_terrain) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            return(true);
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
     }
 
 
