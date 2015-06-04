@@ -38,7 +38,7 @@ import java.util.List;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class EmailVerification extends AppCompatActivity {
+public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
     EditText verificationCode, newEmail;
     Button bt_verify, bt_reSendVerification, bt_changeEmail;
     String email, activity, username, newEmailAddress;
@@ -190,9 +190,11 @@ public class EmailVerification extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -206,7 +208,7 @@ public class EmailVerification extends AppCompatActivity {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        Intent i = new Intent(EmailVerification.this, Activity1_Login.class);
+                        Intent i = new Intent(Activity5a_RegisterEmailVerification.this, Activity1_Login.class);
                         startActivity(i);
                         finish();
                         break;
@@ -234,7 +236,7 @@ public class EmailVerification extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            nDialog = new ProgressDialog(EmailVerification.this);
+            nDialog = new ProgressDialog(Activity5a_RegisterEmailVerification.this);
             nDialog.setMessage("Loading..");
             nDialog.setTitle("Checking Network");
             nDialog.setIndeterminate(false);
@@ -294,7 +296,7 @@ public class EmailVerification extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog = new ProgressDialog(Activity5a_RegisterEmailVerification.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Verifying ...");
             pDialog.setIndeterminate(false);
@@ -315,7 +317,7 @@ public class EmailVerification extends AppCompatActivity {
             try {
                 if (json.getString("success") != null) {
                     Toast.makeText(getBaseContext(), "Verification Success. Please Login.", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent (EmailVerification.this, Activity1_Login.class);
+                    Intent i = new Intent (Activity5a_RegisterEmailVerification.this, Activity1_Login.class);
                     startActivity(i);
                     finish();
                 }else{
@@ -339,7 +341,7 @@ public class EmailVerification extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog = new ProgressDialog(Activity5a_RegisterEmailVerification.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Sending Verification Email ...");
             pDialog.setIndeterminate(false);
@@ -392,7 +394,7 @@ public class EmailVerification extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(EmailVerification.this);
+            pDialog = new ProgressDialog(Activity5a_RegisterEmailVerification.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Updating Your Email Address ...");
             pDialog.setIndeterminate(false);

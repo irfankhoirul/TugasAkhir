@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ public class Activity2_MainMap extends DrawerActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     LatLng loc;
+    FloatingActionButton actionButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,17 +41,19 @@ public class Activity2_MainMap extends DrawerActivity {
         /// Drawer activity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null,false);
+        View activityView = layoutInflater.inflate(R.layout.activity2_mainmap, null, false);
         frameLayout.addView(activityView);
         ///
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#689F38")));
 
+        final FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
+        actionButton.setVisibility(View.INVISIBLE);
+        actionButton.hide();
+
 
         setUpMapIfNeeded();
 
-
-        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +61,14 @@ public class Activity2_MainMap extends DrawerActivity {
             }
         });
 
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                actionButton.setVisibility(View.VISIBLE);
+                actionButton.show();
+            }
+        }, 1000);
 
     }
 

@@ -21,6 +21,10 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -44,6 +48,11 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     List<String> resultKota;
     List<String> resultProv;
     List<String> resultPersentase;
+    String[] key;
+    String[] filter;
+    String where = "";
+    int start, end;
+    Boolean max = false;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private SwipeRefreshLayout swipeLayout;
@@ -66,6 +75,13 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     //    frameLayout.addView(activityView);
         ///
 
+        Intent intent = getIntent();
+        where = intent.getStringExtra("where");
+        start = intent.getIntExtra("start", 0);
+        end = intent.getIntExtra("end", 0);
+
+//        Toast.makeText(getBaseContext(), start+" - "+end, Toast.LENGTH_SHORT).show();
+
         new NetCheck().execute();
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -74,45 +90,6 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-
-        /*
-        act6_bt_load = (Button) findViewById(R.id.act6_bt_load);
-        act6_bt_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (dataLoaded) {
-                    Toast.makeText(getApplicationContext(), "Data Have Been Loaded!", Toast.LENGTH_SHORT).show();
-
-                    //Get disict value of city
-                    Set<String> uniqueCity = new HashSet<String>(resultKota);
-                    for (int j = 0; j < uniqueCity.size(); j++) {
-                        Group group = new Group("" + uniqueCity.toArray()[j]);
-                        for (int i = 0; i < resultNamaJalan.size(); i++) {
-                            if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
-                                group.namaJalan.add(resultNamaJalan.get(i));
-                            //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
-                                group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
-                                group.nilaiKondisi.add(resultKualitas.get(i));
-                                group.kec.add(resultKec.get(i));
-                                group.kota.add(resultKota.get(i));
-                                group.prov.add(resultProv.get(i));
-                            }
-                        }
-                        groups.append(j, group);
-                    }
-
-                    ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                    MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
-                    listView.setAdapter(adapter);
-
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "Data Have Not Been Loaded! Load First!", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-        */
 
     }
 
@@ -144,9 +121,40 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.filterQuery) {
-            Intent i = new Intent(Activity6_App1ResultMap.this, ResultFilter.class);
+            Intent i = new Intent(Activity6_App1ResultMap.this, Activity6b_App1ResultFilter.class);
             startActivity(i);
             return(true);
+        }
+        else if (id == R.id.hasilKhusus) {
+            Intent i = new Intent(Activity6_App1ResultMap.this, Activity6c_App1SpecialResult.class);
+            startActivity(i);
+            return(true);
+        }
+        else if (id == R.id.next) {
+            if(!max) {
+                Intent i = new Intent(Activity6_App1ResultMap.this, Activity6_App1ResultMap.class);
+                i.putExtra("start", start + 10);
+                i.putExtra("end", end);
+                i.putExtra("where", where);
+                startActivity(i);
+                finish();
+                return (true);
+            }
+            else
+                Toast.makeText(getBaseContext(), "Tidak ada data selanjutnya.", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.prev) {
+            if(start>0) {
+                Intent i = new Intent(Activity6_App1ResultMap.this, Activity6_App1ResultMap.class);
+                i.putExtra("start", start - 10);
+                i.putExtra("end", end);
+                i.putExtra("where", where);
+                startActivity(i);
+                finish();
+                return (true);
+            }
+            else
+                Toast.makeText(getBaseContext(), "Tidak ada data sebelumnya.", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -214,7 +222,19 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                SnackbarManager.show(
+                        Snackbar.with(Activity6_App1ResultMap.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        new NetCheck().execute();
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity6_App1ResultMap.this);
             }
         }
     }
@@ -236,7 +256,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.getAllRoadData();
+            JSONObject json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end));
             return json;
         }
 
@@ -246,6 +266,9 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                 if(Integer.parseInt(json.getString("success")) == 1){
                     JSONObject jsonObj = new JSONObject(json.toString());
                     JSONArray daftarJalan = jsonObj.getJSONArray("data");
+
+                    if(daftarJalan.length() < 10) // 10 = jumlah data per activity
+                        max = true;
 
                     resultNamaJalan = new ArrayList<String>(daftarJalan.length());
                     resultKualitas = new ArrayList<String>(daftarJalan.length());
@@ -286,9 +309,13 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                     MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
                     listView.setAdapter(adapter);
                 }
+                else if(Integer.parseInt(json.getString("success")) == 2){
+                    max = true;
+//                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
+                }
             }catch(Exception ex)
             {
-                Log.e("Error ehen getting json", ex.getMessage());
+                Log.e("Error when getting json", ex.getMessage());
             }
             Log.v("Json Out", json.toString());
             pDialog.dismiss();

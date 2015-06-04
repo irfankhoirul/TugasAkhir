@@ -599,6 +599,10 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             stopQuestion();
             return(true);
         }
+        else if(id == R.id.menu___test_ride_app1_detail){
+            flipper.showNext();
+            return (true);
+        }
         else if (id == R.id.menu_mainMap_satellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //            mMap.invalidate();

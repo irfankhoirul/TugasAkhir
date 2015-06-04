@@ -116,10 +116,13 @@ public class UserFunctions {
     /**
      * Function to Get All Roads
      **/
-    public JSONObject getAllRoadData(){
+    public JSONObject getAllRoadData(String where, String start, String end){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", "getRoadDataByAll"));
+        params.add(new BasicNameValuePair("where", where));
+        params.add(new BasicNameValuePair("start", start));
+        params.add(new BasicNameValuePair("end", end));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
 
         return json;

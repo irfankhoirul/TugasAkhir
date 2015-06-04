@@ -46,11 +46,16 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity1_Login" >
+        <activity android:name=".Activity0_SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity1_Login"
+            android:label="Login" >
         </activity>
         <activity
             android:name=".Activity5_Register"
@@ -103,16 +108,20 @@
             android:label="@string/title_activity_activity6a__app1_result_map_details" >
         </activity>
         <activity
-            android:name=".EmailVerification"
+            android:name=".Activity5a_RegisterEmailVerification"
             android:label="@string/title_activity_email_verification" >
         </activity>
         <activity
-            android:name=".ResultFilter"
+            android:name=".Activity6b_App1ResultFilter"
             android:label="@string/title_activity_result_filter" >
         </activity>
         <activity
             android:name=".Activity11_Help"
             android:label="@string/title_activity_activity11__help" >
+        </activity>
+        <activity
+            android:name=".Activity6c_App1SpecialResult"
+            android:label="@string/title_activity_activity6c__app1_special_result" >
         </activity>
     </application>
 

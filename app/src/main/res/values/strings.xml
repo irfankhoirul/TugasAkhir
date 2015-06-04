@@ -45,5 +45,7 @@
     <string name="title_activity_email_verification">Email Verification</string>
     <string name="title_activity_result_filter">Result Filter</string>
     <string name="title_activity_activity11__help">Help</string>
+    <string name="title_activity_splash_screen">Splash Screen</string>
+    <string name="title_activity_activity6c__app1_special_result">Hasil Khusus</string>
 
 </resources>

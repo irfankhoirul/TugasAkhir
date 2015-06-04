@@ -20,6 +20,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +39,7 @@ import java.util.List;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class ResultFilter extends AppCompatActivity {
+public class Activity6b_App1ResultFilter extends AppCompatActivity {
     TextView actResultFilter_filterAdded, daftarFilter;
     Button actResultFilter_bt_addFilter, actResultFilter_bt_show;
     String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9;
@@ -251,47 +255,38 @@ public class ResultFilter extends AppCompatActivity {
             public void onClick(View v) {
                 //Get Final Filter
                 if(filterList.get("nama_jalan") != null) {
-                //    finalFilter.put("nama_jalan", filter1);
                     finalFilterKey.add("nama_jalan");
                     finalFilterValue.add(filter1);
                 }
                 if(filterList.get("kec") != null) {
-                //    finalFilter.put("kec", filter2);
                     finalFilterKey.add("kec");
                     finalFilterValue.add(filter2);
                 }
                 if(filterList.get("kota") != null) {
-                //    finalFilter.put("kota", filter3);
                     finalFilterKey.add("kota");
                     finalFilterValue.add(filter3);
                 }
                 if(filterList.get("prov") != null) {
-                //    finalFilter.put("prov", filter4);
                     finalFilterKey.add("prov");
                     finalFilterValue.add(filter4);
                 }
                 if(filterList.get("kualitas") != null) {
-                //    finalFilter.put("kualitas", filter5);
                     finalFilterKey.add("kualitas");
                     finalFilterValue.add(filter5);
                 }
                 if(filterList.get("merk_smartphone") != null) {
-                //    finalFilter.put("merk_smartphone", filter6);
                     finalFilterKey.add("merk_smartphone");
                     finalFilterValue.add(filter6);
                 }
                 if(filterList.get("tipe_smartphone") != null) {
-                //    finalFilter.put("tipe_smartphone", filter7);
                     finalFilterKey.add("tipe_smartphone");
                     finalFilterValue.add(filter7);
                 }
                 if(filterList.get("merk_motor") != null) {
-                //    finalFilter.put("merk_motor", filter8);
                     finalFilterKey.add("merk_motor");
                     finalFilterValue.add(filter8);
                 }
                 if(filterList.get("tipe_motor") != null) {
-                //    finalFilter.put("tipe_motor", filter9);
                     finalFilterKey.add("tipe_motor");
                     finalFilterValue.add(filter9);
                 }
@@ -304,10 +299,35 @@ public class ResultFilter extends AppCompatActivity {
                     finalfiltervalueArray[i] = finalFilterValue.get(i);
                 }
 
-                Intent i = new Intent(ResultFilter.this, Activity6_App1ResultMap.class);
-                i.putExtra("filterKey", finalfilterkeyArray);
-                i.putExtra("filterValue", finalfiltervalueArray);
-                startActivity(i);
+        //        String tos = "";
+        //        for(int i=0; i<finalfilterkeyArray.length; i++){
+        //            tos+=finalfilterkeyArray[i]+" : "+finalfiltervalueArray[i]+"\n";
+        //        }
+        //        Log.v("Daftar Filter", tos);
+
+                String where = "";
+                for(int i = 0; i< finalFilterKey.size(); i++){
+                    if(i>0)
+                        where+=" AND ";
+                    where+=" "+finalFilterKey.get(i)+" = \""+finalFilterValue.get(i)+"\"";
+
+                }
+
+//                Toast.makeText(getBaseContext(), where, Toast.LENGTH_SHORT).show();
+
+                finalFilterKey.clear();
+                finalFilterValue.clear();
+
+                if(!where.equals("")) {
+                    Intent intent = new Intent(Activity6b_App1ResultFilter.this, Activity6_App1ResultMap.class);
+                    intent.putExtra("where", where);
+                    intent.putExtra("start", 0);
+                    intent.putExtra("end", 10);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(getBaseContext(), "Pilih minimal 1 filter!", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -327,9 +347,11 @@ public class ResultFilter extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -345,7 +367,7 @@ public class ResultFilter extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            nDialog = new ProgressDialog(ResultFilter.this);
+            nDialog = new ProgressDialog(Activity6b_App1ResultFilter.this);
             nDialog.setTitle("Completing Data");
             nDialog.setMessage("Loading..");
             nDialog.setIndeterminate(false);
@@ -387,7 +409,21 @@ public class ResultFilter extends AppCompatActivity {
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                SnackbarManager.show(
+                        Snackbar.with(Activity6b_App1ResultFilter.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        Intent intent = getIntent();
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity6b_App1ResultFilter.this);
             }
         }
     }
@@ -400,7 +436,7 @@ public class ResultFilter extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(ResultFilter.this);
+            pDialog = new ProgressDialog(Activity6b_App1ResultFilter.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Loading Filter ...");
             pDialog.setIndeterminate(false);
@@ -517,6 +553,7 @@ public class ResultFilter extends AppCompatActivity {
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_TIPE_MOTOR);
                     adapterTipeMotor.setDropDownViewResource(R.layout.custom_spinner_item);
+
                 }
                 pDialog.dismiss();
             } catch (JSONException e) {

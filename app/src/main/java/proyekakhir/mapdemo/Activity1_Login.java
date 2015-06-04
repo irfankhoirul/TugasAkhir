@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,6 +16,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -63,7 +68,7 @@ public class Activity1_Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity1_login);
 
-        bypass_login = (CheckBox)findViewById(R.id.bypass_login);
+    //    bypass_login = (CheckBox)findViewById(R.id.bypass_login);
         _act1_tf_username = (EditText)findViewById(R.id._act1_tf_username);
         _act1_tf_password = (EditText)findViewById(R.id._act1_tf_password);
         _act1_bt_login = (Button)findViewById(R.id._act1_bt_login);
@@ -82,11 +87,11 @@ public class Activity1_Login extends Activity {
             @Override
             public void onClick(View arg0) {
                 //--Proses Login--//
-                if(bypass_login.isChecked()){
-                    Intent i = new Intent (Activity1_Login.this,Activity2_MainMap.class);
-                    startActivity(i);
-                    finish();
-                }else {
+        //        if(bypass_login.isChecked()){
+        //            Intent i = new Intent (Activity1_Login.this,Activity2_MainMap.class);
+        //            startActivity(i);
+        //            finish();
+        //        }else {
                     if (_act1_tf_username.getText().toString().equals("") || _act1_tf_password.getText().toString().equals("")) {
                         Toast.makeText(getBaseContext(), "Fill Username and Password", Toast.LENGTH_SHORT).show();
                     //    Snackbar.make(arg0, "Fill Your Username and Password", Snackbar.LENGTH_SHORT).show();
@@ -96,7 +101,7 @@ public class Activity1_Login extends Activity {
                         login(arg0);
 //                        insertData();
                     }
-                }
+        //        }
             }
         });
 
@@ -266,8 +271,19 @@ public class Activity1_Login extends Activity {
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
-//                Snackbar.make(arg0_view, "Error in Network Connection", Snackbar.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                SnackbarManager.show(
+                        Snackbar.with(Activity1_Login.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        new NetCheck().execute();
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity1_Login.this);
             }
         }
     }
@@ -327,7 +343,7 @@ public class Activity1_Login extends Activity {
 
                     }else{
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Incorrect Username or Password2!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Incorrect Username or Password!", Toast.LENGTH_SHORT).show();
 //                        Snackbar.make(arg0_view, "Incorrect Username or Password!", Snackbar.LENGTH_SHORT).show();
                     }
                 }
@@ -425,11 +441,7 @@ public class Activity1_Login extends Activity {
                             }
                             else {
                                 Toast.makeText(getBaseContext(), "You haven't verified yet. Please verify your email!", Toast.LENGTH_SHORT).show();
-//                                Snackbar.make(arg0_view, "You haven't verified yet. Please verify your email!", Snackbar.LENGTH_SHORT).show();                            //    Intent i = new Intent(Activity1_Login.this, EmailVerification.class);
-                            //    i.putExtra("token", generateToken(dbusername));
-                            //    i.putExtra("email", email);
-                            //    i.putExtra("activity", "login");
-                            //    startActivity(i);
+
                                 pDialog.dismiss();
                                 new EmailVer().execute();
                             //    finish();
@@ -438,14 +450,38 @@ public class Activity1_Login extends Activity {
                         }
                         catch(Exception e)
                         {
-                            Toast.makeText(getBaseContext(), "Error inserting data!", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getBaseContext(), "Error saving user info!", Toast.LENGTH_LONG).show();
 //                            Snackbar.make(arg0_view, "Error inserting data!", Snackbar.LENGTH_SHORT).show();
+                            SnackbarManager.show(
+                                    Snackbar.with(Activity1_Login.this)
+                                            .text("Pengambilan Data User Gagal!!")
+                                            .actionLabel("COBA LAGI") // action button label
+                                            .actionListener(new ActionClickListener() {
+                                                @Override
+                                                public void onActionClicked(Snackbar snackbar) {
+                                                    new getUserDetails().execute();
+                                                }
+                                            }) // action button's ActionClickListener
+                                            .actionColor(Color.parseColor("#CDDC39"))
+                                    , Activity1_Login.this);
                         }
 
                     }else{
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Failed get user details!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), "Failed get user details!", Toast.LENGTH_SHORT).show();
 //                        Snackbar.make(arg0_view, "Failed get user details!", Snackbar.LENGTH_SHORT).show();
+                        SnackbarManager.show(
+                                Snackbar.with(Activity1_Login.this)
+                                        .text("Pengambilan Data User Gagal!!")
+                                        .actionLabel("COBA LAGI") // action button label
+                                        .actionListener(new ActionClickListener() {
+                                            @Override
+                                            public void onActionClicked(Snackbar snackbar) {
+                                                new getUserDetails().execute();
+                                            }
+                                        }) // action button's ActionClickListener
+                                        .actionColor(Color.parseColor("#CDDC39"))
+                                , Activity1_Login.this);
                     }
                 }
             } catch (JSONException e) {
@@ -503,7 +539,7 @@ public class Activity1_Login extends Activity {
         @Override
         protected void onPostExecute(String json) {
             if(Integer.parseInt(json)==1){
-                Intent i = new Intent(Activity1_Login.this, EmailVerification.class);
+                Intent i = new Intent(Activity1_Login.this, Activity5a_RegisterEmailVerification.class);
                 i.putExtra("token", generateToken(dbusername));
                 i.putExtra("email", email);
                 i.putExtra("activity", "login");
@@ -535,9 +571,11 @@ public class Activity1_Login extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }

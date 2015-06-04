@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="proyekakhir.mapdemo.ResultFilter"
+    tools:context="proyekakhir.mapdemo.Activity6b_App1ResultFilter"
     android:orientation="vertical"
     android:weightSum="1">
 

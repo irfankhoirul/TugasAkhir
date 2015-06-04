@@ -127,6 +127,9 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
             switch (position) {
                 case 1: {
                     Intent intent = new Intent(DrawerActivity.this, Activity6_App1ResultMap.class);
+                    intent.putExtra("where", "1");
+                    intent.putExtra("start", 0);
+                    intent.putExtra("end", 10);
                     startActivity(intent);
                     finish();
                     break;

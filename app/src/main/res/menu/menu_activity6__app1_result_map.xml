@@ -6,4 +6,16 @@
         android:title="Filter Hasil"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/hasilKhusus"
+        android:title="Hasil Khusus"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/next"
+        android:title="Selanjutnya"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/prev"
+        android:title="Sebelumnya"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

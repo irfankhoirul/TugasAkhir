@@ -415,9 +415,11 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -706,7 +708,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         @Override
         protected void onPostExecute(String json) {
             if(Integer.parseInt(json)==1){
-                Intent i = new Intent(Activity5_Register.this, EmailVerification.class);
+                Intent i = new Intent(Activity5_Register.this, Activity5a_RegisterEmailVerification.class);
                 i.putExtra("token", generateToken(v_reg_Username));
                 i.putExtra("email", v_reg_Email);
                 i.putExtra("activity", "register");

@@ -48,6 +48,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
     String data = null;
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private String ID_USER = "";
+    boolean sent = false;
 
     public Locale INDONESIA = new Locale("id_ID");;
 
@@ -107,11 +108,11 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         sendToServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                completingData();
-
-
-                //        new saveData().execute();
-                Toast.makeText(getBaseContext(), "Completing data...", Toast.LENGTH_SHORT).show();
+                if(sent == false) {
+                    completingData();
+                }
+                else
+                    Toast.makeText(getBaseContext(), "Data telah terkirim!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -290,9 +291,11 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -576,6 +579,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
                     Log.v("Js", json.getString("message"));
                 }
                 pDialog.dismiss();
+                sent = true;
             } catch (JSONException e) {
                 e.printStackTrace();
                 pDialog.dismiss();
