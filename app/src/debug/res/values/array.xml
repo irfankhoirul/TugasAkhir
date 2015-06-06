@@ -27,6 +27,15 @@
         -->
     </string-array>
 
+    <string-array name="filterKhusus">
+        <item>Merk Smartphone</item>
+        <item>Model Smartphone</item>
+        <item>Merk Motor</item>
+        <item>Model Motor</item>
+        <item>Range Waktu</item>
+
+    </string-array>
+
     <string-array name="filter1">
         <item>Choose Filter</item>
         <item>Choose Filter</item>

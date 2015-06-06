@@ -120,10 +120,11 @@ public class UserFunctions {
     /**
      * Function to Get All Roads
      **/
-    public JSONObject getAllRoadData(String where, String start, String end){
+    public JSONObject getAllRoadData(String where, String start, String end, String userId){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", "getRoadDataByAll"));
+        params.add(new BasicNameValuePair("userId", userId));
         params.add(new BasicNameValuePair("where", where));
         params.add(new BasicNameValuePair("start", start));
         params.add(new BasicNameValuePair("end", end));

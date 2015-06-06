@@ -26,7 +26,6 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -38,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
@@ -54,6 +54,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     String where = "";
     int start, end;
     Boolean max = false;
+    String userID;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private SwipeRefreshLayout swipeLayout;
@@ -75,6 +76,16 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     //    View activityView = layoutInflater.inflate(R.layout.activity6_app1resultmap, null,false);
     //    frameLayout.addView(activityView);
         ///
+
+        try {
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            User user = db.getUser();
+            userID = user.getUser_id();
+        }
+        catch(Exception ex)
+        {
+            Toast.makeText(getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
+        }
 
         Intent intent = getIntent();
         where = intent.getStringExtra("where");
@@ -259,13 +270,15 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end));
+            JSONObject json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end), userID);
             return json;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
             try{
+//                Toast.makeText(getBaseContext(), "JSON : "+json.toString(), Toast.LENGTH_SHORT).show();
+//                Log.v("JSONOut", json.toString());
                 if(Integer.parseInt(json.getString("success")) == 1){
                     JSONObject jsonObj = new JSONObject(json.toString());
                     JSONArray daftarJalan = jsonObj.getJSONArray("data");
@@ -316,9 +329,14 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                     max = true;
 //                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
                 }
-            }catch(JSONException ex)
+                else if(Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1){
+                    Toast.makeText(getBaseContext(), json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                }
+
+            }catch(Exception ex)
             {
-                Log.e("Error when getting json", ex.getMessage());
+//                Log.e("Error when getting json", ex.getMessage());
+                Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
             }
             Log.v("Json Out", json.toString());
             pDialog.dismiss();

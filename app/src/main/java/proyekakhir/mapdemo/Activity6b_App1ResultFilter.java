@@ -45,7 +45,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
     TextView actResultFilter_filterAdded, daftarFilter, txt_dari, txt_sampai;
     Button actResultFilter_bt_addFilter, actResultFilter_bt_show, bt_begin, bt_end;
     String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8,
-            filter9, dateBegin, dateEnd;
+            filter9, dateBegin, dateEnd, userID;
     String[] finalfilterkeyArray, finalfiltervalueArray;
     DatePicker dp;
 
@@ -82,6 +82,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
+        /*
         //Initialize Component
         dp =(DatePicker) findViewById(R.id.dp);
         txt_dari = (TextView) findViewById(R.id.txt_dari);
@@ -109,6 +110,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                 txt_sampai.setText(dateEnd);
             }
         });
+        */
 
         //Get Value for filter
         new NetCheck().execute();
@@ -125,24 +127,19 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 int item = spinner.getSelectedItemPosition();
-                if (item == 5) {
-                    timeFilter.setVisibility(View.VISIBLE);
-                    spinnerValue.setVisibility(View.GONE);
-                } else {
-                    spinner2.setVisibility(View.VISIBLE);
-                    spinnerValue.setVisibility(View.VISIBLE);
-                    timeFilter.setVisibility(View.GONE);
-                    if (item == 0)
-                        spinner2.setAdapter(adapterNamaJalan);
-                    else if (item == 1)
-                        spinner2.setAdapter(adapterKecamatan);
-                    else if (item == 2)
-                        spinner2.setAdapter(adapterKota);
-                    else if (item == 3)
-                        spinner2.setAdapter(adapterProvinsi);
-                    else if (item == 4)
-                        spinner2.setAdapter(adapterKualitas);
-                }
+
+                spinner2.setVisibility(View.VISIBLE);
+                if (item == 0)
+                    spinner2.setAdapter(adapterNamaJalan);
+                else if (item == 1)
+                    spinner2.setAdapter(adapterKecamatan);
+                else if (item == 2)
+                    spinner2.setAdapter(adapterKota);
+                else if (item == 3)
+                    spinner2.setAdapter(adapterProvinsi);
+                else if (item == 4)
+                    spinner2.setAdapter(adapterKualitas);
+
             }
 
             @Override
