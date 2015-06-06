@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +42,12 @@ import proyekakhir.mapdemo.library.UserFunctions;
 
 
 public class Activity6b_App1ResultFilter extends AppCompatActivity {
-    TextView actResultFilter_filterAdded, daftarFilter;
-    Button actResultFilter_bt_addFilter, actResultFilter_bt_show;
-    String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9;
+    TextView actResultFilter_filterAdded, daftarFilter, txt_dari, txt_sampai;
+    Button actResultFilter_bt_addFilter, actResultFilter_bt_show, bt_begin, bt_end;
+    String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8,
+            filter9, dateBegin, dateEnd;
     String[] finalfilterkeyArray, finalfiltervalueArray;
+    DatePicker dp;
 
     boolean stat_namaJalan = false,
             stat_kec = false,
@@ -54,7 +58,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             stat_tipeSmartphone = false,
             stat_merkMotor = false,
             stat_tipeMotor = false;
-    ;
+    LinearLayout timeFilter, spinnerValue;
 
     List<String> FILTER_NAMA_JALAN = new ArrayList<String>();
     List<String> FILTER_KECAMATAN = new ArrayList<String>();
@@ -78,6 +82,34 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
+        //Initialize Component
+        dp =(DatePicker) findViewById(R.id.dp);
+        txt_dari = (TextView) findViewById(R.id.txt_dari);
+        txt_sampai = (TextView) findViewById(R.id.txt_sampai);
+        bt_begin = (Button) findViewById(R.id.bt_begin);
+        bt_end = (Button) findViewById(R.id.bt_end);
+        spinnerValue = (LinearLayout) findViewById(R.id.spinnerValue);
+        timeFilter = (LinearLayout) findViewById(R.id.timeFilter);
+        timeFilter.setVisibility(View.GONE);
+
+        bt_begin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bulan = dp.getMonth() + 1;
+                dateBegin = dp.getYear()+"-"+bulan+"-"+dp.getDayOfMonth();
+                txt_dari.setText(dateBegin);
+            }
+        });
+
+        bt_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bulan = dp.getMonth() + 1;
+                dateEnd = dp.getYear()+ "-"+bulan+"-"+dp.getDayOfMonth();
+                txt_sampai.setText(dateEnd);
+            }
+        });
+
         //Get Value for filter
         new NetCheck().execute();
 
@@ -93,27 +125,24 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 int item = spinner.getSelectedItemPosition();
-                if (item == 0)
-                    spinner2.setAdapter(null);
-                else if (item == 1)
-                    spinner2.setAdapter(adapterNamaJalan);
-                else if (item == 2)
-                    spinner2.setAdapter(adapterKecamatan);
-                else if (item == 3)
-                    spinner2.setAdapter(adapterKota);
-                else if (item == 4)
-                    spinner2.setAdapter(adapterProvinsi);
-                else if (item == 6)
-                    spinner2.setAdapter(adapterKualitas);
-                else if (item == 7)
-                    spinner2.setAdapter(adapterMerkSmartphone);
-                else if (item == 8)
-                    spinner2.setAdapter(adapterTipeSmartphone);
-                else if (item == 9)
-                    spinner2.setAdapter(adapterMerkMotor);
-                else if (item == 10)
-                    spinner2.setAdapter(adapterTipeMotor);
-
+                if (item == 5) {
+                    timeFilter.setVisibility(View.VISIBLE);
+                    spinnerValue.setVisibility(View.GONE);
+                } else {
+                    spinner2.setVisibility(View.VISIBLE);
+                    spinnerValue.setVisibility(View.VISIBLE);
+                    timeFilter.setVisibility(View.GONE);
+                    if (item == 0)
+                        spinner2.setAdapter(adapterNamaJalan);
+                    else if (item == 1)
+                        spinner2.setAdapter(adapterKecamatan);
+                    else if (item == 2)
+                        spinner2.setAdapter(adapterKota);
+                    else if (item == 3)
+                        spinner2.setAdapter(adapterProvinsi);
+                    else if (item == 4)
+                        spinner2.setAdapter(adapterKualitas);
+                }
             }
 
             @Override
@@ -131,86 +160,60 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
         actResultFilter_bt_addFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(spinner.getSelectedItemPosition()==1) {
-                    filter1 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("nama_jalan") == null)
-                        filterList.put("nama_jalan", filter1);
+                if (spinner.getSelectedItemPosition() == 5) {
+                    filter6 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd + "' ";
+                    if (filterList.get("range") == null)
+                        filterList.put("range", filter6);
                     else {
-                        filterList.remove("nama_jalan");
-                        filterList.put("nama_jalan", filter1);
+                        filterList.remove("range");
+                        filterList.put("range", filter6);
                     }
                 }
-                else if(spinner.getSelectedItemPosition()==2) {
-                    filter2 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("kec") == null)
-                        filterList.put("kec", filter2);
-                    else {
-                        filterList.remove("kec");
-                        filterList.put("kec", filter2);
+                if(spinner2.getSelectedItem()!=null) {
+                    if (spinner.getSelectedItemPosition() == 0) {
+                        filter1 = spinner2.getSelectedItem().toString();
+                        if (filterList.get("nama_jalan") == null)
+                            filterList.put("nama_jalan", filter1);
+                        else {
+                            filterList.remove("nama_jalan");
+                            filterList.put("nama_jalan", filter1);
+                        }
+                    } else if (spinner.getSelectedItemPosition() == 1) {
+                        filter2 = spinner2.getSelectedItem().toString();
+                        if (filterList.get("kec") == null)
+                            filterList.put("kec", filter2);
+                        else {
+                            filterList.remove("kec");
+                            filterList.put("kec", filter2);
+                        }
+                    } else if (spinner.getSelectedItemPosition() == 2) {
+                        filter3 = spinner2.getSelectedItem().toString();
+                        if (filterList.get("kota") == null)
+                            filterList.put("kota", filter3);
+                        else {
+                            filterList.remove("kota");
+                            filterList.put("kota", filter3);
+                        }
+                    } else if (spinner.getSelectedItemPosition() == 3) {
+                        filter4 = spinner2.getSelectedItem().toString();
+                        if (filterList.get("prov") == null)
+                            filterList.put("prov", filter4);
+                        else {
+                            filterList.remove("prov");
+                            filterList.put("prov", filter4);
+                        }
+                    } else if (spinner.getSelectedItemPosition() == 4) {
+                        filter5 = spinner2.getSelectedItem().toString();
+                        if (filterList.get("kualitas") == null)
+                            filterList.put("kualitas", filter5);
+                        else {
+                            filterList.remove("kualitas");
+                            filterList.put("kualitas", filter5);
+                        }
                     }
                 }
-                else if(spinner.getSelectedItemPosition()==3) {
-                    filter3 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("kota") == null)
-                        filterList.put("kota", filter3);
-                    else {
-                        filterList.remove("kota");
-                        filterList.put("kota", filter3);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==4) {
-                    filter4 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("prov") == null)
-                        filterList.put("prov", filter4);
-                    else {
-                        filterList.remove("prov");
-                        filterList.put("prov", filter4);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==6) {
-                    filter5 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("kualitas") == null)
-                        filterList.put("kualitas", filter5);
-                    else {
-                        filterList.remove("kualitas");
-                        filterList.put("kualitas", filter5);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==7) {
-                    filter6 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("merk_smartphone") == null)
-                        filterList.put("merk_smartphone", filter6);
-                    else {
-                        filterList.remove("merk_smartphone");
-                        filterList.put("merk_smartphone", filter6);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==8) {
-                    filter7 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("tipe_smartphone") == null)
-                        filterList.put("tipe_smartphone", filter7);
-                    else {
-                        filterList.remove("tipe_smartphone");
-                        filterList.put("tipe_smartphone", filter7);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==9) {
-                    filter8 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("merk_motor") == null)
-                        filterList.put("merk_motor", filter8);
-                    else {
-                        filterList.remove("merk_motor");
-                        filterList.put("merk_motor", filter8);
-                    }
-                }
-                else if(spinner.getSelectedItemPosition()==10) {
-                    filter9 = spinner2.getSelectedItem().toString();
-                    if(filterList.get("tipe_motor") == null)
-                        filterList.put("tipe_motor", filter9);
-                    else {
-                        filterList.remove("tipe_motor");
-                        filterList.put("tipe_motor", filter9);
-                    }
+                else {
+                    Toast.makeText(getBaseContext(), "Silakan pilih filter", Toast.LENGTH_SHORT).show();
                 }
 
                 if(filterList.get("nama_jalan") != null) {
@@ -228,17 +231,8 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                 if(filterList.get("kualitas") != null) {
                     filter+="\nKualitas : "+filterList.get("kualitas");
                 }
-                if(filterList.get("merk_smartphone") != null) {
-                    filter+="\nMerk Smartphone : "+filterList.get("merk_smartphone");
-                }
-                if(filterList.get("tipe_smartphone") != null) {
-                    filter+="\nTipe Smartphone : "+filterList.get("tipe_smartphone");
-                }
-                if(filterList.get("merk_motor") != null) {
-                    filter+="\nMerk Motor : "+filterList.get("merk_motor");
-                }
-                if(filterList.get("tipe_motor") != null) {
-                    filter+="\nTipe Motor : "+filterList.get("tipe_motor");
+                if(filterList.get("range") != null) {
+                    filter+="\nRange Waktu : "+filterList.get("range");
                 }
 
                 daftarFilter.setText(filter);
@@ -274,49 +268,27 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                     finalFilterKey.add("kualitas");
                     finalFilterValue.add(filter5);
                 }
-                if(filterList.get("merk_smartphone") != null) {
-                    finalFilterKey.add("merk_smartphone");
-                    finalFilterValue.add(filter6);
-                }
-                if(filterList.get("tipe_smartphone") != null) {
-                    finalFilterKey.add("tipe_smartphone");
-                    finalFilterValue.add(filter7);
-                }
-                if(filterList.get("merk_motor") != null) {
-                    finalFilterKey.add("merk_motor");
-                    finalFilterValue.add(filter8);
-                }
-                if(filterList.get("tipe_motor") != null) {
-                    finalFilterKey.add("tipe_motor");
-                    finalFilterValue.add(filter9);
-                }
 
-                finalfilterkeyArray = new String[finalFilterKey.size()];
-                finalfiltervalueArray = new String[finalFilterKey.size()];
-                //Add final fiture to intent extra (Array biasa)
-                for(int i=0; i<finalFilterKey.size(); i++){
-                    finalfilterkeyArray[i] = finalFilterKey.get(i);
-                    finalfiltervalueArray[i] = finalFilterValue.get(i);
-                }
-
-        //        String tos = "";
-        //        for(int i=0; i<finalfilterkeyArray.length; i++){
-        //            tos+=finalfilterkeyArray[i]+" : "+finalfiltervalueArray[i]+"\n";
-        //        }
-        //        Log.v("Daftar Filter", tos);
-
+                boolean pertama = false;
                 String where = "";
                 for(int i = 0; i< finalFilterKey.size(); i++){
                     if(i>0)
                         where+=" AND ";
                     where+=" "+finalFilterKey.get(i)+" = \""+finalFilterValue.get(i)+"\"";
-
+                    pertama = true;
+                }
+                if(filterList.get("range") != null) {
+                    if(pertama == false)
+                        where += " AND "+filter6;
+                    else
+                        where += " "+filter6;
                 }
 
-//                Toast.makeText(getBaseContext(), where, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), where, Toast.LENGTH_SHORT).show();
 
                 finalFilterKey.clear();
                 finalFilterValue.clear();
+
 
                 if(!where.equals("")) {
                     Intent intent = new Intent(Activity6b_App1ResultFilter.this, Activity6_App1ResultMap.class);

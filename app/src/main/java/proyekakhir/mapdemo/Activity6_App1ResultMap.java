@@ -26,6 +26,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -79,6 +80,8 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         where = intent.getStringExtra("where");
         start = intent.getIntExtra("start", 0);
         end = intent.getIntExtra("end", 0);
+
+        Toast.makeText(getBaseContext(), where, Toast.LENGTH_LONG).show();
 
 //        Toast.makeText(getBaseContext(), start+" - "+end, Toast.LENGTH_SHORT).show();
 
@@ -313,7 +316,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                     max = true;
 //                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
                 }
-            }catch(Exception ex)
+            }catch(JSONException ex)
             {
                 Log.e("Error when getting json", ex.getMessage());
             }

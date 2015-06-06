@@ -6,88 +6,98 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Filter : "
-            android:id="@+id/textView24" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:id="@+id/filterType"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Keyword :"
-            android:id="@+id/textView25" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:id="@+id/keywordValue"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tambah Filter"
-        android:id="@+id/actResultFilter_bt_addFilter"
-        android:layout_margin="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Filter : "
-        android:id="@+id/actResultFilter_filterAdded"
-        android:layout_marginTop="20px"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="10px" />
-
     <ScrollView
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:layout_marginBottom="10px"
-        android:layout_weight="1.15">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text=" "
-            android:id="@+id/daftarFilter"
-            android:layout_marginTop="50px"
-            android:layout_margin="10dp"
-            android:paddingBottom="50px" />
-    </ScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tampilkan"
-        android:id="@+id/actResultFilter_bt_show"
-        android:layout_margin="10dp" /><![CDATA[
+        android:id="@+id/scrollView5" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Filter : "
+                    android:id="@+id/textView24" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"
+                    android:id="@+id/filterType"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/spinnerValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Keyword :"
+                    android:id="@+id/textView25" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"
+                    android:id="@+id/keywordValue"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tambah Filter"
+                android:id="@+id/actResultFilter_bt_addFilter"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Filter : "
+                android:id="@+id/actResultFilter_filterAdded"
+                android:layout_marginTop="20px"
+                android:layout_marginLeft="10px"
+                android:layout_marginRight="10px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text=" "
+                android:id="@+id/daftarFilter"
+                android:layout_marginTop="50px"
+                android:layout_margin="10dp"
+                android:paddingBottom="50px" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tampilkan"
+                android:id="@+id/actResultFilter_bt_show"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+    </ScrollView><![CDATA[
+
+
 
     >
+
 
 ]]>
 </LinearLayout>

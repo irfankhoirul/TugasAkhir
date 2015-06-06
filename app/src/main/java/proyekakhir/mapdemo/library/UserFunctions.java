@@ -29,8 +29,12 @@ public class UserFunctions {
 //    private static String registerURL = "http://muhlish.com/ta/SurveyoRiderServices/";
 
     //Onlune free
-    private static String loginURL    = "http://surveyorider.zz.mu/SurveyoRiderServices/";
-    private static String registerURL = "http://surveyorider.zz.mu/SurveyoRiderServices/";
+//    private static String loginURL    = "http://surveyorider.zz.mu/SurveyoRiderServices/";
+//    private static String registerURL = "http://surveyorider.zz.mu/SurveyoRiderServices/";
+
+    private static String loginURL    = "http://surveyorider.com/SRS/";
+    private static String registerURL = "http://surveyorider.com/SRS/";
+
     private static String emailURL = "http://muhlish.com/ta/mail.php";
 
     private static String login_tag = "login";

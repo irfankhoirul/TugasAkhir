@@ -54,14 +54,14 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
 
         mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new MySimpleArrayAdapter(this, mDrawerItems));
         View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
         TextView u = (TextView) header.findViewById(R.id.drawer_username);
         u.setText(Username);
         TextView e = (TextView) header.findViewById(R.id.drawer_email);
         e.setText(Email);
-
         mDrawerList.addHeaderView(header);
+        mDrawerList.setAdapter(new MySimpleArrayAdapter(this, mDrawerItems));
+
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
