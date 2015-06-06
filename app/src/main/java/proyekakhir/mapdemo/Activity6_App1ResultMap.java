@@ -54,7 +54,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     String where = "";
     int start, end;
     Boolean max = false;
-    String userID;
+    String userID, range;
     int caller;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
@@ -93,8 +93,11 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         start = intent.getIntExtra("start", 0);
         end = intent.getIntExtra("end", 0);
         caller = intent.getIntExtra("caller", 0);
+        if(caller == 1){
+            range = intent.getStringExtra("range");
+        }
 
-        Toast.makeText(getBaseContext(), "Caller : "+caller, Toast.LENGTH_LONG).show();
+ //       Toast.makeText(getBaseContext(), "Caller : "+caller, Toast.LENGTH_LONG).show();
 
 //        Toast.makeText(getBaseContext(), start+" - "+end, Toast.LENGTH_SHORT).show();
 
@@ -152,6 +155,9 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                 i.putExtra("start", start + 10);
                 i.putExtra("end", end);
                 i.putExtra("where", where);
+                i.putExtra("caller", caller);
+                if(caller == 1)
+                    i.putExtra("range", range);
                 startActivity(i);
                 finish();
                 return (true);
@@ -165,6 +171,9 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                 i.putExtra("start", start - 10);
                 i.putExtra("end", end);
                 i.putExtra("where", where);
+                i.putExtra("caller", caller);
+                if(caller == 1)
+                    i.putExtra("range", range);
                 startActivity(i);
                 finish();
                 return (true);
@@ -277,7 +286,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                 json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end), userID);
             }
             else if(caller == 1) {
-                json = userFunction.getAllRoadDataKhusus(where, Integer.toString(start), Integer.toString(end), userID);
+                json = userFunction.getAllRoadDataKhusus(where, Integer.toString(start), Integer.toString(end), userID, range);
             }
             return json;
         }
@@ -334,8 +343,8 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                     } else if (Integer.parseInt(json.getString("success")) == 2) {
                         max = true;
 //                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
-                    } else if (Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1) {
-                        Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
+//                    } else if (Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1) {
+//                        Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                     }

@@ -46,7 +46,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
 
     TextView actResultFilter_filterAdded, daftarFilter, txt_dari, txt_sampai;
     Button actResultFilter_bt_addFilter, actResultFilter_bt_show, bt_begin, bt_end;
-    String filter = "", filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8,
+    String filter = "", filter1, filter2, filter3, filter4, filter5, filter6 = "", filter7, filter8,
             filter9, dateBegin, dateEnd, userID;
     String[] finalfilterkeyArray, finalfiltervalueArray;
     DatePicker dp;
@@ -77,6 +77,8 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
        //     adapterKualitas,
             adapterMerkSmartphone, adapterTipeSmartphone, adapterMerkMotor,
             adapterTipeMotor;
+
+    String where;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +177,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (spinner.getSelectedItemPosition() == 4) {
-                    filter6 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd + "' ";
+                    filter6 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd + "' AND";
                     if (filterList.get("range") == null)
                         filterList.put("range", filter6);
                     else {
@@ -219,7 +221,8 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     }
                 }
                 else {
-                    Toast.makeText(getBaseContext(), "Silakan pilih filter", Toast.LENGTH_SHORT).show();
+                //    if(spinner.getSelectedItemPosition() != 4)
+                    //    Toast.makeText(getBaseContext(), "Silakan pilih filter", Toast.LENGTH_SHORT).show();
                 }
 
                 if(filterList.get("merk_smartphone") != null) {
@@ -268,40 +271,44 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     finalFilterValue.add(filter4);
                 }
 
-                boolean pertama = false;
-                String where = "";
+                where = "";
                 for(int i = 0; i< finalFilterKey.size(); i++){
                     if(i>0)
                         where+=" AND ";
                     where+=" "+finalFilterKey.get(i)+" = \""+finalFilterValue.get(i)+"\"";
-                    pertama = true;
                 }
+
+                /*
                 if(filterList.get("range") != null) {
                     if(pertama == false)
                         where += " AND "+filter6;
                     else
                         where += " "+filter6;
                 }
+                */
 
-                Toast.makeText(getBaseContext(), where, Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(getBaseContext(), "Tanggal : "+filter6, Toast.LENGTH_LONG).show();
 
                 finalFilterKey.clear();
                 finalFilterValue.clear();
 
-
-
-                if(!where.equals("")) {
+                if(where.equals("") && filter6.equals("")){
+                    Toast.makeText(getBaseContext(), "Pilih minimal 1 filter!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(where.equals(""))
+                        where = "1";
                     Intent intent = new Intent(Activity6c_App1SpecialResult.this, Activity6_App1ResultMap.class);
                     intent.putExtra("where", where);
                     intent.putExtra("start", 0);
                     intent.putExtra("end", 10);
                     intent.putExtra("caller", 1);
+                    intent.putExtra("range", filter6);
                     startActivity(intent);
-                }
-                else
-                    Toast.makeText(getBaseContext(), "Pilih minimal 1 filter!", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(getBaseContext(), "UserId : "+userID+"\n\n"+where, Toast.LENGTH_SHORT).show();
+                }
+
+        //        Toast.makeText(getBaseContext(), "UserId : "+userID+"\n\n"+where, Toast.LENGTH_SHORT).show();
             }
         });
     }
