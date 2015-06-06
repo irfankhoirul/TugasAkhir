@@ -292,6 +292,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                     intent.putExtra("where", where);
                     intent.putExtra("start", 0);
                     intent.putExtra("end", 10);
+                    intent.putExtra("caller", 0);
                     startActivity(intent);
                 }
                 else
@@ -482,46 +483,6 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_KUALITAS);
                     adapterKualitas.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray merk_smartphone = jsonObj.getJSONArray("merk_smartphone");
-                    for (int i = 0; i < merk_smartphone.length(); i++) {
-                        FILTER_MERK_SMARTPHONE.add(merk_smartphone.getJSONObject(i).getString("merk_smartphone"));
-                    //    Log.v("Filter6", FILTER_MERK_SMARTPHONE.get(i));
-                    }
-                    adapterMerkSmartphone = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_MERK_SMARTPHONE);
-                    adapterMerkSmartphone.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray tipe_smartphone = jsonObj.getJSONArray("tipe_smartphone");
-                    for (int i = 0; i < tipe_smartphone.length(); i++) {
-                        FILTER_TIPE_SMARTPHONE.add(tipe_smartphone.getJSONObject(i).getString("tipe_smartphone"));
-                    //    Log.v("Filter7", FILTER_TIPE_SMARTPHONE.get(i));
-                    }
-                    adapterTipeSmartphone = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_TIPE_SMARTPHONE);
-                    adapterTipeSmartphone.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray merk_motor = jsonObj.getJSONArray("merk_motor");
-                    for (int i = 0; i < merk_motor.length(); i++) {
-                        FILTER_MERK_MOTOR.add(merk_motor.getJSONObject(i).getString("merk_motor"));
-                    //    Log.v("Filter8", FILTER_MERK_MOTOR.get(i));
-                    }
-                    adapterMerkMotor = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_MERK_MOTOR);
-                    adapterMerkMotor.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray tipe_motor = jsonObj.getJSONArray("tipe_motor");
-                    for (int i = 0; i < tipe_motor.length(); i++) {
-                        FILTER_TIPE_MOTOR.add(tipe_motor.getJSONObject(i).getString("tipe_motor"));
-                    //    Log.v("Filter9", FILTER_TIPE_MOTOR.get(i));
-                    }
-                    adapterTipeMotor = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_TIPE_MOTOR);
-                    adapterTipeMotor.setDropDownViewResource(R.layout.custom_spinner_item);
 
                 }
                 pDialog.dismiss();

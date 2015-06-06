@@ -134,6 +134,22 @@ public class UserFunctions {
     }
 
     /**
+     * Function to Get All Roads
+     **/
+    public JSONObject getAllRoadDataKhusus(String where, String start, String end, String userId){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "getRoadDataKhusus"));
+        params.add(new BasicNameValuePair("userId", userId));
+        params.add(new BasicNameValuePair("where", where));
+        params.add(new BasicNameValuePair("start", start));
+        params.add(new BasicNameValuePair("end", end));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to Get Road Details
      **/
     public JSONObject getRoadDataDetails(String fullAddress){

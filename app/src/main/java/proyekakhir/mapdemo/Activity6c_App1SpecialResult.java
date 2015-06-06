@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
@@ -61,18 +62,20 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
             stat_tipeMotor = false;
     LinearLayout timeFilter, spinnerValue;
 
-    List<String> FILTER_NAMA_JALAN = new ArrayList<String>();
-    List<String> FILTER_KECAMATAN = new ArrayList<String>();
-    List<String> FILTER_KOTA = new ArrayList<String>();
-    List<String> FILTER_PROVINSI = new ArrayList<String>();
-    List<String> FILTER_KUALITAS = new ArrayList<String>();
+//    List<String> FILTER_NAMA_JALAN = new ArrayList<String>();
+//    List<String> FILTER_KECAMATAN = new ArrayList<String>();
+//    List<String> FILTER_KOTA = new ArrayList<String>();
+//    List<String> FILTER_PROVINSI = new ArrayList<String>();
+//    List<String> FILTER_KUALITAS = new ArrayList<String>();
     List<String> FILTER_MERK_SMARTPHONE = new ArrayList<String>();
     List<String> FILTER_TIPE_SMARTPHONE = new ArrayList<String>();
     List<String> FILTER_MERK_MOTOR = new ArrayList<String>();
     List<String> FILTER_TIPE_MOTOR = new ArrayList<String>();
 
-    ArrayAdapter<String> adapterNamaJalan, adapterKecamatan, adapterKota, adapterProvinsi,
-            adapterKualitas, adapterMerkSmartphone, adapterTipeSmartphone, adapterMerkMotor,
+    ArrayAdapter<String>
+       //     adapterNamaJalan, adapterKecamatan, adapterKota, adapterProvinsi,
+       //     adapterKualitas,
+            adapterMerkSmartphone, adapterTipeSmartphone, adapterMerkMotor,
             adapterTipeMotor;
 
     @Override
@@ -83,6 +86,15 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
 
+        try {
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            User user = db.getUser();
+            userID = user.getUser_id();
+        }
+        catch(Exception ex)
+        {
+            Toast.makeText(getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
+        }
 
         //Initialize Component
         dp =(DatePicker) findViewById(R.id.dp);
@@ -120,7 +132,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
 
         final Spinner spinner = (Spinner) findViewById(R.id.filterType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.filter, android.R.layout.simple_spinner_item);
+                R.array.filterKhusus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -129,18 +141,22 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 int item = spinner.getSelectedItemPosition();
 
-                spinner2.setVisibility(View.VISIBLE);
-                if (item == 0)
-                    spinner2.setAdapter(adapterNamaJalan);
-                else if (item == 1)
-                    spinner2.setAdapter(adapterKecamatan);
-                else if (item == 2)
-                    spinner2.setAdapter(adapterKota);
-                else if (item == 3)
-                    spinner2.setAdapter(adapterProvinsi);
-                else if (item == 4)
-                    spinner2.setAdapter(adapterKualitas);
-
+                if(item == 4){
+                    spinner2.setVisibility(View.GONE);
+                    timeFilter.setVisibility(View.VISIBLE);
+                }
+                else {
+                    timeFilter.setVisibility(View.GONE);
+                    spinner2.setVisibility(View.VISIBLE);
+                    if (item == 0)
+                        spinner2.setAdapter(adapterMerkSmartphone);
+                    else if (item == 1)
+                        spinner2.setAdapter(adapterTipeSmartphone);
+                    else if (item == 2)
+                        spinner2.setAdapter(adapterMerkMotor);
+                    else if (item == 3)
+                        spinner2.setAdapter(adapterTipeMotor);
+                }
             }
 
             @Override
@@ -158,7 +174,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
         actResultFilter_bt_addFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinner.getSelectedItemPosition() == 5) {
+                if (spinner.getSelectedItemPosition() == 4) {
                     filter6 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd + "' ";
                     if (filterList.get("range") == null)
                         filterList.put("range", filter6);
@@ -170,43 +186,35 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                 if(spinner2.getSelectedItem()!=null) {
                     if (spinner.getSelectedItemPosition() == 0) {
                         filter1 = spinner2.getSelectedItem().toString();
-                        if (filterList.get("nama_jalan") == null)
-                            filterList.put("nama_jalan", filter1);
+                        if (filterList.get("merk_smartphone") == null)
+                            filterList.put("merk_smartphone", filter1);
                         else {
-                            filterList.remove("nama_jalan");
-                            filterList.put("nama_jalan", filter1);
+                            filterList.remove("merk_smartphone");
+                            filterList.put("merk_smartphone", filter1);
                         }
                     } else if (spinner.getSelectedItemPosition() == 1) {
                         filter2 = spinner2.getSelectedItem().toString();
-                        if (filterList.get("kec") == null)
-                            filterList.put("kec", filter2);
+                        if (filterList.get("tipe_smartphone") == null)
+                            filterList.put("tipe_smartphone", filter2);
                         else {
-                            filterList.remove("kec");
-                            filterList.put("kec", filter2);
+                            filterList.remove("tipe_smartphone");
+                            filterList.put("tipe_smartphone", filter2);
                         }
                     } else if (spinner.getSelectedItemPosition() == 2) {
                         filter3 = spinner2.getSelectedItem().toString();
-                        if (filterList.get("kota") == null)
-                            filterList.put("kota", filter3);
+                        if (filterList.get("merk_motor") == null)
+                            filterList.put("merk_motor", filter3);
                         else {
-                            filterList.remove("kota");
-                            filterList.put("kota", filter3);
+                            filterList.remove("merk_motor");
+                            filterList.put("merk_motor", filter3);
                         }
                     } else if (spinner.getSelectedItemPosition() == 3) {
                         filter4 = spinner2.getSelectedItem().toString();
-                        if (filterList.get("prov") == null)
-                            filterList.put("prov", filter4);
+                        if (filterList.get("tipe_motor") == null)
+                            filterList.put("tipe_motor", filter4);
                         else {
-                            filterList.remove("prov");
-                            filterList.put("prov", filter4);
-                        }
-                    } else if (spinner.getSelectedItemPosition() == 4) {
-                        filter5 = spinner2.getSelectedItem().toString();
-                        if (filterList.get("kualitas") == null)
-                            filterList.put("kualitas", filter5);
-                        else {
-                            filterList.remove("kualitas");
-                            filterList.put("kualitas", filter5);
+                            filterList.remove("tipe_motor");
+                            filterList.put("tipe_motor", filter4);
                         }
                     }
                 }
@@ -214,20 +222,17 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     Toast.makeText(getBaseContext(), "Silakan pilih filter", Toast.LENGTH_SHORT).show();
                 }
 
-                if(filterList.get("nama_jalan") != null) {
-                    filter+="\nNama Jalan : "+filterList.get("nama_jalan");
+                if(filterList.get("merk_smartphone") != null) {
+                    filter+="\nMerk Smartphone : "+filterList.get("merk_smartphone");
                 }
-                if(filterList.get("kec") != null) {
-                    filter+="\nKecamatan : "+filterList.get("kec");
+                if(filterList.get("tipe_smartphone") != null) {
+                    filter+="\nTipe Smartphone : "+filterList.get("tipe_smartphone");
                 }
-                if(filterList.get("kota") != null) {
-                    filter+="\nKota : "+filterList.get("kota");
+                if(filterList.get("merk_motor") != null) {
+                    filter+="\nMerk Motor : "+filterList.get("merk_motor");
                 }
-                if(filterList.get("prov") != null) {
-                    filter+="\nProvinsi : "+filterList.get("prov");
-                }
-                if(filterList.get("kualitas") != null) {
-                    filter+="\nKualitas : "+filterList.get("kualitas");
+                if(filterList.get("tipe_motor") != null) {
+                    filter+="\nTipe Motor : "+filterList.get("tipe_motor");
                 }
                 if(filterList.get("range") != null) {
                     filter+="\nRange Waktu : "+filterList.get("range");
@@ -246,25 +251,21 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //Get Final Filter
-                if(filterList.get("nama_jalan") != null) {
-                    finalFilterKey.add("nama_jalan");
+                if(filterList.get("merk_smartphone") != null) {
+                    finalFilterKey.add("merk_smartphone");
                     finalFilterValue.add(filter1);
                 }
-                if(filterList.get("kec") != null) {
-                    finalFilterKey.add("kec");
+                if(filterList.get("tipe_smartphone") != null) {
+                    finalFilterKey.add("tipe_smartphone");
                     finalFilterValue.add(filter2);
                 }
-                if(filterList.get("kota") != null) {
-                    finalFilterKey.add("kota");
+                if(filterList.get("merk_motor") != null) {
+                    finalFilterKey.add("merk_motor");
                     finalFilterValue.add(filter3);
                 }
-                if(filterList.get("prov") != null) {
-                    finalFilterKey.add("prov");
+                if(filterList.get("tipe_motor") != null) {
+                    finalFilterKey.add("tipe_motor");
                     finalFilterValue.add(filter4);
-                }
-                if(filterList.get("kualitas") != null) {
-                    finalFilterKey.add("kualitas");
-                    finalFilterValue.add(filter5);
                 }
 
                 boolean pertama = false;
@@ -288,16 +289,19 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                 finalFilterValue.clear();
 
 
+
                 if(!where.equals("")) {
                     Intent intent = new Intent(Activity6c_App1SpecialResult.this, Activity6_App1ResultMap.class);
                     intent.putExtra("where", where);
                     intent.putExtra("start", 0);
                     intent.putExtra("end", 10);
+                    intent.putExtra("caller", 1);
                     startActivity(intent);
                 }
                 else
                     Toast.makeText(getBaseContext(), "Pilih minimal 1 filter!", Toast.LENGTH_SHORT).show();
 
+                Toast.makeText(getBaseContext(), "UserId : "+userID+"\n\n"+where, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -425,69 +429,12 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json.getString("success") != null) {
-                    //    Log.v("Filter1", json.getString("nama_jalan"));
-                    //    Log.v("Filter2", json.getString("kec"));
-                    //    Log.v("Filter3", json.getString("kota"));
-                    //    Log.v("Filter4", json.getString("prov"));
-                    //    Log.v("Filter5", json.getString("kualitas"));
-                    //    createAdapter();
-                    //    Log.v("Filter", json.toString());
                     JSONObject jsonObj = new JSONObject(json.toString());
-
-                    JSONArray nama_jalan = jsonObj.getJSONArray("nama_jalan");
-                    for (int i = 0; i < nama_jalan.length(); i++) {
-                        FILTER_NAMA_JALAN.add(nama_jalan.getJSONObject(i).getString("nama_jalan"));
-                        //    Log.v("Filter1", FILTER_NAMA_JALAN.get(i));
-                    }
-                    adapterNamaJalan = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_NAMA_JALAN);
-                    adapterNamaJalan.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray kec = jsonObj.getJSONArray("kec");
-                    for (int i = 0; i < kec.length(); i++) {
-                        FILTER_KECAMATAN.add(kec.getJSONObject(i).getString("kec"));
-                        //    Log.v("Filter2", FILTER_KECAMATAN.get(i));
-                    }
-                    adapterKecamatan = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_KECAMATAN);
-                    adapterKecamatan.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray kota = jsonObj.getJSONArray("kota");
-                    for (int i = 0; i < kota.length(); i++) {
-                        FILTER_KOTA.add(kota.getJSONObject(i).getString("kota"));
-                        //    Log.v("Filter3", FILTER_KOTA.get(i));
-                    }
-                    adapterKota = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_KOTA);
-                    adapterKota.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray prov = jsonObj.getJSONArray("prov");
-                    for (int i = 0; i < prov.length(); i++) {
-                        FILTER_PROVINSI.add(prov.getJSONObject(i).getString("prov"));
-                        //    Log.v("Filter4", FILTER_PROVINSI.get(i));
-                    }
-                    adapterProvinsi = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_PROVINSI);
-                    adapterProvinsi.setDropDownViewResource(R.layout.custom_spinner_item);
-
-                    JSONArray kualitas = jsonObj.getJSONArray("kualitas");
-                    for (int i = 0; i < kualitas.length(); i++) {
-                        FILTER_KUALITAS.add(kualitas.getJSONObject(i).getString("kualitas"));
-                        //    Log.v("Filter5", FILTER_KUALITAS.get(i));
-                    }
-                    adapterKualitas = new ArrayAdapter<String>(
-                            getApplicationContext(), R.layout.custom_spinner_item,
-                            FILTER_KUALITAS);
-                    adapterKualitas.setDropDownViewResource(R.layout.custom_spinner_item);
 
                     JSONArray merk_smartphone = jsonObj.getJSONArray("merk_smartphone");
                     for (int i = 0; i < merk_smartphone.length(); i++) {
                         FILTER_MERK_SMARTPHONE.add(merk_smartphone.getJSONObject(i).getString("merk_smartphone"));
-                        //    Log.v("Filter6", FILTER_MERK_SMARTPHONE.get(i));
+                        //    Log.v("Filter1", FILTER_NAMA_JALAN.get(i));
                     }
                     adapterMerkSmartphone = new ArrayAdapter<String>(
                             getApplicationContext(), R.layout.custom_spinner_item,
@@ -497,7 +444,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     JSONArray tipe_smartphone = jsonObj.getJSONArray("tipe_smartphone");
                     for (int i = 0; i < tipe_smartphone.length(); i++) {
                         FILTER_TIPE_SMARTPHONE.add(tipe_smartphone.getJSONObject(i).getString("tipe_smartphone"));
-                        //    Log.v("Filter7", FILTER_TIPE_SMARTPHONE.get(i));
+                        //    Log.v("Filter2", FILTER_KECAMATAN.get(i));
                     }
                     adapterTipeSmartphone = new ArrayAdapter<String>(
                             getApplicationContext(), R.layout.custom_spinner_item,
@@ -507,7 +454,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     JSONArray merk_motor = jsonObj.getJSONArray("merk_motor");
                     for (int i = 0; i < merk_motor.length(); i++) {
                         FILTER_MERK_MOTOR.add(merk_motor.getJSONObject(i).getString("merk_motor"));
-                        //    Log.v("Filter8", FILTER_MERK_MOTOR.get(i));
+                        //    Log.v("Filter3", FILTER_KOTA.get(i));
                     }
                     adapterMerkMotor = new ArrayAdapter<String>(
                             getApplicationContext(), R.layout.custom_spinner_item,
@@ -517,7 +464,7 @@ public class Activity6c_App1SpecialResult extends ActionBarActivity {
                     JSONArray tipe_motor = jsonObj.getJSONArray("tipe_motor");
                     for (int i = 0; i < tipe_motor.length(); i++) {
                         FILTER_TIPE_MOTOR.add(tipe_motor.getJSONObject(i).getString("tipe_motor"));
-                        //    Log.v("Filter9", FILTER_TIPE_MOTOR.get(i));
+                        //    Log.v("Filter4", FILTER_PROVINSI.get(i));
                     }
                     adapterTipeMotor = new ArrayAdapter<String>(
                             getApplicationContext(), R.layout.custom_spinner_item,

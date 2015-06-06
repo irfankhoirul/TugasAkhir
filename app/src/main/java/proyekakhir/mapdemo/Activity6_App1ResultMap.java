@@ -55,6 +55,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     int start, end;
     Boolean max = false;
     String userID;
+    int caller;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private SwipeRefreshLayout swipeLayout;
@@ -91,8 +92,9 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         where = intent.getStringExtra("where");
         start = intent.getIntExtra("start", 0);
         end = intent.getIntExtra("end", 0);
+        caller = intent.getIntExtra("caller", 0);
 
-        Toast.makeText(getBaseContext(), where, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Caller : "+caller, Toast.LENGTH_LONG).show();
 
 //        Toast.makeText(getBaseContext(), start+" - "+end, Toast.LENGTH_SHORT).show();
 
@@ -269,76 +271,85 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
 
         @Override
         protected JSONObject doInBackground(String... args) {
+            JSONObject json = null;
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end), userID);
+            if(caller == 0) {
+                json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end), userID);
+            }
+            else if(caller == 1) {
+                json = userFunction.getAllRoadDataKhusus(where, Integer.toString(start), Integer.toString(end), userID);
+            }
             return json;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
-            try{
-//                Toast.makeText(getBaseContext(), "JSON : "+json.toString(), Toast.LENGTH_SHORT).show();
-//                Log.v("JSONOut", json.toString());
-                if(Integer.parseInt(json.getString("success")) == 1){
-                    JSONObject jsonObj = new JSONObject(json.toString());
-                    JSONArray daftarJalan = jsonObj.getJSONArray("data");
+//            if(caller == 0 ) {
+                try {
+                    if (Integer.parseInt(json.getString("success")) == 1) {
+                        JSONObject jsonObj = new JSONObject(json.toString());
+                        JSONArray daftarJalan = jsonObj.getJSONArray("data");
 
-                    if(daftarJalan.length() < 10) // 10 = jumlah data per activity
-                        max = true;
+                        if (daftarJalan.length() < 10) // 10 = jumlah data per activity
+                            max = true;
 
-                    resultNamaJalan = new ArrayList<String>(daftarJalan.length());
-                    resultKualitas = new ArrayList<String>(daftarJalan.length());
-                    resultKec = new ArrayList<String>(daftarJalan.length());
-                    resultKota = new ArrayList<String>(daftarJalan.length());
-                    resultProv = new ArrayList<String>(daftarJalan.length());
-                    resultPersentase = new ArrayList<String>(daftarJalan.length());
+                        resultNamaJalan = new ArrayList<String>(daftarJalan.length());
+                        resultKualitas = new ArrayList<String>(daftarJalan.length());
+                        resultKec = new ArrayList<String>(daftarJalan.length());
+                        resultKota = new ArrayList<String>(daftarJalan.length());
+                        resultProv = new ArrayList<String>(daftarJalan.length());
+                        resultPersentase = new ArrayList<String>(daftarJalan.length());
 
-                    for (int i = 0; i < daftarJalan.length(); i++) {
-                        resultNamaJalan.add(daftarJalan.getJSONObject(i).getString("nama_jalan"));
-                        resultKualitas.add(daftarJalan.getJSONObject(i).getString("kualitas"));
-                        resultKec.add(daftarJalan.getJSONObject(i).getString("kec"));
-                        resultKota.add(daftarJalan.getJSONObject(i).getString("kota"));
-                        resultProv.add(daftarJalan.getJSONObject(i).getString("prov"));
-                        resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
-                    }
-                    dataLoaded = true;
-
-                    //Get disict value of city
-                    Set<String> uniqueCity = new HashSet<String>(resultKota);
-                    for (int j = 0; j < uniqueCity.size(); j++) {
-                        Group group = new Group("" + uniqueCity.toArray()[j]);
-                        for (int i = 0; i < resultNamaJalan.size(); i++) {
-                            if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
-                                group.namaJalan.add(resultNamaJalan.get(i));
-                                //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
-                                group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
-                                group.nilaiKondisi.add(resultKualitas.get(i));
-                                group.kec.add(resultKec.get(i));
-                                group.kota.add(resultKota.get(i));
-                                group.prov.add(resultProv.get(i));
-                            }
+                        for (int i = 0; i < daftarJalan.length(); i++) {
+                            resultNamaJalan.add(daftarJalan.getJSONObject(i).getString("nama_jalan"));
+                            resultKualitas.add(daftarJalan.getJSONObject(i).getString("kualitas"));
+                            resultKec.add(daftarJalan.getJSONObject(i).getString("kec"));
+                            resultKota.add(daftarJalan.getJSONObject(i).getString("kota"));
+                            resultProv.add(daftarJalan.getJSONObject(i).getString("prov"));
+                            resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
                         }
-                        groups.append(j, group);
+                        dataLoaded = true;
+
+                        //Get disict value of city
+                        Set<String> uniqueCity = new HashSet<String>(resultKota);
+                        for (int j = 0; j < uniqueCity.size(); j++) {
+                            Group group = new Group("" + uniqueCity.toArray()[j]);
+                            for (int i = 0; i < resultNamaJalan.size(); i++) {
+                                if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
+                                    group.namaJalan.add(resultNamaJalan.get(i));
+                                    //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
+                                    group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
+                                    group.nilaiKondisi.add(resultKualitas.get(i));
+                                    group.kec.add(resultKec.get(i));
+                                    group.kota.add(resultKota.get(i));
+                                    group.prov.add(resultProv.get(i));
+                                }
+                            }
+                            groups.append(j, group);
+                        }
+
+                        ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
+                        MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
+                        listView.setAdapter(adapter);
+                    } else if (Integer.parseInt(json.getString("success")) == 2) {
+                        max = true;
+//                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
+                    } else if (Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1) {
+                        Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                     }
 
-                    ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                    MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
-                    listView.setAdapter(adapter);
-                }
-                else if(Integer.parseInt(json.getString("success")) == 2){
-                    max = true;
-//                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
-                }
-                else if(Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1){
-                    Toast.makeText(getBaseContext(), json.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                }
-
-            }catch(Exception ex)
-            {
+                } catch (Exception ex) {
 //                Log.e("Error when getting json", ex.getMessage());
-                Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
-            }
-            Log.v("Json Out", json.toString());
+                    Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
+                }
+                Log.v("Json Out", json.toString());
+//            }
+//            else {
+//                Toast.makeText(getBaseContext(), json.toString(), Toast.LENGTH_SHORT).show();
+//                Log.v("Json Out 1", json.toString());
+//            }
             pDialog.dismiss();
         }
     }
