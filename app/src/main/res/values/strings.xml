@@ -47,5 +47,9 @@
     <string name="title_activity_activity11__help">Help</string>
     <string name="title_activity_splash_screen">Splash Screen</string>
     <string name="title_activity_activity6c__app1_special_result">Hasil Khusus</string>
+    <string name="title_activity_activity3c__discover_pothole">Temukan Jalan Berlubang</string>
+    <string name="title_activity_activity4a__pothole_result">Lubang Ditemukan</string>
+    <string name="title_activity_activity4b__pothole_preview">Preview Lokasi Lubang</string>
+    <string name="title_activity_activity4c__show_pothole">Lubang Ditemukan</string>
 
 </resources>

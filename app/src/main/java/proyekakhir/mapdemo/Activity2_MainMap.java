@@ -89,9 +89,16 @@ public class Activity2_MainMap extends DrawerActivity {
                                             Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
-                                            Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
-                                            i.putExtra("Jenis", umumKhusus);
-                                            startActivity(i);
+                                            if(umumKhusus == 1 ) {
+                                                Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
+                                                i.putExtra("Jenis", umumKhusus);
+                                                startActivity(i);
+                                            }
+                                            else if(umumKhusus == 2){
+                                                Intent i = new Intent(Activity2_MainMap.this, Activity4_DiscoverPothole.class);
+                                                i.putExtra("Jenis", umumKhusus);
+                                                startActivity(i);
+                                            }
                                         }
                                     }
                                 })

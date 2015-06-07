@@ -123,6 +123,22 @@
             android:name=".Activity6c_App1SpecialResult"
             android:label="@string/title_activity_activity6c__app1_special_result" >
         </activity>
+        <activity
+            android:name=".Activity4_DiscoverPothole"
+            android:label="@string/title_activity_activity3c__discover_pothole" >
+        </activity>
+        <activity
+            android:name=".Activity4a_PotholeResult"
+            android:label="@string/title_activity_activity4a__pothole_result" >
+        </activity>
+        <activity
+            android:name=".Activity4b_PotholePreview"
+            android:label="@string/title_activity_activity4b__pothole_preview" >
+        </activity>
+        <activity
+            android:name=".Activity4c_ShowPothole"
+            android:label="@string/title_activity_activity4c__show_pothole" >
+        </activity>
     </application>
 
 </manifest>

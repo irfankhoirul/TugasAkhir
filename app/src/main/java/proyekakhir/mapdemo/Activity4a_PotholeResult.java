@@ -36,7 +36,7 @@ import proyekakhir.mapdemo.library.DatabaseHandler;
 import proyekakhir.mapdemo.library.UserFunctions;
 
 
-public class Activity3a_App1GoResult extends AppCompatActivity {
+public class Activity4a_PotholeResult extends AppCompatActivity {
 
     String data = null;
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
@@ -76,10 +76,10 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity3a_app1goresult);
+        setContentView(R.layout.activity_activity4a__pothole_result);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
 
         //get date for pengukuran table
         Calendar c = Calendar.getInstance();
@@ -115,7 +115,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(Activity3a_App1GoResult.this, Activity3b_App1Preview.class);
+                Intent intent = new Intent(Activity4a_PotholeResult.this, Activity4b_PotholePreview.class);
                 intent.putExtra("qual-prev", qual_preview);
                 intent.putExtra("lat-prev", lat_preview);
                 intent.putExtra("lon-prev", lon_preview);
@@ -182,7 +182,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         new NetCheck().execute();
 
         for(int i=0; i<street_preview.length; i++){
-            Log.v("Point-"+i,street_preview[i]+","+kec_preview[i]+","+city_preview[i]+","+prov_preview[i]);
+            Log.v("Point-" + i, street_preview[i] + "," + kec_preview[i] + "," + city_preview[i] + "," + prov_preview[i]);
         }
     }
 
@@ -195,84 +195,13 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Lat:"+lat_preview.length+
                 " Lon:"+lon_preview.length+" Qual:"+qual_preview.length, Toast.LENGTH_SHORT).show();
 
-        /*
-        tS = intent.getIntExtra("time-length",0);
-        t = new int[tS];
-        t = intent.getIntArrayExtra("time");
-        for(int i=0;i<t.length;i++)
-        {
-            tT.add(t[i]);
-        }
-        */
-
-        /*
-        xS = intent.getIntExtra("x-axis-length",0);
-        x = new double[xS];
-        x = intent.getDoubleArrayExtra("x-axis");
-        for(int i=0;i<x.length;i++)
-        {
-            xX.add(x[i]);
-        }
-        */
-
-        /*
-        yS = intent.getIntExtra("y-axis-length", 0);
-        y = new double[yS];
-        y = intent.getDoubleArrayExtra("y-axis");
-        y_preview = intent.getDoubleArrayExtra("y-axis");
-        for(int i=0;i<y.length;i++)
-        {
-            yY.add(y[i]);
-        }
-        */
-
-        /*
-        zS = intent.getIntExtra("z-axis-length",0);
-        z = new double[zS];
-        z = intent.getDoubleArrayExtra("z-axis");
-        for(int i=0;i<z.length;i++)
-        {
-            zZ.add(z[i]);
-        }
-        */
-
-        /*
-        latS = intent.getIntExtra("latitude-length",0);
-        latitude = new double[latS];
-        latitude = intent.getDoubleArrayExtra("latitude");
-
-        for(int i=0;i<latitude.length;i++)
-        {
-            lati.add(latitude[i]);
-        }
-
-        longS = intent.getIntExtra("longitude-length",0);
-        longitude = new double[longS];
-        longitude = intent.getDoubleArrayExtra("longitude");
-
-        for(int i=0;i<longitude.length;i++)
-        {
-            longi.add(longitude[i]);
-        }
-        */
-
-        /*
-        speedS = intent.getIntExtra("speed-length",0);
-        speed = new double[speedS];
-        speed = intent.getDoubleArrayExtra("speed");
-        for(int i=0;i<speed.length;i++)
-        {
-            v.add(speed[i]);
-        }
-        */
-
         //    min = Math.min(tT.size(), Math.min(xX.size(), Math.min(yY.size(), Math.min(zZ.size(), Math.min(lati.size(), Math.min(longi.size(), v.size()))))));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu___test_ride_app1_result, menu);
+        getMenuInflater().inflate(R.menu.menu_activity4a__pothole_result, menu);
         return true;
     }
 
@@ -315,7 +244,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            nDialog = new ProgressDialog(Activity3a_App1GoResult.this);
+            nDialog = new ProgressDialog(Activity4a_PotholeResult.this);
             nDialog.setTitle("Completing Data");
             nDialog.setMessage("Loading..");
             nDialog.setIndeterminate(false);
@@ -371,7 +300,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(Activity3a_App1GoResult.this);
+            pDialog = new ProgressDialog(Activity4a_PotholeResult.this);
             pDialog.setTitle("Please Wait");
             pDialog.setMessage("Completing your data ...");
             pDialog.setIndeterminate(false);
@@ -428,7 +357,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(Activity3a_App1GoResult.this);
+            pDialog = new ProgressDialog(Activity4a_PotholeResult.this);
             pDialog.setTitle("Please Wait");
             pDialog.setMessage("Creating JSON data ...");
             pDialog.setIndeterminate(false);
@@ -477,7 +406,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(Activity3a_App1GoResult.this);
+            pDialog = new ProgressDialog(Activity4a_PotholeResult.this);
             pDialog.setTitle("Contacting Servers");
             pDialog.setMessage("Logging in ...");
             pDialog.setIndeterminate(false);
@@ -488,7 +417,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.sendData(ID_USER, data.toString());
+            JSONObject json = userFunction.sendDataLubang(ID_USER, data.toString());
             return json;
         }
 
@@ -500,12 +429,12 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
                 }
                 pDialog.dismiss();
                 sent = true;
+
+                // Jika terkirim, maka buat notifikasi
             } catch (JSONException e) {
                 e.printStackTrace();
                 pDialog.dismiss();
             }
         }
     }
-
-
 }

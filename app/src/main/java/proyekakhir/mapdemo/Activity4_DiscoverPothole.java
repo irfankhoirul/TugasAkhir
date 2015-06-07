@@ -50,7 +50,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Activity3_App1Go extends AppCompatActivity implements SensorEventListener, LocationListener {
+
+public class Activity4_DiscoverPothole extends AppCompatActivity implements SensorEventListener, LocationListener {
 
     int c = 0, qual;
     boolean ready = false;
@@ -114,12 +115,12 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity3_app1go);
+        setContentView(R.layout.activity_activity3c__discover_pothole);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
 
-        pDialog = new ProgressDialog(Activity3_App1Go.this);
+        pDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
         pDialog.setTitle("Waiting for GPS connection");
         pDialog.setMessage("Please Wait ...");
         pDialog.setIndeterminate(false);
@@ -172,9 +173,10 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                         if (count % 10 == 0) { //1 detik per proses
                             qual = histogram();
                             resetVariable();
-                            new SnapToRoad().execute();
-                            showMarker(qual, lat, lon);
-
+                            if(qual == 3) {
+                                new SnapToRoad().execute();
+                                showMarker(qual, lat, lon);
+                            }
                             c++;
                         }
                         _act6_txt_time.setText(Integer.toString(count));
@@ -291,6 +293,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             }
         }
 
+        //Tentukan Batasan Histogram jalan berlubang
         //Klasifikasi
         double A = (j0_1+j1_2);
         double B = (j1_2+j2_3+j3_4);
@@ -370,12 +373,12 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                     }
 
                 }
-            //    if(!isFirstLocation)
-                    _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
+                //    if(!isFirstLocation)
+                _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
             }
         };
 
-       mMap.setOnMyLocationChangeListener(myLocationChangeListener);
+        mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
     }
 
@@ -414,7 +417,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu___test_ride_app1, menu);
+        inflater.inflate(R.menu.menu_activity3c__discover_pothole, menu);
 
         return true;
     }
@@ -442,7 +445,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         }
 
 //        saveData();
-        Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
+        Intent i = new Intent (Activity4_DiscoverPothole.this,Activity4a_PotholeResult.class);
         i.putExtra("qual-prev", qual);
         i.putExtra("lat-prev", lat);
         i.putExtra("lon-prev", lon);
@@ -501,12 +504,12 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             myOutWriter.close();
             fOut.close();
             Toast.makeText(getBaseContext(),"Done writing SD 'mysdfile.txt'",Toast.LENGTH_SHORT).show();
-        //    countPengukuran++;
+            //    countPengukuran++;
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-    
+
     @Override
     public void onBackPressed()
     {
@@ -569,8 +572,8 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                     JSONArray predsJsonArray = jsonObj.getJSONArray("routes");
                     lat = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lat");
                     lon = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lng");
-                //    Log.v("Latitude", Double.toString(lat));
-                //    Log.v("Longitude", Double.toString(lon));
+                    //    Log.v("Latitude", Double.toString(lat));
+                    //    Log.v("Longitude", Double.toString(lon));
                 }
                 con.disconnect();
             } catch (Exception e) {
@@ -587,5 +590,4 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             return null;
         }
     }
-
 }

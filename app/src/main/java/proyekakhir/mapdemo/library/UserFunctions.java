@@ -78,6 +78,22 @@ public class UserFunctions {
     }
 
     /**
+     * Sending data
+     **/
+    public JSONObject sendDataLubang(String idUser, String string_json){
+        // Building Parameters
+
+        JSONParser jp = new JSONParser();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", "sendDataLubang"));
+        params.add(new BasicNameValuePair("idUser", idUser));
+        params.add(new BasicNameValuePair("json", string_json));
+        JSONObject json = jp.getJSONFromUrl(loginURL, params);
+
+        return json;
+    }
+
+    /**
      * Function to Get User Details
      **/
     public JSONObject getUserDetails(String username){
