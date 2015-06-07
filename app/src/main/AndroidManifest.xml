@@ -139,6 +139,10 @@
             android:name=".Activity4c_ShowPothole"
             android:label="@string/title_activity_activity4c__show_pothole" >
         </activity>
+        <activity
+            android:name=".Activity6d_PotholeDetails"
+            android:label="@string/title_activity_activity6d__pothole_details" >
+        </activity>
     </application>
 
 </manifest>

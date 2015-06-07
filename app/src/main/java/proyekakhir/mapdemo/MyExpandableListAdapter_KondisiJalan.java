@@ -17,13 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+public class MyExpandableListAdapter_KondisiJalan extends BaseExpandableListAdapter {
 
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
 
-    public MyExpandableListAdapter(Activity act, SparseArray<Group> groups) {
+    public MyExpandableListAdapter_KondisiJalan(Activity act, SparseArray<Group> groups) {
         activity = act;
         this.groups = groups;
         inflater = act.getLayoutInflater();
@@ -82,17 +82,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         if(nilaiKondisi.equalsIgnoreCase("1")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_blue);
         }
-        /*
-        else if(nilaiKondisi.equalsIgnoreCase("2")){
-            imageView_kualitas.setImageResource(R.drawable.ic_marker_light_blue);
-        }
-        else if(nilaiKondisi.equalsIgnoreCase("3")){
-            imageView_kualitas.setImageResource(R.drawable.ic_marker_lime);
-        }
-        else if(nilaiKondisi.equalsIgnoreCase("4")){
-            imageView_kualitas.setImageResource(R.drawable.ic_marker_yellow);
-        }
-        */
         else if(nilaiKondisi.equalsIgnoreCase("2")){
             imageView_kualitas.setImageResource(R.drawable.ic_marker_orange);
         }

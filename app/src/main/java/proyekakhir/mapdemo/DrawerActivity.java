@@ -136,30 +136,39 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
                     break;
                 }
                 case 2: {
+                    Intent intent = new Intent(DrawerActivity.this, Activity4c_ShowPothole.class);
+                    intent.putExtra("where", "1");
+                    intent.putExtra("start", 0);
+                    intent.putExtra("end", 10);
+                    intent.putExtra("caller", 0);
+                    startActivity(intent);
+                    finish();
+                    break;
+                }
+                case 3: {
                     Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(viewIntent);
                     break;
                 }
-                case 3: {
+                case 4: {
                     Intent intent = new Intent(DrawerActivity.this, Activity9_UserDetails.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 4: {
+                case 5: {
                     Intent intent = new Intent(DrawerActivity.this, Activity10_About.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 5: {
+                case 6: {
                     Intent intent = new Intent(DrawerActivity.this, Activity11_Help.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
-                case 6:{
-
+                case 7:{
                     DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                     db.resetTables();
 

@@ -45,11 +45,11 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
 
     public boolean dataLoaded = false;
     List<String> resultNamaJalan;
-    List<String> resultKualitas;
+//    List<String> resultKualitas;
     List<String> resultKec;
     List<String> resultKota;
     List<String> resultProv;
-    List<String> resultPersentase;
+    List<String> resultTanggal, resultLat, resultLon;
     String[] key;
     String[] filter;
     String where = "";
@@ -61,7 +61,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private SwipeRefreshLayout swipeLayout;
 
-    SparseArray<Group> groups = new SparseArray<Group>();
+    SparseArray<Group2> groups = new SparseArray<>();
 
     Button act6_bt_load;
     @Override
@@ -70,7 +70,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
         setContentView(R.layout.activity_activity4c__show_pothole);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#303F9F")));
 
         /// Drawer activity
         //    FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
@@ -94,9 +94,9 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
         start = intent.getIntExtra("start", 0);
         end = intent.getIntExtra("end", 0);
         caller = intent.getIntExtra("caller", 0);
-        if(caller == 1){
+    //    if(caller == 1){
             range = intent.getStringExtra("range");
-        }
+    //    }
 
         //       Toast.makeText(getBaseContext(), "Caller : "+caller, Toast.LENGTH_LONG).show();
 
@@ -129,7 +129,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity6__app1_result_map, menu);
+        inflater.inflate(R.menu.menu_activity4c__show_pothole, menu);
 
         return true;
     }
@@ -152,7 +152,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
         }
         else if (id == R.id.next) {
             if(!max) {
-                Intent i = new Intent(Activity4c_ShowPothole.this, Activity6_App1ResultMap.class);
+                Intent i = new Intent(Activity4c_ShowPothole.this, Activity4c_ShowPothole.class);
                 i.putExtra("start", start + 10);
                 i.putExtra("end", end);
                 i.putExtra("where", where);
@@ -168,7 +168,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
         }
         else if (id == R.id.prev) {
             if(start>0) {
-                Intent i = new Intent(Activity4c_ShowPothole.this, Activity6_App1ResultMap.class);
+                Intent i = new Intent(Activity4c_ShowPothole.this, Activity4c_ShowPothole.class);
                 i.putExtra("start", start - 10);
                 i.putExtra("end", end);
                 i.putExtra("where", where);
@@ -284,10 +284,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
             JSONObject json = null;
             UserFunctions userFunction = new UserFunctions();
             if(caller == 0) {
-                json = userFunction.getAllRoadData(where, Integer.toString(start), Integer.toString(end), userID);
-            }
-            else if(caller == 1) {
-                json = userFunction.getAllRoadDataKhusus(where, Integer.toString(start), Integer.toString(end), userID, range);
+                json = userFunction.getAllPotholeData(where, Integer.toString(start), Integer.toString(end), userID);
             }
             return json;
         }
@@ -296,50 +293,61 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
         protected void onPostExecute(JSONObject json) {
 //            if(caller == 0 ) {
             try {
+            //    Log.v("Ini Json", json.toString());
+
                 if (Integer.parseInt(json.getString("success")) == 1) {
                     JSONObject jsonObj = new JSONObject(json.toString());
-                    JSONArray daftarJalan = jsonObj.getJSONArray("data");
+                    JSONArray daftarTitik = jsonObj.getJSONArray("data");
 
-                    if (daftarJalan.length() < 10) // 10 = jumlah data per activity
+                    if (daftarTitik.length() < 10) // 10 = jumlah data per activity
                         max = true;
 
-                    resultNamaJalan = new ArrayList<String>(daftarJalan.length());
-                    resultKualitas = new ArrayList<String>(daftarJalan.length());
-                    resultKec = new ArrayList<String>(daftarJalan.length());
-                    resultKota = new ArrayList<String>(daftarJalan.length());
-                    resultProv = new ArrayList<String>(daftarJalan.length());
-                    resultPersentase = new ArrayList<String>(daftarJalan.length());
+                    resultNamaJalan = new ArrayList<String>(daftarTitik.length());
+                //    resultKualitas = new ArrayList<String>(daftarTitik.length());
+                    resultKec = new ArrayList<String>(daftarTitik.length());
+                    resultKota = new ArrayList<String>(daftarTitik.length());
+                    resultProv = new ArrayList<String>(daftarTitik.length());
+                    resultLat = new ArrayList<String>(daftarTitik.length());
+                    resultLon = new ArrayList<String>(daftarTitik.length());
+                    resultTanggal = new ArrayList<String>(daftarTitik.length());
+                //    resultPersentase = new ArrayList<String>(daftarTitik.length());
 
-                    for (int i = 0; i < daftarJalan.length(); i++) {
-                        resultNamaJalan.add(daftarJalan.getJSONObject(i).getString("nama_jalan"));
-                        resultKualitas.add(daftarJalan.getJSONObject(i).getString("kualitas"));
-                        resultKec.add(daftarJalan.getJSONObject(i).getString("kec"));
-                        resultKota.add(daftarJalan.getJSONObject(i).getString("kota"));
-                        resultProv.add(daftarJalan.getJSONObject(i).getString("prov"));
-                        resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
+                    for (int i = 0; i < daftarTitik.length(); i++) {
+                        resultNamaJalan.add(daftarTitik.getJSONObject(i).getString("nama_jalan"));
+                    //    resultKualitas.add(daftarTitik.getJSONObject(i).getString("kualitas"));
+                        resultKec.add(daftarTitik.getJSONObject(i).getString("kec"));
+                        resultKota.add(daftarTitik.getJSONObject(i).getString("kota"));
+                        resultProv.add(daftarTitik.getJSONObject(i).getString("prov"));
+                        resultLat.add(daftarTitik.getJSONObject(i).getString("lat"));
+                        resultLon.add(daftarTitik.getJSONObject(i).getString("lon"));
+                        resultTanggal.add(daftarTitik.getJSONObject(i).getString("tanggal"));
+                    //    resultPersentase.add(daftarTitik.getJSONObject(i).getString("persentase"));
                     }
                     dataLoaded = true;
 
                     //Get disict value of city
                     Set<String> uniqueCity = new HashSet<String>(resultKota);
                     for (int j = 0; j < uniqueCity.size(); j++) {
-                        Group group = new Group("" + uniqueCity.toArray()[j]);
+                        Group2 group = new Group2("" + uniqueCity.toArray()[j]);
                         for (int i = 0; i < resultNamaJalan.size(); i++) {
                             if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
                                 group.namaJalan.add(resultNamaJalan.get(i));
                                 //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
-                                group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
-                                group.nilaiKondisi.add(resultKualitas.get(i));
+                            //    group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
+                            //    group.nilaiKondisi.add(resultKualitas.get(i));
                                 group.kec.add(resultKec.get(i));
                                 group.kota.add(resultKota.get(i));
                                 group.prov.add(resultProv.get(i));
+                                group.tanggal.add(resultTanggal.get(i));
+                                group.lat.add(resultLat.get(i));
+                                group.lon.add(resultLon.get(i));
                             }
                         }
                         groups.append(j, group);
                     }
 
                     ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                    MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity4c_ShowPothole.this, groups);
+                    MyExpandableListAdapter_LubangJalan adapter = new MyExpandableListAdapter_LubangJalan(Activity4c_ShowPothole.this, groups);
                     listView.setAdapter(adapter);
                 } else if (Integer.parseInt(json.getString("success")) == 2) {
                     max = true;

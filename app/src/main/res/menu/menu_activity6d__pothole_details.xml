@@ -1,8 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="proyekakhir.mapdemo.Activity4_DiscoverPothole">
-
+    tools:context="proyekakhir.mapdemo.Activity6d_PotholeDetails">
     <item android:id="@+id/menu_mainMap_satellite"
         android:title="Satellite View"
         android:orderInCategory="100"

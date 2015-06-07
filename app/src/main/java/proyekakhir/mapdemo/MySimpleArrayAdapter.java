@@ -30,17 +30,19 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 
         // Change the icon for Windows and iPhone
         String s = values[position];
-        if (s.startsWith("Show Road Test Results")) {
+        if (s.startsWith("Informasi Kualitas Jalan")) {
             imageView.setImageResource(R.drawable.ic_map);
-        }else if(s.startsWith("Setting")) {
+        }else if(s.startsWith("Informasi Kerusakan")) {
+            imageView.setImageResource(R.drawable.ic_location);
+        }else if(s.startsWith("Pengaturan")) {
             imageView.setImageResource(R.drawable.ic_setting);
-        }else if(s.startsWith("My Details")){
+        }else if(s.startsWith("Personal")){
             imageView.setImageResource(R.drawable.ic_accounts);
-        }else if(s.startsWith("Help")) {
+        }else if(s.startsWith("Bantuan")) {
             imageView.setImageResource(R.drawable.ic_help);
-        }else if(s.startsWith("About")) {
+        }else if(s.startsWith("Tentang")) {
             imageView.setImageResource(R.drawable.ic_action);
-        }else if(s.startsWith("Logout")) {
+        }else if(s.startsWith("Keluar")) {
             imageView.setImageResource(R.drawable.ic_logout);
         }else {
             imageView.setImageResource(R.drawable.bangladesh);

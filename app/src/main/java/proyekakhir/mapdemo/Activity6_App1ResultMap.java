@@ -338,7 +338,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                         }
 
                         ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                        MyExpandableListAdapter adapter = new MyExpandableListAdapter(Activity6_App1ResultMap.this, groups);
+                        MyExpandableListAdapter_KondisiJalan adapter = new MyExpandableListAdapter_KondisiJalan(Activity6_App1ResultMap.this, groups);
                         listView.setAdapter(adapter);
                     } else if (Integer.parseInt(json.getString("success")) == 2) {
                         max = true;

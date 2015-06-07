@@ -51,5 +51,6 @@
     <string name="title_activity_activity4a__pothole_result">Lubang Ditemukan</string>
     <string name="title_activity_activity4b__pothole_preview">Preview Lokasi Lubang</string>
     <string name="title_activity_activity4c__show_pothole">Lubang Ditemukan</string>
+    <string name="title_activity_activity6d__pothole_details">Lokasi Lubang</string>
 
 </resources>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="left_drawer_array">
-        <item>Show Road Test Results</item>
-    <!--    <item>Found Broken Road</item>
-        <item>Show Broken Road</item>
-    -->    <item>Setting</item>
-        <item>My Details</item>
-        <item>About</item>
-        <item>Help</item>
-        <item>Logout</item>
+        <item>Informasi Kualitas Jalan</item>
+        <item>Informasi Kerusakan</item>
+        <item>Pengaturan</item>
+        <item>Personal</item>
+        <item>Tentang</item>
+        <item>Bantuan</item>
+        <item>Keluar</item>
     </string-array>
 
     <string-array name="filter">
