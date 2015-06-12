@@ -21,6 +21,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -66,6 +70,11 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
     private static String KEY_ERROR = "error";
 
 
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    GoogleCloudMessaging gcmObj;
+    String regId = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +89,6 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 
         initialize();
         radioGroupVehicle();
-//        radioGroupDevice();
 
         device = Devices.getDeviceName();
         deviceName = android.os.Build.MODEL;
@@ -119,31 +127,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         v_reg_device_type = android.os.Build.MODEL;
         v_reg_vehicle_type = reg_vehicle_type.getText().toString();
 
-        /*
-        if(reg_user_standard.isChecked()) {
-            v_reg_user = 1;
-            v_reg_user_adminToken = "";
-        }
-        else if(reg_user_admin.isChecked()) {
-            v_reg_user = 2;
-            v_reg_user_adminToken = reg_user_adminToken.getText().toString();
-        }
-        */
-
-
         v_reg_device = Build.MANUFACTURER;
-        /*
-        if(reg_device_asus.isChecked())
-            v_reg_device = "asus";
-        else if(reg_device_lenovo.isChecked())
-            v_reg_device = "lenovo";
-        else if(reg_device_samsung.isChecked())
-            v_reg_device = "samsung";
-        else if(reg_device_sony.isChecked())
-            v_reg_device = "sony";
-        else if(reg_device_other.isChecked())
-            v_reg_device = v_reg_device_otherName.toLowerCase();
-            */
 
         if(reg_vehicle_honda.isChecked())
             v_reg_vehicle = "honda";
@@ -160,15 +144,6 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 
     public boolean valueCheck(){
         boolean ret = false;
-        /*
-        if(
-                reg_user_standard.isChecked() == false &&
-                reg_user_admin.isChecked() == false
-        ) {
-            ret = false;
-        //    Toast.makeText(getBaseContext(), "Catch 1", Toast.LENGTH_SHORT).show();
-        }
-        */
         if(
                 reg_FirstName.getText().toString().equals("") ||
                 reg_LastName.getText().toString().equals("") ||
@@ -182,17 +157,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 2", Toast.LENGTH_SHORT).show();
         }
-        /*
-        else if(
-                reg_device_asus.isChecked() == false &&
-                reg_device_lenovo.isChecked() == false &&
-                reg_device_samsung.isChecked() == false &&
-                reg_device_sony.isChecked() == false &&
-                reg_device_other.isChecked() == false
-        ) {
-            ret = false;
-        //    Toast.makeText(getBaseContext(), "Catch 3", Toast.LENGTH_SHORT).show();
-        }*/
+
         else if(
                 !reg_vehicle_honda.isChecked() &&
                 !reg_vehicle_yamaha.isChecked() &&
@@ -203,28 +168,14 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 4", Toast.LENGTH_SHORT).show();
         }
-        /*
-        else if(
-                reg_device_other.isChecked() == true && reg_device_otherName.getText().toString().equals("")
-        ) {
-            ret = false;
-        //    Toast.makeText(getBaseContext(), "Catch 5", Toast.LENGTH_SHORT).show();
-        }
-        */
+
         else if(
                 reg_vehicle_other.isChecked() && reg_vehicle_otherName.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 6", Toast.LENGTH_SHORT).show();
         }
-        /*
-        else if(
-                reg_user_admin.isChecked() == true && reg_user_adminToken.getText().toString().equals("")
-        ) {
-            ret = false;
-        //    Toast.makeText(getBaseContext(), "Catch 7", Toast.LENGTH_SHORT).show();
-        }
-        */
+
         else if(
                 !(reg_Password.getText().toString().equals(reg_Password2.getText().toString()))
         ) {
@@ -236,59 +187,6 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         return ret;
     }
 
-    /*
-    public void radioGroupDevice(){
-        reg_device_asus.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reg_device_asus.setChecked(true);
-                reg_device_lenovo.setChecked(false);
-                reg_device_samsung.setChecked(false);
-                reg_device_sony.setChecked(false);
-                reg_device_other.setChecked(false);
-            }
-        });
-
-        reg_device_lenovo.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reg_device_asus.setChecked(false);
-                reg_device_lenovo.setChecked(true);
-                reg_device_samsung.setChecked(false);
-                reg_device_sony.setChecked(false);
-                reg_device_other.setChecked(false);
-            }
-        });
-
-        reg_device_samsung.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reg_device_asus.setChecked(false);
-                reg_device_lenovo.setChecked(false);
-                reg_device_samsung.setChecked(true);
-                reg_device_sony.setChecked(false);
-                reg_device_other.setChecked(false);
-            }
-        });
-
-        reg_device_sony.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reg_device_asus.setChecked(false);
-                reg_device_lenovo.setChecked(false);
-                reg_device_samsung.setChecked(false);
-                reg_device_sony.setChecked(true);
-                reg_device_other.setChecked(false);
-            }
-        });
-
-        reg_device_other.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reg_device_asus.setChecked(false);
-                reg_device_lenovo.setChecked(false);
-                reg_device_samsung.setChecked(false);
-                reg_device_sony.setChecked(false);
-                reg_device_other.setChecked(true);
-            }
-        });
-    }
-*/
     public void radioGroupVehicle(){
         reg_vehicle_honda.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -348,30 +246,15 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         reg_Username = (EditText)findViewById(R.id.reg_Username);
         reg_Password = (EditText)findViewById(R.id.reg_Password);
         reg_Password2 = (EditText)findViewById(R.id.reg_Password2);
-    //    reg_user_adminToken = (EditText)findViewById(R.id.reg_user_adminToken);
-
-//        reg_device_otherName = (EditText)findViewById(R.id.reg_device_otherName);
-//        reg_device_type = (EditText)findViewById(R.id.reg_device_type);
 
         reg_vehicle_otherName = (EditText)findViewById(R.id.reg_vehicle_otherName);
         reg_vehicle_type = (EditText)findViewById(R.id.reg_vehicle_type);
-
-//        reg_user_standard = (RadioButton)findViewById(R.id.reg_user_standard);
-//        reg_user_admin = (RadioButton)findViewById(R.id.reg_user_admin);
-
-//        reg_device_asus = (RadioButton)findViewById(R.id.reg_device_asus);
-//        reg_device_lenovo = (RadioButton)findViewById(R.id.reg_device_lenovo);
-//        reg_device_samsung = (RadioButton)findViewById(R.id.reg_device_samsung);
-//        reg_device_sony = (RadioButton)findViewById(R.id.reg_device_sony);
-//        reg_device_other = (RadioButton)findViewById(R.id.reg_device_other);
 
         reg_vehicle_honda = (RadioButton)findViewById(R.id.reg_vehicle_honda);
         reg_vehicle_yamaha = (RadioButton)findViewById(R.id.reg_vehicle_yamaha);
         reg_vehicle_suzuki = (RadioButton)findViewById(R.id.reg_vehicle_suzuki);
         reg_vehicle_kawasaki = (RadioButton)findViewById(R.id.reg_vehicle_kawasaki);
         reg_vehicle_other = (RadioButton)findViewById(R.id.reg_vehicle_other);
-
-//        reg_radioUser = (RadioGroup)findViewById(R.id.reg_radioUser);
 
         reg_clear = (Button)findViewById(R.id.reg_clear);
         reg_submit = (Button)findViewById(R.id.reg_submit);
@@ -384,19 +267,9 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         reg_Username.setText(null);
         reg_Password.setText(null);
         reg_Password2.setText(null);
-    //    reg_user_adminToken.setText(null);
-    //    reg_device_otherName.setText(null);
-    //    reg_device_type.setText(null);
         reg_vehicle_otherName.setText(null);
         reg_vehicle_type.setText(null);
 
-    //    reg_user_standard.setChecked(false);
-    //    reg_user_admin.setChecked(false);
-    //    reg_device_asus.setChecked(false);
-    //    reg_device_lenovo.setChecked(false);
-    //    reg_device_samsung.setChecked(false);
-    //    reg_device_sony.setChecked(false);
-    //    reg_device_other.setChecked(false);
         reg_vehicle_honda.setChecked(false);
         reg_vehicle_yamaha.setChecked(false);
         reg_vehicle_suzuki.setChecked(false);
@@ -508,6 +381,33 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 //        Toast.makeText(getBaseContext(), progress3.toString(), Toast.LENGTH_LONG).show();
     }
 
+    // Check if Google Playservices is installed in Device or not
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(this);
+        // When Play services not found in device
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                // Show Error dialog to install Play services
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+            //    Toast.makeText(
+            //            getApplicationContext(),
+            //            "Bad. This device doesn't support Play services, App will not work normally",
+            //            Toast.LENGTH_SHORT).show();
+            //    finish();
+            }
+            return false;
+        } else {
+        //    Toast.makeText(
+        //            getApplicationContext(),
+        //            "Good. This device supports Play services, App will work normally",
+        //            Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
+
 
     /**
      * Async Task to check whether internet connection is working
@@ -559,7 +459,14 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 
             if(th){
                 nDialog.dismiss();
-                new ProcessRegister().execute();
+                if (checkPlayServices()) {
+
+                    // Register Device in GCM Server
+//                    registerInBackground(emailID);
+                    new GmsRegister().execute();
+
+                }
+
             }
             else{
                 nDialog.dismiss();
@@ -569,32 +476,15 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private class ProcessRegister extends AsyncTask<String, String, JSONObject> {
-
+    private class GmsRegister extends AsyncTask<String, String, String> {
         private ProgressDialog pDialog;
-
-        String p_reg_FirstName, p_reg_LastName, p_reg_Email, p_reg_Username, p_reg_Password,
-                p_reg_device_type, p_reg_vehicle_type, p_reg_user, p_reg_device,
-                p_reg_user_adminToken, p_reg_vehicle;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            p_reg_FirstName = v_reg_FirstName;
-            p_reg_LastName = v_reg_LastName;
-            p_reg_Email = v_reg_Email;
-            p_reg_Username = v_reg_Username;
-            p_reg_Password = v_reg_Password;
-//            p_reg_user = Integer.toString(v_reg_user);
-//            p_reg_user_adminToken = v_reg_user_adminToken;
-            p_reg_device = Build.MANUFACTURER;
-            p_reg_device_type = Build.MODEL;
-            p_reg_vehicle = v_reg_vehicle;
-            p_reg_vehicle_type = v_reg_vehicle_type;
-
             pDialog = new ProgressDialog(Activity5_Register.this);
-            pDialog.setTitle("Contacting Servers");
+            pDialog.setTitle("GCM Registration");
             pDialog.setMessage("Registering ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -602,113 +492,172 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         }
 
         @Override
-        protected JSONObject doInBackground(String... args) {
-            UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.registerUser(p_reg_FirstName, p_reg_LastName, p_reg_Email,
-                    p_reg_Username, p_reg_Password, p_reg_device, p_reg_device_type, p_reg_vehicle,
-                    p_reg_vehicle_type);
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-
-            try {
-                if (json.getString(KEY_SUCCESS) != null) {
-                //    Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_LONG).show();
-
-                    String res = json.getString(KEY_SUCCESS);
-                    String red = json.getString(KEY_ERROR);
-
-                    if(Integer.parseInt(res) == 1){
-                        pDialog.setTitle("Getting Data");
-                        pDialog.setMessage("Loading Info");
-                        JSONObject json_user = json.getJSONObject("user");
-
-                    //    Toast.makeText(getBaseContext(), json_user.getString("username")+", Successfully Registered", Toast.LENGTH_LONG).show();
-
-                        pDialog.dismiss();
-
-                        // Send Email Verification
-                        new EmailVer().execute();
-
-                    }
-
-                    else if (Integer.parseInt(red) ==2){
-                        pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (Integer.parseInt(red) ==4){
-                        pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Username already exists coy!", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (Integer.parseInt(red) ==3){
-                        pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Invalid Email id", Toast.LENGTH_SHORT).show();
-                    }
-
-                }   else{
-                    pDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Error occured in registration here", Toast.LENGTH_SHORT).show();
-                }
-
-            } catch (JSONException e) {
-                pDialog.dismiss();
-                e.printStackTrace();
-                Toast.makeText(getBaseContext(), "Exception = "+e.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    public void NetAsync(View view){
-        new NetCheck().execute();
-    }
-
-    private class EmailVer extends AsyncTask<String, String, String> {
-        /**
-         * Defining Process dialog
-         **/
-        private ProgressDialog pDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            pDialog = new ProgressDialog(Activity5_Register.this);
-            pDialog.setTitle("Contacting Servers");
-            pDialog.setMessage("Sending Verification Email ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        @Override
         protected String doInBackground(String... args) {
-            // Create a new HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://surveyorider.com/SRS/mail.php");
-            HttpResponse response = null;
-            String str = "";
 
+            String msg = "";
             try {
-                // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
-                nameValuePairs.add(new BasicNameValuePair("email", v_reg_Email));
-                nameValuePairs.add(new BasicNameValuePair("token", generateToken(v_reg_Username)));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                if (gcmObj == null) {
+                    gcmObj = GoogleCloudMessaging
+                            .getInstance(getApplicationContext());
+                }
+                regId = gcmObj
+                        .register("693648714129");
+                msg = "Registration ID :" + regId;
 
-                // Execute HTTP Post Request
-                response = httpclient.execute(httppost);
-                str =  EntityUtils.toString(response.getEntity());
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+            } catch (IOException ex) {
+                msg = "Error";
             }
-            return str;
+            return msg;
         }
+
+        @Override
+        protected void onPostExecute(String message) {
+            if(!message.equals("Error")){
+                Log.v("RegID", message);
+                new ProcessRegister().execute();
+//                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Error registering GMS!", Toast.LENGTH_SHORT).show();
+            }
+            pDialog.dismiss();
+        }
+    }
+
+    private class ProcessRegister extends AsyncTask<String, String, JSONObject> {
+            private ProgressDialog pDialog;
+
+            String p_reg_FirstName, p_reg_LastName, p_reg_Email, p_reg_Username, p_reg_Password,
+                    p_reg_device_type, p_reg_vehicle_type, p_reg_user, p_reg_device,
+                    p_reg_user_adminToken, p_reg_vehicle;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                p_reg_FirstName = v_reg_FirstName;
+                p_reg_LastName = v_reg_LastName;
+                p_reg_Email = v_reg_Email;
+                p_reg_Username = v_reg_Username;
+                p_reg_Password = v_reg_Password;
+                p_reg_device = Build.MANUFACTURER;
+                p_reg_device_type = Build.MODEL;
+                p_reg_vehicle = v_reg_vehicle;
+                p_reg_vehicle_type = v_reg_vehicle_type;
+
+                pDialog = new ProgressDialog(Activity5_Register.this);
+                pDialog.setTitle("Contacting Servers");
+                pDialog.setMessage("Registering ...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
+
+            @Override
+            protected JSONObject doInBackground(String... args) {
+                UserFunctions userFunction = new UserFunctions();
+                JSONObject json = userFunction.registerUser(p_reg_FirstName, p_reg_LastName, p_reg_Email,
+                        p_reg_Username, p_reg_Password, p_reg_device, p_reg_device_type, p_reg_vehicle,
+                        p_reg_vehicle_type, regId);
+                return json;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject json) {
+
+                try {
+                    if (json.getString(KEY_SUCCESS) != null) {
+                        //    Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_LONG).show();
+                        String res = json.getString(KEY_SUCCESS);
+                        String red = json.getString(KEY_ERROR);
+
+                        if(Integer.parseInt(res) == 1){
+                            pDialog.setTitle("Getting Data");
+                            pDialog.setMessage("Loading Info");
+                            JSONObject json_user = json.getJSONObject("user");
+
+                            pDialog.dismiss();
+
+                            // Send Email Verification
+                            new EmailVer().execute();
+
+                        }
+
+                        else if (Integer.parseInt(red) ==2){
+                            pDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (Integer.parseInt(red) ==4){
+                            pDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Username already exists coy!", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (Integer.parseInt(red) ==3){
+                            pDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Invalid Email id", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }   else{
+                        pDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "Error occured in registration here", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    pDialog.dismiss();
+                    e.printStackTrace();
+                    Toast.makeText(getBaseContext(), "Exception = "+e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+    }
+
+        public void NetAsync(View view){
+            new NetCheck().execute();
+        }
+
+        private class EmailVer extends AsyncTask<String, String, String> {
+            /**
+             * Defining Process dialog
+             **/
+            private ProgressDialog pDialog;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                pDialog = new ProgressDialog(Activity5_Register.this);
+                pDialog.setTitle("Contacting Servers");
+                pDialog.setMessage("Sending Verification Email ...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                // Create a new HttpClient and Post Header
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://surveyorider.com/SRS/mail.php");
+                HttpResponse response = null;
+                String str = "";
+
+                try {
+                    // Add your data
+                    List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                    nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
+                    nameValuePairs.add(new BasicNameValuePair("email", v_reg_Email));
+                    nameValuePairs.add(new BasicNameValuePair("token", generateToken(v_reg_Username)));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    // Execute HTTP Post Request
+                    response = httpclient.execute(httppost);
+                    str =  EntityUtils.toString(response.getEntity());
+
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                }
+                return str;
+            }
 
         @Override
         protected void onPostExecute(String json) {

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="proyekakhir.mapdemo" >
-
     <permission
         android:name="proyekakhir.mapdemo.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
+
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="proyekakhir.mapdemo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="proyekakhir.mapdemo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="proyekakhir.mapdemo.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -143,6 +156,24 @@
             android:name=".Activity6d_PotholeDetails"
             android:label="@string/title_activity_activity6d__pothole_details" >
         </activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- for Gingerbread GSF backward compat -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="proyekakhir.mapdemo" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".library.GcmService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

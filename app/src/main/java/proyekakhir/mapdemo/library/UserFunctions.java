@@ -28,7 +28,7 @@ public class UserFunctions {
 //    private static String loginURL = "http://muhlish.com/ta/SurveyoRiderServices/";
 //    private static String registerURL = "http://muhlish.com/ta/SurveyoRiderServices/";
 
-    //Onlune free
+    //Online free
 //    private static String loginURL    = "http://surveyorider.zz.mu/SurveyoRiderServices/";
 //    private static String registerURL = "http://surveyorider.zz.mu/SurveyoRiderServices/";
 
@@ -236,9 +236,8 @@ public class UserFunctions {
       **/
     public JSONObject registerUser(String pfirst_name, String plast_name, String pemail,
                                    String pusername, String ppassword,
-                            //       String puser_type, String padmin_token,
                                    String pdevice_merk, String pdevice_type,
-                                   String pvehicle_merk, String pvehicle_type){
+                                   String pvehicle_merk, String pvehicle_type, String regId){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", register_tag));
@@ -248,12 +247,11 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("email", pemail));
         params.add(new BasicNameValuePair("username", pusername));
         params.add(new BasicNameValuePair("password", ppassword));
-//        params.add(new BasicNameValuePair("user_type", puser_type));
-//        params.add(new BasicNameValuePair("admin_token", padmin_token));
         params.add(new BasicNameValuePair("device_merk", pdevice_merk));
         params.add(new BasicNameValuePair("device_type", pdevice_type));
         params.add(new BasicNameValuePair("vehicle_merk", pvehicle_merk));
         params.add(new BasicNameValuePair("vehicle_type", pvehicle_type));
+        params.add(new BasicNameValuePair("regId", regId));
 
         JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
         return json;
