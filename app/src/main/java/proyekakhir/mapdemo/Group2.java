@@ -16,9 +16,6 @@ public class Group2 {
     public final List<String> lat = new ArrayList<String>();
     public final List<String> lon = new ArrayList<String>();
 
-//    public final List<String> kondisiJalan = new ArrayList<String>();
-//    public final List<String> nilaiKondisi = new ArrayList<>();
-
     public Group2(String string) {
         this.string = string;
     }
