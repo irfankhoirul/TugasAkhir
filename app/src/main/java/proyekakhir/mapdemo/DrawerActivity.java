@@ -28,7 +28,7 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
     private ActionBarDrawerToggle mDrawerToggle = null;
 
     private LinearLayout mDrawer ;
-    String Username, Email;
+    String Username, Email, FName, LName;
 
     private LinearLayout mDrawerRelativeLayout;
     @Override
@@ -41,7 +41,8 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
             User user = db.getUser();
             Username = user.getUsername();
             Email = user.getEmail();
-
+            FName = user.getNama_awal();
+            LName = user.getNama_belakang();
 
         }
         catch(Exception ex)
@@ -57,6 +58,8 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
         View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
         TextView u = (TextView) header.findViewById(R.id.drawer_username);
         u.setText(Username);
+        TextView i = (TextView) header.findViewById(R.id.user_initial);
+        i.setText(FName.substring(0,1)+LName.substring(0,1));
         TextView e = (TextView) header.findViewById(R.id.drawer_email);
         e.setText(Email);
         mDrawerList.addHeaderView(header);
