@@ -43,7 +43,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
     private String ID_USER = "";
     boolean sent = false;
 
-    public Locale INDONESIA = new Locale("id_ID");;
+    public Locale INDONESIA = new Locale("id_ID");
 
     private static String url_create_product = "http://muhlish.com/ta/webservice/create_product.php";    //internet
 //    private static String url_create_product = "http://192.168.0.105:81/mysqlphpandroidcrud/create_product.php"; //local
@@ -78,8 +78,12 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity4a__pothole_result);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
+        try{
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
+        } catch (NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
 
         //get date for pengukuran table
         Calendar c = Calendar.getInstance();
@@ -101,7 +105,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
         sendToServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(sent == false) {
+                if(!sent) {
                     completingData();
                 }
                 else
@@ -122,20 +126,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
                 startActivity(intent);
 
 
-                /*
-                try {
-                    JSONParser jp = new JSONParser();
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("tag", "insert"));
-                    params.add(new BasicNameValuePair("idUser", ID_USER));
-                    params.add(new BasicNameValuePair("json", data.toString()));
 
-                    JSONObject json = jp.getJSONFromUrl(SERVER_ADDRESS, params);
-                //    Log.v("Hasil Input", json.toString());
-                } catch(Exception ex){
-                    Toast.makeText(getBaseContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                */
 
             }
 
@@ -260,7 +251,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -280,7 +271,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new CompletingData().execute();
             }
@@ -336,7 +327,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean th) {
-            if(th == true){
+            if(th){
                 pDialog.dismiss();
                 new CreateJSON().execute();
             }
@@ -383,7 +374,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean th) {
-            if(th == true){
+            if(th){
                 pDialog.dismiss();
                 new SendData().execute();
             }

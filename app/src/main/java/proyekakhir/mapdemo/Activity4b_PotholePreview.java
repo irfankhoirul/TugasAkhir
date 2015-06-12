@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class Activity4b_PotholePreview extends ActionBarActivity {
+public class Activity4b_PotholePreview extends AppCompatActivity {
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -31,9 +32,12 @@ public class Activity4b_PotholePreview extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity4b__pothole_preview);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
-
+        try{
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
+        } catch (NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
         //----MAP----//
         setUpMapIfNeeded();
 
@@ -105,7 +109,7 @@ public class Activity4b_PotholePreview extends ActionBarActivity {
             if (mMap != null) {
                 setUpMap();
             }
-            else if(mMap == null)
+            else
                 Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -120,9 +124,9 @@ public class Activity4b_PotholePreview extends ActionBarActivity {
                 //        Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
                 //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                if(mMap != null){
+        //        if(mMap != null){
                     //    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-                }
+        //        }
             }
         };
 

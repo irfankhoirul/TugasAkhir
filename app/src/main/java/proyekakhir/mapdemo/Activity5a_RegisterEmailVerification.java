@@ -253,7 +253,7 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -274,7 +274,7 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new verifyUser().execute();
             }
@@ -353,13 +353,13 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
         protected String doInBackground(String... args) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://muhlish.com/ta/mail.php");
+            HttpPost httppost = new HttpPost("http://surveyorider.com/SRS/mail.php");
             HttpResponse response = null;
             String str = "";
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
                 nameValuePairs.add(new BasicNameValuePair("email", email));
                 nameValuePairs.add(new BasicNameValuePair("token", generateToken(username)));

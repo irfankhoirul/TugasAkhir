@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,8 +71,12 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity5_register);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5D4037")));
+        try{
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5D4037")));
+        } catch(NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
 
         initialize();
         radioGroupVehicle();
@@ -90,7 +95,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         reg_submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean allow = valueCheck();
-                if(allow == true) {
+                if(allow) {
                     getValue();
                     NetAsync(v);
                 }
@@ -189,11 +194,11 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         //    Toast.makeText(getBaseContext(), "Catch 3", Toast.LENGTH_SHORT).show();
         }*/
         else if(
-                reg_vehicle_honda.isChecked() == false &&
-                reg_vehicle_yamaha.isChecked() == false &&
-                reg_vehicle_suzuki.isChecked() == false &&
-                reg_vehicle_kawasaki.isChecked() == false &&
-                reg_vehicle_other.isChecked() == false
+                !reg_vehicle_honda.isChecked() &&
+                !reg_vehicle_yamaha.isChecked() &&
+                !reg_vehicle_suzuki.isChecked() &&
+                !reg_vehicle_kawasaki.isChecked() &&
+                !reg_vehicle_other.isChecked()
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 4", Toast.LENGTH_SHORT).show();
@@ -207,7 +212,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         }
         */
         else if(
-                reg_vehicle_other.isChecked() == true && reg_vehicle_otherName.getText().toString().equals("")
+                reg_vehicle_other.isChecked() && reg_vehicle_otherName.getText().toString().equals("")
         ) {
             ret = false;
         //    Toast.makeText(getBaseContext(), "Catch 6", Toast.LENGTH_SHORT).show();
@@ -531,7 +536,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -552,7 +557,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new ProcessRegister().execute();
             }
@@ -583,8 +588,8 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             p_reg_Password = v_reg_Password;
 //            p_reg_user = Integer.toString(v_reg_user);
 //            p_reg_user_adminToken = v_reg_user_adminToken;
-            p_reg_device = Build.MANUFACTURER;;
-            p_reg_device_type = Build.MODEL;;
+            p_reg_device = Build.MANUFACTURER;
+            p_reg_device_type = Build.MODEL;
             p_reg_vehicle = v_reg_vehicle;
             p_reg_vehicle_type = v_reg_vehicle_type;
 
@@ -671,7 +676,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 
             pDialog = new ProgressDialog(Activity5_Register.this);
             pDialog.setTitle("Contacting Servers");
-            pDialog.setMessage("Registering ...");
+            pDialog.setMessage("Sending Verification Email ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -681,13 +686,13 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         protected String doInBackground(String... args) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://muhlish.com/ta/mail.php");
+            HttpPost httppost = new HttpPost("http://surveyorider.com/SRS/mail.php");
             HttpResponse response = null;
             String str = "";
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
                 nameValuePairs.add(new BasicNameValuePair("email", v_reg_Email));
                 nameValuePairs.add(new BasicNameValuePair("token", generateToken(v_reg_Username)));

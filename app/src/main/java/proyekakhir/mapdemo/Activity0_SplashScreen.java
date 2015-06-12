@@ -11,7 +11,7 @@ import android.view.WindowManager;
 public class Activity0_SplashScreen extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2000;
+    private final int SPLASH_DISPLAY_LENGTH = 1500;
 
     /** Called when the activity is first created. */
     @Override

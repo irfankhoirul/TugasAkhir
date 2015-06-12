@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +29,12 @@ public class Activity9_UserDetails extends DrawerActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity9_userdetails);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00796B")));
-
+        try {
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00796B")));
+        } catch (NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
         /// Drawer activity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -108,7 +112,7 @@ public class Activity9_UserDetails extends DrawerActivity {
         if(id == R.id.action_edit_user){
             Intent i = new Intent (Activity9_UserDetails.this,Activity9a_UserDetailsEdit.class);
             startActivity(i);
-        //    finish();
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

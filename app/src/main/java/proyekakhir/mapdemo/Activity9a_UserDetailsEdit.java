@@ -109,11 +109,11 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
     //    edit_device_samsung = (RadioButton) findViewById(R.id.edit_device_samsung);;
     //    edit_device_sony = (RadioButton) findViewById(R.id.edit_device_sony);;
     //    edit_device_other = (RadioButton) findViewById(R.id.edit_device_other);;
-        edit_vehicle_honda = (RadioButton) findViewById(R.id.edit_vehicle_honda);;
-        edit_vehicle_yamaha = (RadioButton) findViewById(R.id.edit_vehicle_yamaha);;
-        edit_vehicle_suzuki = (RadioButton) findViewById(R.id.edit_vehicle_suzuki);;
-        edit_vehicle_kawasaki = (RadioButton) findViewById(R.id.edit_vehicle_kawasaki);;
-        edit_vehicle_other = (RadioButton) findViewById(R.id.edit_vehicle_other);;
+        edit_vehicle_honda = (RadioButton) findViewById(R.id.edit_vehicle_honda);
+        edit_vehicle_yamaha = (RadioButton) findViewById(R.id.edit_vehicle_yamaha);
+        edit_vehicle_suzuki = (RadioButton) findViewById(R.id.edit_vehicle_suzuki);
+        edit_vehicle_kawasaki = (RadioButton) findViewById(R.id.edit_vehicle_kawasaki);
+        edit_vehicle_other = (RadioButton) findViewById(R.id.edit_vehicle_other);
 
 //        radioGroupDevice();
         radioGroupVehicle();
@@ -242,7 +242,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
         edit_submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean allow = valueCheck();
-                if(allow == true) {
+                if(allow) {
                     Toast.makeText(getBaseContext(), "Right Value", Toast.LENGTH_SHORT).show();
                     getValue();
 //                    NetAsync(v);
@@ -342,11 +342,11 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
         }
         */
         else if(
-                edit_vehicle_honda.isChecked() == false &&
-                        edit_vehicle_yamaha.isChecked() == false &&
-                        edit_vehicle_suzuki.isChecked() == false &&
-                        edit_vehicle_kawasaki.isChecked() == false &&
-                        edit_vehicle_other.isChecked() == false
+                !edit_vehicle_honda.isChecked() &&
+                !edit_vehicle_yamaha.isChecked() &&
+                !edit_vehicle_suzuki.isChecked() &&
+                !edit_vehicle_kawasaki.isChecked() &&
+                !edit_vehicle_other.isChecked()
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 4", Toast.LENGTH_SHORT).show();
@@ -360,7 +360,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
         }
         */
         else if(
-                edit_vehicle_other.isChecked() == true && edit_vehicle_otherName.getText().toString().equals("")
+                edit_vehicle_other.isChecked() && edit_vehicle_otherName.getText().toString().equals("")
                 ) {
             ret = false;
             //    Toast.makeText(getBaseContext(), "Catch 6", Toast.LENGTH_SHORT).show();
@@ -438,6 +438,15 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
         });
     }
     */
+
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        Intent intent = new Intent(Activity9a_UserDetailsEdit.this, Activity9_UserDetails.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void radioGroupVehicle(){
         edit_vehicle_honda.setOnClickListener(new View.OnClickListener() {
@@ -518,7 +527,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -539,7 +548,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new ProcessRegister().execute();
             }

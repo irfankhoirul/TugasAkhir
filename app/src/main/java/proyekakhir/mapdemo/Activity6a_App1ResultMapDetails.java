@@ -66,7 +66,7 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
             if (mMap != null) {
                 setUpMap();
             }
-            else if(mMap == null)
+            else
                 Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -86,9 +86,9 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
                 //        Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
                 //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                if(mMap != null){
+        //        if(mMap != null){
                     //    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-                }
+        //        }
             }
         };
 
@@ -151,7 +151,7 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -171,7 +171,7 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new LoadingResultData().execute();
             }

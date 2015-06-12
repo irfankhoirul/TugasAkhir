@@ -13,6 +13,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +56,7 @@ import java.util.TimerTask;
 
 public class Activity4_DiscoverPothole extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    boolean koneksi = false;
     int c = 0, qual;
     boolean ready = false;
     LocationManager locMan;
@@ -117,8 +121,12 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_activity3c__discover_pothole);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
+        try{
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
+        } catch(NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
 
         pDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
         pDialog.setTitle("Waiting for GPS connection");
@@ -173,7 +181,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
                         if (count % 10 == 0) { //1 detik per proses
                             qual = histogram();
                             resetVariable();
-                            if(qual == 3) {
+                            if (qual == 3) {
                                 new SnapToRoad().execute();
                                 showMarker(qual, lat, lon);
                             }
@@ -340,7 +348,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
             if (mMap != null) {
                 setUpMap();
             }
-            else if(mMap == null)
+            else
                 Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -369,7 +377,8 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
                             e.printStackTrace();
                         }
                         pDialog.dismiss();
-                        mulai();
+                        new NetCheck().execute();
+                    //    mulai();
                     }
 
                 }
@@ -424,7 +433,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
 
     public void stop(){
         timer.cancel();
-        Toast.makeText(getApplicationContext(), "Jumlah Data : "+marker_quality.size(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Jumlah Data : "+marker_quality.size(), Toast.LENGTH_SHORT).show();
 
         //Latitude
         double[] lat = new double[marker_lat.size()];
@@ -445,13 +454,22 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
         }
 
 //        saveData();
-        Intent i = new Intent (Activity4_DiscoverPothole.this,Activity4a_PotholeResult.class);
-        i.putExtra("qual-prev", qual);
-        i.putExtra("lat-prev", lat);
-        i.putExtra("lon-prev", lon);
+        //If tidak ada data, back to main menu
+        if(lat.length > 0 ) {
+            Intent i = new Intent(Activity4_DiscoverPothole.this, Activity4a_PotholeResult.class);
+            i.putExtra("qual-prev", qual);
+            i.putExtra("lat-prev", lat);
+            i.putExtra("lon-prev", lon);
+            startActivity(i);
+            finish();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Tidak ada lubang ditemukan.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Activity4_DiscoverPothole.this, Activity2_MainMap.class);
+            startActivity(intent);
+            finish();
+        }
 
-        startActivity(i);
-        finish();
     }
 
     @Override
@@ -588,6 +606,84 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
                 }
             }
             return null;
+        }
+    }
+
+    /**
+     * Async Task to check whether internet connection is working.
+     **/
+
+    private class NetCheck extends AsyncTask<String,String,Boolean>
+    {
+        private ProgressDialog nDialog;
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            nDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
+            nDialog.setTitle("Checking Network");
+            nDialog.setMessage("Loading..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
+        }
+        /**
+         * Gets current device state and checks for working internet connection by trying Google.
+         **/
+        @Override
+        protected Boolean doInBackground(String... args){
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnected()) {
+                try {
+                    URL url = new URL("http://surveyorider.com/SRS/");
+                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                    urlc.setConnectTimeout(3000);
+                    urlc.connect();
+                    if (urlc.getResponseCode() == 200) {
+                        return true;
+                    }
+                } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
+        @Override
+        protected void onPostExecute(Boolean th){
+
+            if(th){
+                nDialog.dismiss();
+                koneksi = true;
+                mulai();
+            }
+            else{
+                nDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Activity4_DiscoverPothole.this, Activity2_MainMap.class);
+                startActivity(intent);
+                finish();
+
+/*                SnackbarManager.show(
+                        Snackbar.with(Activity3_App1Go.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        new NetCheck().execute();
+                                        koneksi = false;
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity3_App1Go.this);
+*/
+            }
         }
     }
 }

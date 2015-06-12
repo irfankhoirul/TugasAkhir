@@ -222,7 +222,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -302,15 +302,15 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
                     if (daftarTitik.length() < 10) // 10 = jumlah data per activity
                         max = true;
 
-                    resultNamaJalan = new ArrayList<String>(daftarTitik.length());
-                //    resultKualitas = new ArrayList<String>(daftarTitik.length());
-                    resultKec = new ArrayList<String>(daftarTitik.length());
-                    resultKota = new ArrayList<String>(daftarTitik.length());
-                    resultProv = new ArrayList<String>(daftarTitik.length());
-                    resultLat = new ArrayList<String>(daftarTitik.length());
-                    resultLon = new ArrayList<String>(daftarTitik.length());
-                    resultTanggal = new ArrayList<String>(daftarTitik.length());
-                //    resultPersentase = new ArrayList<String>(daftarTitik.length());
+                    resultNamaJalan = new ArrayList<>(daftarTitik.length());
+                //    resultKualitas = new ArrayList<>(daftarTitik.length());
+                    resultKec = new ArrayList<>(daftarTitik.length());
+                    resultKota = new ArrayList<>(daftarTitik.length());
+                    resultProv = new ArrayList<>(daftarTitik.length());
+                    resultLat = new ArrayList<>(daftarTitik.length());
+                    resultLon = new ArrayList<>(daftarTitik.length());
+                    resultTanggal = new ArrayList<>(daftarTitik.length());
+                //    resultPersentase = new ArrayList<>(daftarTitik.length());
 
                     for (int i = 0; i < daftarTitik.length(); i++) {
                         resultNamaJalan.add(daftarTitik.getJSONObject(i).getString("nama_jalan"));
@@ -326,7 +326,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
                     dataLoaded = true;
 
                     //Get disict value of city
-                    Set<String> uniqueCity = new HashSet<String>(resultKota);
+                    Set<String> uniqueCity = new HashSet<>(resultKota);
                     for (int j = 0; j < uniqueCity.size(); j++) {
                         Group2 group = new Group2("" + uniqueCity.toArray()[j]);
                         for (int i = 0; i < resultNamaJalan.size(); i++) {
@@ -363,11 +363,6 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
                 Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
             }
             Log.v("Json Out", json.toString());
-//            }
-//            else {
-//                Toast.makeText(getBaseContext(), json.toString(), Toast.LENGTH_SHORT).show();
-//                Log.v("Json Out 1", json.toString());
-//            }
             pDialog.dismiss();
         }
     }

@@ -60,7 +60,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private SwipeRefreshLayout swipeLayout;
 
-    SparseArray<Group> groups = new SparseArray<Group>();
+    SparseArray<Group> groups = new SparseArray<>();
 
     Button act6_bt_load;
     @Override
@@ -68,8 +68,12 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity6_app1resultmap);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
+        try{
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
+        } catch (NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
 
         /// Drawer activity
     //    FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
@@ -142,11 +146,13 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         if (id == R.id.filterQuery) {
             Intent i = new Intent(Activity6_App1ResultMap.this, Activity6b_App1ResultFilter.class);
             startActivity(i);
+            finish();
             return(true);
         }
         else if (id == R.id.hasilKhusus) {
             Intent i = new Intent(Activity6_App1ResultMap.this, Activity6c_App1SpecialResult.class);
             startActivity(i);
+            finish();
             return(true);
         }
         else if (id == R.id.next) {
@@ -221,7 +227,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -241,7 +247,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new LoadingResultData().execute();
             }
@@ -302,12 +308,12 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                         if (daftarJalan.length() < 10) // 10 = jumlah data per activity
                             max = true;
 
-                        resultNamaJalan = new ArrayList<String>(daftarJalan.length());
-                        resultKualitas = new ArrayList<String>(daftarJalan.length());
-                        resultKec = new ArrayList<String>(daftarJalan.length());
-                        resultKota = new ArrayList<String>(daftarJalan.length());
-                        resultProv = new ArrayList<String>(daftarJalan.length());
-                        resultPersentase = new ArrayList<String>(daftarJalan.length());
+                        resultNamaJalan = new ArrayList<>(daftarJalan.length());
+                        resultKualitas = new ArrayList<>(daftarJalan.length());
+                        resultKec = new ArrayList<>(daftarJalan.length());
+                        resultKota = new ArrayList<>(daftarJalan.length());
+                        resultProv = new ArrayList<>(daftarJalan.length());
+                        resultPersentase = new ArrayList<>(daftarJalan.length());
 
                         for (int i = 0; i < daftarJalan.length(); i++) {
                             resultNamaJalan.add(daftarJalan.getJSONObject(i).getString("nama_jalan"));
@@ -320,7 +326,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
                         dataLoaded = true;
 
                         //Get disict value of city
-                        Set<String> uniqueCity = new HashSet<String>(resultKota);
+                        Set<String> uniqueCity = new HashSet<>(resultKota);
                         for (int j = 0; j < uniqueCity.size(); j++) {
                             Group group = new Group("" + uniqueCity.toArray()[j]);
                             for (int i = 0; i < resultNamaJalan.size(); i++) {

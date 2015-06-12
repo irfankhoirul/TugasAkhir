@@ -76,7 +76,7 @@ public class Activity1_Login extends Activity {
         boolean cek = false;
         cek = cekLogin();
 
-        if(cek == true)
+        if(cek)
         {
             Intent i = new Intent (Activity1_Login.this,Activity2_MainMap.class);
             startActivity(i);
@@ -245,7 +245,7 @@ public class Activity1_Login extends Activity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -265,7 +265,7 @@ public class Activity1_Login extends Activity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new ProcessLogin().execute();
             }
@@ -518,7 +518,7 @@ public class Activity1_Login extends Activity {
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("tag", "emailVerification"));
                 nameValuePairs.add(new BasicNameValuePair("email", email));
                 nameValuePairs.add(new BasicNameValuePair("token", generateToken(dbusername)));

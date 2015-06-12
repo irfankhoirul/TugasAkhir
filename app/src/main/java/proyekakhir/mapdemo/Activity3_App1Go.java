@@ -13,6 +13,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +55,7 @@ import java.util.TimerTask;
 
 public class Activity3_App1Go extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    boolean koneksi = false;
     int c = 0, qual;
     boolean ready = false;
     LocationManager locMan;
@@ -337,7 +341,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             if (mMap != null) {
                 setUpMap();
             }
-            else if(mMap == null)
+            else
                 Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -358,6 +362,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 
                 if(location.getAccuracy() <= 20) {
                     ready = true; //Menentukan apakah aplikasi siap dimulai
+
                     if(belumDimulai) {
                         pDialog.setMessage("GPS Connection Ready");
                         try {
@@ -366,8 +371,11 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                             e.printStackTrace();
                         }
                         pDialog.dismiss();
-                        mulai();
+                        new NetCheck().execute();
+                    //    mulai();
                     }
+
+
 
                 }
             //    if(!isFirstLocation)
@@ -442,13 +450,21 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         }
 
 //        saveData();
-        Intent i = new Intent (Activity3_App1Go.this,Activity3a_App1GoResult.class);
-        i.putExtra("qual-prev", qual);
-        i.putExtra("lat-prev", lat);
-        i.putExtra("lon-prev", lon);
+        if(koneksi) {
+            Intent i = new Intent(Activity3_App1Go.this, Activity3a_App1GoResult.class);
+            i.putExtra("qual-prev", qual);
+            i.putExtra("lat-prev", lat);
+            i.putExtra("lon-prev", lon);
 
-        startActivity(i);
-        finish();
+            startActivity(i);
+            finish();
+        }
+        else{
+            Intent intent = new Intent(Activity3_App1Go.this, Activity2_MainMap.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     @Override
@@ -585,6 +601,84 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                 }
             }
             return null;
+        }
+    }
+
+    /**
+     * Async Task to check whether internet connection is working.
+     **/
+
+    private class NetCheck extends AsyncTask<String,String,Boolean>
+    {
+        private ProgressDialog nDialog;
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            nDialog = new ProgressDialog(Activity3_App1Go.this);
+            nDialog.setTitle("Checking Network");
+            nDialog.setMessage("Loading..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
+        }
+        /**
+         * Gets current device state and checks for working internet connection by trying Google.
+         **/
+        @Override
+        protected Boolean doInBackground(String... args){
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnected()) {
+                try {
+                    URL url = new URL("http://surveyorider.com/SRS/");
+                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                    urlc.setConnectTimeout(3000);
+                    urlc.connect();
+                    if (urlc.getResponseCode() == 200) {
+                        return true;
+                    }
+                } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
+        @Override
+        protected void onPostExecute(Boolean th){
+
+            if(th){
+                nDialog.dismiss();
+                koneksi = true;
+                mulai();
+            }
+            else{
+                nDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Activity3_App1Go.this, Activity2_MainMap.class);
+                startActivity(intent);
+                finish();
+
+/*                SnackbarManager.show(
+                        Snackbar.with(Activity3_App1Go.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        new NetCheck().execute();
+                                        koneksi = false;
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity3_App1Go.this);
+*/
+            }
         }
     }
 

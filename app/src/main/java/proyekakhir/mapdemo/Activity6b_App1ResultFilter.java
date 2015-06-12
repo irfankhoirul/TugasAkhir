@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,15 +61,15 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             stat_tipeMotor = false;
     LinearLayout timeFilter, spinnerValue;
 
-    List<String> FILTER_NAMA_JALAN = new ArrayList<String>();
-    List<String> FILTER_KECAMATAN = new ArrayList<String>();
-    List<String> FILTER_KOTA = new ArrayList<String>();
-    List<String> FILTER_PROVINSI = new ArrayList<String>();
-    List<String> FILTER_KUALITAS = new ArrayList<String>();
-    List<String> FILTER_MERK_SMARTPHONE = new ArrayList<String>();
-    List<String> FILTER_TIPE_SMARTPHONE = new ArrayList<String>();
-    List<String> FILTER_MERK_MOTOR = new ArrayList<String>();
-    List<String> FILTER_TIPE_MOTOR = new ArrayList<String>();
+    List<String> FILTER_NAMA_JALAN = new ArrayList<>();
+    List<String> FILTER_KECAMATAN = new ArrayList<>();
+    List<String> FILTER_KOTA = new ArrayList<>();
+    List<String> FILTER_PROVINSI = new ArrayList<>();
+    List<String> FILTER_KUALITAS = new ArrayList<>();
+    List<String> FILTER_MERK_SMARTPHONE = new ArrayList<>();
+    List<String> FILTER_TIPE_SMARTPHONE = new ArrayList<>();
+    List<String> FILTER_MERK_MOTOR = new ArrayList<>();
+    List<String> FILTER_TIPE_MOTOR = new ArrayList<>();
 
     ArrayAdapter<String> adapterNamaJalan, adapterKecamatan, adapterKota, adapterProvinsi,
             adapterKualitas, adapterMerkSmartphone, adapterTipeSmartphone, adapterMerkMotor,
@@ -79,8 +80,12 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_filter);
 
-        android.support.v7.app.ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
+        try {
+            android.support.v7.app.ActionBar bar = getSupportActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
+        } catch(NullPointerException ex){
+            Log.e("Null", ex.getMessage());
+        }
 
         /*
         //Initialize Component
@@ -150,7 +155,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
 
         daftarFilter = (TextView) findViewById(R.id.daftarFilter);
 
-        final HashMap<String, String> filterList = new HashMap<String, String>();
+        final HashMap<String, String> filterList = new HashMap<>();
 
         //Button add filter diklik
         actResultFilter_bt_addFilter = (Button) findViewById(R.id.actResultFilter_bt_addFilter);
@@ -237,7 +242,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             }
         });
 
-        final HashMap<String, String> finalFilter = new HashMap<String, String>();
+        final HashMap<String, String> finalFilter = new HashMap<>();
         final List<String> finalFilterKey = new ArrayList<>();
         final List<String> finalFilterValue = new ArrayList<>();
         actResultFilter_bt_show = (Button) findViewById(R.id.actResultFilter_bt_show);
@@ -275,7 +280,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                     pertama = true;
                 }
                 if(filterList.get("range") != null) {
-                    if(pertama == false)
+                    if(!pertama)
                         where += " AND "+filter6;
                     else
                         where += " "+filter6;
@@ -294,12 +299,26 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                     intent.putExtra("end", 10);
                     intent.putExtra("caller", 0);
                     startActivity(intent);
+                    finish();
                 }
                 else
                     Toast.makeText(getBaseContext(), "Pilih minimal 1 filter!", Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        Intent intent = new Intent(Activity6b_App1ResultFilter.this, Activity6_App1ResultMap.class);
+        intent.putExtra("where", "1");
+        intent.putExtra("start", 0);
+        intent.putExtra("end", 10);
+        intent.putExtra("caller", 0);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -353,7 +372,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://surveyorider.com/SRS/");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -373,7 +392,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
 
-            if(th == true){
+            if(th){
                 nDialog.dismiss();
                 new LoadFilter().execute();
             }
@@ -439,7 +458,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                         FILTER_NAMA_JALAN.add(nama_jalan.getJSONObject(i).getString("nama_jalan"));
                     //    Log.v("Filter1", FILTER_NAMA_JALAN.get(i));
                     }
-                    adapterNamaJalan = new ArrayAdapter<String>(
+                    adapterNamaJalan = new ArrayAdapter<>(
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_NAMA_JALAN);
                     adapterNamaJalan.setDropDownViewResource(R.layout.custom_spinner_item);
@@ -449,7 +468,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                         FILTER_KECAMATAN.add(kec.getJSONObject(i).getString("kec"));
                     //    Log.v("Filter2", FILTER_KECAMATAN.get(i));
                     }
-                    adapterKecamatan = new ArrayAdapter<String>(
+                    adapterKecamatan = new ArrayAdapter<>(
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_KECAMATAN);
                     adapterKecamatan.setDropDownViewResource(R.layout.custom_spinner_item);
@@ -459,7 +478,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                         FILTER_KOTA.add(kota.getJSONObject(i).getString("kota"));
                     //    Log.v("Filter3", FILTER_KOTA.get(i));
                     }
-                    adapterKota = new ArrayAdapter<String>(
+                    adapterKota = new ArrayAdapter<>(
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_KOTA);
                     adapterKota.setDropDownViewResource(R.layout.custom_spinner_item);
@@ -469,7 +488,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                         FILTER_PROVINSI.add(prov.getJSONObject(i).getString("prov"));
                     //    Log.v("Filter4", FILTER_PROVINSI.get(i));
                     }
-                    adapterProvinsi = new ArrayAdapter<String>(
+                    adapterProvinsi = new ArrayAdapter<>(
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_PROVINSI);
                     adapterProvinsi.setDropDownViewResource(R.layout.custom_spinner_item);
@@ -479,7 +498,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
                         FILTER_KUALITAS.add(kualitas.getJSONObject(i).getString("kualitas"));
                     //    Log.v("Filter5", FILTER_KUALITAS.get(i));
                     }
-                    adapterKualitas = new ArrayAdapter<String>(
+                    adapterKualitas = new ArrayAdapter<>(
                             getApplicationContext(), R.layout.custom_spinner_item,
                             FILTER_KUALITAS);
                     adapterKualitas.setDropDownViewResource(R.layout.custom_spinner_item);
