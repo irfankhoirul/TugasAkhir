@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -57,6 +58,7 @@ import java.util.List;
 
 public class Activity4_DiscoverPothole extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    boolean posisiOK = false;
     SharedPreferences pref;
     boolean koneksi = false;
     int c = 0, qual;
@@ -66,7 +68,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
     boolean isFirstLocation = true;
     boolean belumDimulai = true;
     int awal = 0, akhir = 1;
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog, okDialog;
     double lat, lon;
 
     //----MAP----//
@@ -118,6 +120,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
     ProgressDialog pgDialog;
     int timer = 0;
     int temp_waktu, timer_counter;
+    Vibrator v;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,6 +136,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
         }
 
         pgDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
+        okDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
 
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         temp_waktu = pref.getInt("p_waktu", 0);
@@ -140,6 +144,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
         timer_counter = timer;
 
         initializeViews();
+        v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         if(koneksi == false){
             new NetCheck().execute();
@@ -174,21 +179,22 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
             if(start == true) {
                 if(pgDialog.isShowing())
                     pgDialog.dismiss();
-                getAxisValue();
-                getMapData();
-                if (count % 10 == 0) { //1 detik per proses
-                    qual = histogram();
-                    resetVariable();
-                    if (qual == 3) {
-                        Integer[] myTaskParams = {qual};
-                        new SnapToRoad().execute(myTaskParams);
+                if(getMapData()>0) {
+                    getAxisValue();
+                    //    getMapData();
+                    if (count % 10 == 0) { //1 detik per proses
+                        qual = histogram();
+                        resetVariable();
+                        if (qual == 3) {
+                            Integer[] myTaskParams = {qual};
+                            new SnapToRoad().execute(myTaskParams);
+                        }
                     }
                 }
-
                 _act6_txt_time.setText(Integer.toString(count));
                 count++;
             }
-            else{
+            else if(posisiOK){
                 if(timer_counter > 0){
                     if(!pgDialog.isShowing()) {
                         pgDialog.setIndeterminate(false);
@@ -206,6 +212,10 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
             else if(lanjut && start == false) {
                 handler.postDelayed(this, 1000);
                 timer_counter--;
+                if(timer_counter == 0)
+                    v.vibrate(1000);
+                else
+                    v.vibrate(100);
             }
         }
     };
@@ -394,9 +404,14 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
 
                             pDialog.dismiss();
                             //    new NetCheck().execute();
-                            handler.postDelayed(runnable, 0);
+
                             //    mulai();
                             belumDimulai = false;
+                            okDialog.setTitle("Mengecek Posisi Awal Smartphone");
+                            okDialog.setMessage("Posisikan Smartphone Secara Vertikal (Sejajar posisi ban)");
+                            okDialog.setIndeterminate(false);
+                            okDialog.setCancelable(false);
+                            okDialog.show();
                         }
                     }
                     //    if(!isFirstLocation)
@@ -409,11 +424,12 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
 
     }
 
-    public void getMapData()
+    public Double getMapData()
     {
         _act6_txt_detailLat.setText(Double.toString(tempLat));
         _act6_txt_detailLong.setText(Double.toString(tempLong));
         _act6_txt_detailSpeed.setText(Double.toString(tempSpeed));
+        return tempSpeed;
     }
 
 
@@ -425,6 +441,13 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
         tempX = event.values[0];
         tempY = event.values[1];
         tempZ = event.values[2];
+        if(tempY >= 9.3 && !belumDimulai){
+            posisiOK = true;
+            if(okDialog.isShowing()){
+                okDialog.dismiss();
+                handler.postDelayed(runnable, 0);
+            }
+        }
     }
 
     public void getAxisValue()

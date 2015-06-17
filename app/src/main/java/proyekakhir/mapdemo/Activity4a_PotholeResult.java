@@ -214,17 +214,14 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/*
     @Override
     public void onBackPressed()
     {
         // code here to show dialog
-        Intent intent = new Intent(Activity3a_App1GoResult.this, Activity2_MainMap.class);
+        Intent intent = new Intent(Activity4a_PotholeResult.this, Activity2_MainMap.class);
         startActivity(intent);
         finish();
     }
-*/
-
     /**
      * Async Task to check whether internet connection is working.
      **/

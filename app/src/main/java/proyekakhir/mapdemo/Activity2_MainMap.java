@@ -100,11 +100,13 @@ public class Activity2_MainMap extends DrawerActivity {
                                                 Intent i = new Intent(Activity2_MainMap.this, Activity3_App1Go.class);
                                                 i.putExtra("Jenis", umumKhusus);
                                                 startActivity(i);
+                                                finish();
                                             }
                                             else if(umumKhusus == 2){
                                                 Intent i = new Intent(Activity2_MainMap.this, Activity4_DiscoverPothole.class);
                                                 i.putExtra("Jenis", umumKhusus);
                                                 startActivity(i);
+                                                finish();
                                             }
                                         }
                                     }

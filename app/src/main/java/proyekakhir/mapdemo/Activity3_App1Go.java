@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -54,6 +55,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 
     SharedPreferences pref;
 
+    boolean posisiOK = false;
     boolean koneksi = false;
     int  qual;
     boolean ready = false;
@@ -62,7 +64,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     boolean isFirstLocation = true;
     boolean belumDimulai = true;
     int awal = 0, akhir = 1;
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog, okDialog;
     double lat, lon;
 
     //----MAP----//
@@ -116,6 +118,8 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     int timer = 0;
     int temp_waktu, timer_counter;
 
+    Vibrator v;
+
     //---------------------------------------------------------------------------------------------------
     //----ALL----//--------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
@@ -129,8 +133,11 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
 
         pgDialog = new ProgressDialog(Activity3_App1Go.this);
+        okDialog = new ProgressDialog(Activity3_App1Go.this);
 
         initializeViews();
+        v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
 
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         temp_waktu = pref.getInt("p_waktu", 0);
@@ -172,18 +179,21 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             if(start == true) {
                 if(pgDialog.isShowing())
                     pgDialog.dismiss();
-                getAxisValue();
-                getMapData();
-                if (count % 10 == 0) { //1 detik per proses
-                    qual = histogram();
-                    resetVariable();
-                    Integer[] myTaskParams = {qual};
-                    new SnapToRoad().execute(myTaskParams);
+            //    if(true) {
+                if(getMapData()>0) { //Checking dari spam (jika speed > 0 maka bukan spam)
+                    getAxisValue();
+                //    getMapData();
+                    if (count % 10 == 0) { //1 detik per proses
+                        qual = histogram();
+                        resetVariable();
+                        Integer[] myTaskParams = {qual};
+                        new SnapToRoad().execute(myTaskParams);
+                    }
                 }
                 _act6_txt_time.setText(Integer.toString(count));
                 count++;
             }
-            else{
+            else if(posisiOK){
                 if(timer_counter > 0){
                     if(!pgDialog.isShowing()) {
                         pgDialog.setIndeterminate(false);
@@ -201,6 +211,10 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             else if(lanjut && start == false) {
                 handler.postDelayed(this, 1000);
                 timer_counter--;
+                if(timer_counter == 0)
+                    v.vibrate(1000);
+                else
+                    v.vibrate(100);
             }
         }
     };
@@ -387,11 +401,14 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                         ready = true; //Menentukan apakah aplikasi siap dimulai
                         if (belumDimulai) {
                             pDialog.setMessage("GPS Connection Ready");
-                       
                             pDialog.dismiss();
 
-                            handler.postDelayed(runnable, 0);
                             belumDimulai = false;
+                            okDialog.setTitle("Mengecek Posisi Awal Smartphone");
+                            okDialog.setMessage("Posisikan Smartphone Secara Vertikal (Sejajar posisi ban)");
+                            okDialog.setIndeterminate(false);
+                            okDialog.setCancelable(false);
+                            okDialog.show();
                         }
                     }
                     //    if(!isFirstLocation)
@@ -404,11 +421,12 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 
     }
 
-    public void getMapData()
+    public Double getMapData()
     {
         _act6_txt_detailLat.setText(Double.toString(tempLat));
         _act6_txt_detailLong.setText(Double.toString(tempLong));
         _act6_txt_detailSpeed.setText(Double.toString(tempSpeed));
+        return tempSpeed;
     }
 
 
@@ -420,6 +438,14 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         tempX = event.values[0];
         tempY = event.values[1];
         tempZ = event.values[2];
+        if(tempY >= 9.3 && !belumDimulai){
+            posisiOK = true;
+            if(okDialog.isShowing()){
+                okDialog.dismiss();
+                handler.postDelayed(runnable, 0);
+            }
+        }
+
     }
 
     public void getAxisValue()

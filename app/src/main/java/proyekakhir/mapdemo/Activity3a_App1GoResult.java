@@ -128,6 +128,15 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        Intent intent = new Intent(Activity3a_App1GoResult.this, Activity2_MainMap.class);
+        startActivity(intent);
+        finish();
+    }
+
     public String createJsonArray(int[] qual_preview, double[] lat_preview,
                                   double[] lon_preview, String[] street_preview,
                                   String[] city_preview, String[] kec_preview, String[] prov_preview,
