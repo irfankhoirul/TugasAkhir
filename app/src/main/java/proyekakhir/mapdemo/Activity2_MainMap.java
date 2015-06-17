@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -24,7 +25,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import proyekakhir.mapdemo.library.StaticPref;
+
 public class Activity2_MainMap extends DrawerActivity {
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     int umumKhusus = 0;
     //----MAP----//
@@ -51,8 +56,10 @@ public class Activity2_MainMap extends DrawerActivity {
         actionButton.setVisibility(View.INVISIBLE);
         actionButton.hide();
 
-
         setUpMapIfNeeded();
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        StaticPref.setShowNotif(pref.getInt("p_notifikasi", 0));
+        StaticPref.setJarak(pref.getInt("p_jarak", 0));
 
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +176,11 @@ public class Activity2_MainMap extends DrawerActivity {
                 if(mMap != null){
 
                 }
+        //        editor.putString("p_lastLat", Double.toString(location.getLatitude()));
+        //        editor.putString("p_lastLon", Double.toString(location.getLongitude()));
+                StaticPref.setLast_lat(location.getLatitude());
+                StaticPref.setLast_lon(location.getLongitude());
+        //        editor.commit();
             }
         };
 

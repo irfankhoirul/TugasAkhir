@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
@@ -17,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -38,25 +40,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Activity3_App1Go extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    SharedPreferences pref;
+
     boolean koneksi = false;
-    int c = 0, qual;
+    int  qual;
     boolean ready = false;
     LocationManager locMan;
     LatLng nowLoc, lastLoc;
@@ -65,9 +64,6 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     int awal = 0, akhir = 1;
     private ProgressDialog pDialog;
     double lat, lon;
-
-    //Timer
-    Timer timer;
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -90,8 +86,6 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 //    List<Double> z = new ArrayList<>();
 //    List<Double> speed = new ArrayList<>();
 
-    List<Integer> counter = new ArrayList<>();
-
     //--Penampung Temporary--//
     List<Double> arr_latitude = new ArrayList<>();
     List<Double> arr_longitude = new ArrayList<>();
@@ -111,6 +105,17 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             _act6_txt_time;
     private ViewFlipper flipper;
 
+    boolean a = false;
+    ////////////////////////////////////
+    //Timer
+    private Handler handler = new Handler();
+    boolean lanjut = true;
+
+    boolean start = false;
+    ProgressDialog pgDialog;
+    int timer = 0;
+    int temp_waktu, timer_counter;
+
     //---------------------------------------------------------------------------------------------------
     //----ALL----//--------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
@@ -123,14 +128,18 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF5722")));
 
-        pDialog = new ProgressDialog(Activity3_App1Go.this);
-        pDialog.setTitle("Waiting for GPS connection");
-        pDialog.setMessage("Please Wait ...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        pgDialog = new ProgressDialog(Activity3_App1Go.this);
 
         initializeViews();
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        temp_waktu = pref.getInt("p_waktu", 0);
+        timer = temp_waktu;
+        timer_counter = timer;
+
+        if(koneksi == false){
+            new NetCheck().execute();
+        }
 
         //----MAP----//
         setUpMapIfNeeded();
@@ -151,43 +160,56 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 
         locMan = (LocationManager)getSystemService(LOCATION_SERVICE);
 
-        if(ready)
-            mulai();
+    //    if(ready)
+        //    mulai();
+
+
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(start == true) {
+                if(pgDialog.isShowing())
+                    pgDialog.dismiss();
+                getAxisValue();
+                getMapData();
+                if (count % 10 == 0) { //1 detik per proses
+                    qual = histogram();
+                    resetVariable();
+                    Integer[] myTaskParams = {qual};
+                    new SnapToRoad().execute(myTaskParams);
+                }
+                _act6_txt_time.setText(Integer.toString(count));
+                count++;
+            }
+            else{
+                if(timer_counter > 0){
+                    if(!pgDialog.isShowing()) {
+                        pgDialog.setIndeterminate(false);
+                        pgDialog.setCancelable(false);
+                        pgDialog.show();
+                    }
+                    pgDialog.setMessage(Integer.toString(timer_counter));
+                }
+                else{
+                    start = true;
+                }
+            }
+            if(lanjut && start == true)
+                handler.postDelayed(this, 100);
+            else if(lanjut && start == false) {
+                handler.postDelayed(this, 1000);
+                timer_counter--;
+            }
+        }
+    };
 
     public void resetVariable(){
         y_temp.clear();
     }
 
-    public void mulai(){
-        belumDimulai = false;
-        timer = new Timer();
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        counter.add(count);
-                        getAxisValue();
-                        getMapData();
-
-                        if (count % 10 == 0) { //1 detik per proses
-                            qual = histogram();
-                            resetVariable();
-                            new SnapToRoad().execute();
-                            showMarker(qual, lat, lon);
-
-                            c++;
-                        }
-                        _act6_txt_time.setText(Integer.toString(count));
-                        count++;
-                    }
-                });
-            }
-        }, 0, 100); //10 data every second
-    }
 
     public void showMarker(int quality, double lat, double lon){
         if(lat!=0.0 || lon!=0.0) {
@@ -352,34 +374,29 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
-                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                if(mMap != null){
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-                }
-                tempLat = location.getLatitude();
-                tempLong = location.getLongitude();
-                tempSpeed = location.getSpeed()*36/10;
-
-                if(location.getAccuracy() <= 20) {
-                    ready = true; //Menentukan apakah aplikasi siap dimulai
-
-                    if(belumDimulai) {
-                        pDialog.setMessage("GPS Connection Ready");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        pDialog.dismiss();
-                        new NetCheck().execute();
-                    //    mulai();
+                if(koneksi == true) {
+                    LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    if (mMap != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
                     }
+                    tempLat = location.getLatitude();
+                    tempLong = location.getLongitude();
+                    tempSpeed = location.getSpeed() * 36 / 10;
 
+                    if (location.getAccuracy() <= 20) {
+                        ready = true; //Menentukan apakah aplikasi siap dimulai
+                        if (belumDimulai) {
+                            pDialog.setMessage("GPS Connection Ready");
+                       
+                            pDialog.dismiss();
 
-
+                            handler.postDelayed(runnable, 0);
+                            belumDimulai = false;
+                        }
+                    }
+                    //    if(!isFirstLocation)
+//                    _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
                 }
-            //    if(!isFirstLocation)
-                    _act6_txt_detailDistance.setText(Double.toString(location.getAccuracy()));
             }
         };
 
@@ -428,7 +445,8 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     }
 
     public void stop(){
-        timer.cancel();
+        lanjut=false;
+        handler.removeCallbacks(runnable);
         Toast.makeText(getApplicationContext(), "Jumlah Data : "+marker_quality.size(), Toast.LENGTH_SHORT).show();
 
         //Latitude
@@ -490,38 +508,6 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void saveData() //Untuk save data
-    {
-        Calendar c = Calendar.getInstance();
-        int seconds = c.get(Calendar.SECOND);
-        int a = c.get(Calendar.DATE);
-        String file = "This is record file\n";
-        try {
-//            File myFile = new File("/sdcard/pengukuran/p"+countPengukuran+".txt");
-            String location = "/sdcard/"+a+"_"+seconds+".txt";
-            File myFile = new File(location);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-
-            //isikan data
-            file+="\nCounter\n";
-            for(int i = 0; i<counter.size(); i++){
-                file+=counter.get(i)+"\n";
-            }
-
-            file+="\n\nEnd of file";
-
-            myOutWriter.append(file);
-            myOutWriter.close();
-            fOut.close();
-            Toast.makeText(getBaseContext(),"Done writing SD 'mysdfile.txt'",Toast.LENGTH_SHORT).show();
-        //    countPengukuran++;
-        } catch (Exception e) {
-            Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-    }
     
     @Override
     public void onBackPressed()
@@ -558,14 +544,15 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
 
     }
 
-    public class SnapToRoad extends AsyncTask<Void, Void, Void> {
+    public class SnapToRoad extends AsyncTask<Integer, Integer, HashMap<Integer,String>> {
 
         private final String TAG = SnapToRoad.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
-            Reader rd = null;
+        protected HashMap<Integer, String> doInBackground(Integer... params) {
 
+            HashMap<Integer, String> ret = new HashMap<>();
+            Reader rd = null;
             try {
                 URL url = new URL("http://maps.google.com/maps/api/directions/json?origin="
                         + tempLat + "," + tempLong +"&destination="+tempLat+","+tempLong+"&sensor=true");
@@ -585,12 +572,23 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                     JSONArray predsJsonArray = jsonObj.getJSONArray("routes");
                     lat = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lat");
                     lon = predsJsonArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getDouble("lng");
-                //    Log.v("Latitude", Double.toString(lat));
-                //    Log.v("Longitude", Double.toString(lon));
+                    ret.put(1, Double.toString(lat));
+                    ret.put(2, Double.toString(lon));
+                    ret.put(3, Integer.toString(params[0]));
+                    Log.v("Hash 1", ret.get(1));
+                    Log.v("Hash 2", ret.get(2));
+                    Log.v("Hash 3", ret.get(3));
                 }
                 con.disconnect();
+
             } catch (Exception e) {
                 Log.e("foo", "bar", e);
+                ret.put(1, Double.toString(0.0));
+                ret.put(2, Double.toString(0.0));
+                ret.put(3, Integer.toString(params[0]));
+                Log.v("Hash 1", ret.get(1));
+                Log.v("Hash 2", ret.get(2));
+                Log.v("Hash 3", ret.get(3));
             } finally {
                 if (rd != null) {
                     try {
@@ -600,8 +598,22 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                     }
                 }
             }
-            return null;
+            return ret;
         }
+
+        @Override
+        protected void onPostExecute(HashMap<Integer, String> ret) {
+
+            try {
+                showMarker(Integer.parseInt(ret.get(3)), Double.parseDouble(ret.get(1)), Double.parseDouble(ret.get(2)));
+            }catch (Exception ex){
+                Log.e("ShowMarker", ex.getMessage());
+            }
+            Log.v("Hash 1", ret.get(1));
+            Log.v("Hash 2", ret.get(2));
+            Log.v("Hash 3", ret.get(3));
+        }
+
     }
 
     /**
@@ -650,34 +662,22 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
         }
         @Override
         protected void onPostExecute(Boolean th){
-
+            nDialog.dismiss();
             if(th){
-                nDialog.dismiss();
                 koneksi = true;
-                mulai();
+                pDialog = new ProgressDialog(Activity3_App1Go.this);
+                pDialog.setTitle("Waiting for GPS connection");
+                pDialog.setMessage("Please Wait ...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
+            //    mulai();
             }
             else{
-                nDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(Activity3_App1Go.this, Activity2_MainMap.class);
                 startActivity(intent);
                 finish();
-
-/*                SnackbarManager.show(
-                        Snackbar.with(Activity3_App1Go.this)
-                                .text("Koneksi Gagal!")
-                                .actionLabel("COBA LAGI") // action button label
-                                .actionListener(new ActionClickListener() {
-                                    @Override
-                                    public void onActionClicked(Snackbar snackbar) {
-                                        new NetCheck().execute();
-                                        koneksi = false;
-                                    }
-                                }) // action button's ActionClickListener
-                                .actionColor(Color.parseColor("#CDDC39"))
-                        , Activity3_App1Go.this);
-*/
             }
         }
     }

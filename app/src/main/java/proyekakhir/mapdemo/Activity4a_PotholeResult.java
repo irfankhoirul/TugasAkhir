@@ -98,6 +98,7 @@ public class Activity4a_PotholeResult extends AppCompatActivity {
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
         User user = db.getUser();
         ID_USER = user.getUser_id();
+        db.close();
 
         //    Toast.makeText(getBaseContext(), "Jumlah data = "+min, Toast.LENGTH_LONG).show();
 
