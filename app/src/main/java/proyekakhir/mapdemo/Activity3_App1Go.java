@@ -180,16 +180,16 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                 if(pgDialog.isShowing())
                     pgDialog.dismiss();
             //    if(true) {
-                if(getMapData()>0) { //Checking dari spam (jika speed > 0 maka bukan spam)
+            //    if(getMapData()>0) { //Checking dari spam (jika speed > 0 maka bukan spam)
                     getAxisValue();
-                //    getMapData();
+                    getMapData();
                     if (count % 10 == 0) { //1 detik per proses
                         qual = histogram();
                         resetVariable();
                         Integer[] myTaskParams = {qual};
                         new SnapToRoad().execute(myTaskParams);
                     }
-                }
+            //    }
                 _act6_txt_time.setText(Integer.toString(count));
                 count++;
             }
@@ -228,8 +228,8 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     public void showMarker(int quality, double lat, double lon){
         if(lat!=0.0 || lon!=0.0) {
             if (ready) {
-                Log.v("Latitude inside", Double.toString(lat));
-                Log.v("Longitude inside", Double.toString(lon));
+            //    Log.v("Latitude inside", Double.toString(lat));
+            //    Log.v("Longitude inside", Double.toString(lon));
                 if (quality == 1) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
@@ -261,7 +261,7 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
     }
 
     public int histogram(){
-        // 3 Criteria
+        int penampung[] = new int[20];
         int j0_1 = 0, j1_2 = 0, j2_3 = 0, j3_4 = 0, j4_5 = 0, j5_6 = 0, j6_7 = 0, j7_8 = 0,
                 j8_9 = 0, j9_10 = 0, j10_11 = 0, j11_12 = 0, j12_13 = 0, j13_14 = 0, j14_15 = 0,
                 j15_16 = 0, j16_17 = 0, j17_18 = 0, j18_19 = 0, j19_20 = 0;
@@ -270,86 +270,139 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             double nilai_Y = Math.abs(y_temp.get(i)-9.781); //Kurangi G lalu absolutkan
 
             if(nilai_Y >=0 && nilai_Y <1){
-                j0_1++;
+            //    j0_1++;
+                penampung[0]++;
             }
             else if(nilai_Y >=1 && nilai_Y <2){
-                j1_2++;
+            //    j1_2++;
+                penampung[1]++;
             }
             else if(nilai_Y >=2 && nilai_Y <3){
-                j2_3++;
+            //    j2_3++;
+                penampung[2]++;
             }
             else if(nilai_Y >=3 && nilai_Y <4){
-                j3_4++;
+            //    j3_4++;
+                penampung[3]++;
             }
             else if(nilai_Y >=4 && nilai_Y <5){
-                j4_5++;
+            //    j4_5++;
+                penampung[4]++;
             }
             else if(nilai_Y >=5 && nilai_Y <6){
-                j5_6++;
+            //    j5_6++;
+                penampung[5]++;
             }
             else if(nilai_Y >=6 && nilai_Y <7){
-                j6_7++;
+            //    j6_7++;
+                penampung[6]++;
             }
             else if(nilai_Y >=7 && nilai_Y <8){
-                j7_8++;
+            //    j7_8++;
+                penampung[7]++;
             }
             else if(nilai_Y >=8 && nilai_Y <9){
-                j8_9++;
+            //    j8_9++;
+                penampung[8]++;
             }
             else if(nilai_Y >=9 && nilai_Y <10){
-                j9_10++;
+            //    j9_10++;
+                penampung[9]++;
             }
             else if(nilai_Y >=10 && nilai_Y <11){
-                j10_11++;
+            //    j10_11++;
+                penampung[10]++;
             }
             else if(nilai_Y >=11 && nilai_Y <12){
-                j11_12++;
+            //    j11_12++;
+                penampung[11]++;
             }
             else if(nilai_Y >=12 && nilai_Y <13){
-                j12_13++;
+            //    j12_13++;
+                penampung[12]++;
             }
             else if(nilai_Y >=13 && nilai_Y <14){
-                j13_14++;
+            //    j13_14++;
+                penampung[13]++;
             }
             else if(nilai_Y >=14 && nilai_Y <15){
-                j14_15++;
+            //    j14_15++;
+                penampung[14]++;
             }
             else if(nilai_Y >=15 && nilai_Y <16){
-                j15_16++;
+            //    j15_16++;
+                penampung[15]++;
             }
             else if(nilai_Y >=16 && nilai_Y <17){
-                j16_17++;
+            //    j16_17++;
+                penampung[16]++;
             }
             else if(nilai_Y >=17 && nilai_Y <18){
-                j17_18++;
+            //    j17_18++;
+                penampung[17]++;
             }
             else if(nilai_Y >=18 && nilai_Y <19){
-                j18_19++;
+            //    j18_19++;
+                penampung[18]++;
             }
             else if(nilai_Y >=19 && nilai_Y <20){
-                j19_20++;
+            //    j19_20++;
+                penampung[19]++;
             }
         }
+
+        ////Perhitungan baru
+
+        int jumlah = 0;
+        for(int i=0; i<20; i++){
+            jumlah+=penampung[i];
+        }
+
+        int cekJumlah = 0;
+        int kondisi = 0;
+        for(int i=0; i<20; i++){
+            cekJumlah += penampung[i];
+            if((cekJumlah/jumlah) >= 0.9 && i <= 2){
+                //Kondisi Baik
+                //break
+                kondisi = 1;
+                break;
+            }
+            else if((cekJumlah/jumlah) >= 0.9 && (i > 2 && i<=4)){
+                //Kondisi Sedang
+                //break
+                kondisi = 2;
+                break;
+            }
+            else if((cekJumlah/jumlah) >= 0.9 && i > 4){
+                //Kondisi Sedang
+                //break
+                kondisi = 3;
+                break;
+            }
+        }
+
+        ////
 
         //Klasifikasi
-        double A = (j0_1+j1_2);
-        double B = (j1_2+j2_3+j3_4);
-        double C = (j4_5+j5_6+j6_7+j7_8+j8_9+j9_10+j10_11+j11_12+j12_13+j13_14+j14_15+j15_16+j16_17+j17_18+j18_19+j19_20);
+//        double A = (j0_1+j1_2);
+//        double B = (j1_2+j2_3+j3_4);
+//        double C = (j4_5+j5_6+j6_7+j7_8+j8_9+j9_10+j10_11+j11_12+j12_13+j13_14+j14_15+j15_16+j16_17+j17_18+j18_19+j19_20);
 
 
-        if(A >= 0.9*10){
-            kualitas = 1;
-        }
-        else {
-            if(Math.max(B, C) == B){
-                kualitas = 2;
-            }
-            else if(Math.max(B, C) == C){
-                kualitas = 3;
-            }
-        }
+//        if(A >= 0.9*10){
+//            kualitas = 1;
+//        }
+//        else {
+//            if(Math.max(B, C) == B){
+//                kualitas = 2;
+//            }
+//            else if(Math.max(B, C) == C){
+//                kualitas = 3;
+//            }
+//        }
 
-        return kualitas;
+        return kondisi;
     }
 
     public void initializeViews() {
@@ -601,26 +654,26 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
                     ret.put(1, Double.toString(lat));
                     ret.put(2, Double.toString(lon));
                     ret.put(3, Integer.toString(params[0]));
-                    Log.v("Hash 1", ret.get(1));
-                    Log.v("Hash 2", ret.get(2));
-                    Log.v("Hash 3", ret.get(3));
+                //    Log.v("Hash 1", ret.get(1));
+                //    Log.v("Hash 2", ret.get(2));
+                //    Log.v("Hash 3", ret.get(3));
                 }
                 con.disconnect();
 
             } catch (Exception e) {
-                Log.e("foo", "bar", e);
+            //    Log.e("foo", "bar", e);
                 ret.put(1, Double.toString(0.0));
                 ret.put(2, Double.toString(0.0));
                 ret.put(3, Integer.toString(params[0]));
-                Log.v("Hash 1", ret.get(1));
-                Log.v("Hash 2", ret.get(2));
-                Log.v("Hash 3", ret.get(3));
+            //    Log.v("Hash 1", ret.get(1));
+            //    Log.v("Hash 2", ret.get(2));
+            //    Log.v("Hash 3", ret.get(3));
             } finally {
                 if (rd != null) {
                     try {
                         rd.close();
                     } catch (IOException e) {
-                        Log.e(TAG, "", e);
+                //        Log.e(TAG, "", e);
                     }
                 }
             }
@@ -633,11 +686,11 @@ public class Activity3_App1Go extends AppCompatActivity implements SensorEventLi
             try {
                 showMarker(Integer.parseInt(ret.get(3)), Double.parseDouble(ret.get(1)), Double.parseDouble(ret.get(2)));
             }catch (Exception ex){
-                Log.e("ShowMarker", ex.getMessage());
+        //        Log.e("ShowMarker", ex.getMessage());
             }
-            Log.v("Hash 1", ret.get(1));
-            Log.v("Hash 2", ret.get(2));
-            Log.v("Hash 3", ret.get(3));
+        //    Log.v("Hash 1", ret.get(1));
+        //    Log.v("Hash 2", ret.get(2));
+        //    Log.v("Hash 3", ret.get(3));
         }
 
     }

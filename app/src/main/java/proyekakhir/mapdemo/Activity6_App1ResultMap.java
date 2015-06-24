@@ -72,7 +72,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
             android.support.v7.app.ActionBar bar = getSupportActionBar();
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
         } catch (NullPointerException ex){
-            Log.e("Null", ex.getMessage());
+        //    Log.e("Null", ex.getMessage());
         }
 
         /// Drawer activity
@@ -359,7 +359,7 @@ public class Activity6_App1ResultMap extends AppCompatActivity implements SwipeR
 //                Log.e("Error when getting json", ex.getMessage());
                     Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
                 }
-                Log.v("Json Out", json.toString());
+        //        Log.v("Json Out", json.toString());
 //            }
 //            else {
 //                Toast.makeText(getBaseContext(), json.toString(), Toast.LENGTH_SHORT).show();

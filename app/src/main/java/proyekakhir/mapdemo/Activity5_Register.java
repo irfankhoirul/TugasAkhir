@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,7 +83,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             android.support.v7.app.ActionBar bar = getSupportActionBar();
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5D4037")));
         } catch(NullPointerException ex){
-            Log.e("Null", ex.getMessage());
+        //    Log.e("Null", ex.getMessage());
         }
 
         initialize();
@@ -513,7 +512,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
         @Override
         protected void onPostExecute(String message) {
             if(!message.equals("Error")){
-                Log.v("RegID", message);
+            //    Log.v("RegID", message);
                 new ProcessRegister().execute();
 //                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
             }

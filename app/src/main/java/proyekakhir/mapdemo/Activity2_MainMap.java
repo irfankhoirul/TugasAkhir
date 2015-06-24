@@ -93,7 +93,7 @@ public class Activity2_MainMap extends DrawerActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
                                         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-                                            Toast.makeText(getApplicationContext(), "Please enable GPS your connection!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Please enable your GPS connection!", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             if(umumKhusus == 1 ) {

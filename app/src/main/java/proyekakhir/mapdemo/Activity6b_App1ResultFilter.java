@@ -84,7 +84,7 @@ public class Activity6b_App1ResultFilter extends AppCompatActivity {
             android.support.v7.app.ActionBar bar = getSupportActionBar();
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#536DFE")));
         } catch(NullPointerException ex){
-            Log.e("Null", ex.getMessage());
+        //    Log.e("Null", ex.getMessage());
         }
 
         /*

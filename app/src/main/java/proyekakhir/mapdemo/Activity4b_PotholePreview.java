@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +35,7 @@ public class Activity4b_PotholePreview extends AppCompatActivity {
             android.support.v7.app.ActionBar bar = getSupportActionBar();
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
         } catch (NullPointerException ex){
-            Log.e("Null", ex.getMessage());
+        //    Log.e("Null", ex.getMessage());
         }
         //----MAP----//
         setUpMapIfNeeded();

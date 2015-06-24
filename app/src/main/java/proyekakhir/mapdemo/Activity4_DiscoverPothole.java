@@ -132,7 +132,7 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
             android.support.v7.app.ActionBar bar = getSupportActionBar();
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#455A64")));
         } catch(NullPointerException ex){
-            Log.e("Null", ex.getMessage());
+        //    Log.e("Null", ex.getMessage());
         }
 
         pgDialog = new ProgressDialog(Activity4_DiscoverPothole.this);
@@ -227,8 +227,8 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
     public void showMarker(int quality, double lat, double lon){
         if(lat!=0.0 || lon!=0.0) {
             if (ready) {
-                Log.v("Latitude inside", Double.toString(lat));
-                Log.v("Longitude inside", Double.toString(lon));
+            //    Log.v("Latitude inside", Double.toString(lat));
+            //    Log.v("Longitude inside", Double.toString(lon));
                 if (quality == 1) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
@@ -636,26 +636,26 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
                     ret.put(1, Double.toString(lat));
                     ret.put(2, Double.toString(lon));
                     ret.put(3, Integer.toString(params[0]));
-                    Log.v("Hash 1", ret.get(1));
-                    Log.v("Hash 2", ret.get(2));
-                    Log.v("Hash 3", ret.get(3));
+                //    Log.v("Hash 1", ret.get(1));
+                //    Log.v("Hash 2", ret.get(2));
+                //    Log.v("Hash 3", ret.get(3));
                 }
                 con.disconnect();
 
             } catch (Exception e) {
-                Log.e("foo", "bar", e);
+            //    Log.e("foo", "bar", e);
                 ret.put(1, Double.toString(0.0));
                 ret.put(2, Double.toString(0.0));
                 ret.put(3, Integer.toString(params[0]));
-                Log.v("Hash 1", ret.get(1));
-                Log.v("Hash 2", ret.get(2));
-                Log.v("Hash 3", ret.get(3));
+            //    Log.v("Hash 1", ret.get(1));
+            //    Log.v("Hash 2", ret.get(2));
+            //    Log.v("Hash 3", ret.get(3));
             } finally {
                 if (rd != null) {
                     try {
                         rd.close();
                     } catch (IOException e) {
-                        Log.e(TAG, "", e);
+            //            Log.e(TAG, "", e);
                     }
                 }
             }
@@ -668,11 +668,11 @@ public class Activity4_DiscoverPothole extends AppCompatActivity implements Sens
             try {
                 showMarker(Integer.parseInt(ret.get(3)), Double.parseDouble(ret.get(1)), Double.parseDouble(ret.get(2)));
             }catch (Exception ex){
-                Log.e("ShowMarker", ex.getMessage());
+        //        Log.e("ShowMarker", ex.getMessage());
             }
-            Log.v("Hash 1", ret.get(1));
-            Log.v("Hash 2", ret.get(2));
-            Log.v("Hash 3", ret.get(3));
+        //    Log.v("Hash 1", ret.get(1));
+        //    Log.v("Hash 2", ret.get(2));
+        //    Log.v("Hash 3", ret.get(3));
         }
 
     }

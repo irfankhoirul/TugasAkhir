@@ -362,7 +362,7 @@ public class Activity4c_ShowPothole extends AppCompatActivity implements SwipeRe
 //                Log.e("Error when getting json", ex.getMessage());
                 Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
             }
-            Log.v("Json Out", json.toString());
+        //    Log.v("Json Out", json.toString());
             pDialog.dismiss();
         }
     }

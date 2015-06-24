@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -206,7 +205,7 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject json) {
             try{
-                Log.v("Road Details", json.toString());
+            //    Log.v("Road Details", json.toString());
 
                 if(Integer.parseInt(json.getString("success")) == 1){
                     JSONObject jsonObj = new JSONObject(json.toString());
@@ -279,14 +278,14 @@ public class Activity6a_App1ResultMapDetails extends AppCompatActivity {
                     dataLoaded = true;
                     */
                 }
-                else
-                    Log.v("Hasil Success", "Success Not Detected!");
-
+                else {
+                //    Log.v("Hasil Success", "Success Not Detected!");
+                }
             }catch(Exception ex)
             {
-                Log.e("Error ehen getting json", ex.getMessage());
+            //    Log.e("Error ehen getting json", ex.getMessage());
             }
-            Log.v("Json Out", json.toString());
+        //    Log.v("Json Out", json.toString());
             pDialog.dismiss();
         }
     }

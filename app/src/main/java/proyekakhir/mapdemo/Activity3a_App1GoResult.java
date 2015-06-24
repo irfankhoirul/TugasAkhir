@@ -176,7 +176,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         new NetCheck().execute();
 
         for(int i=0; i<street_preview.length; i++){
-            Log.v("Point-"+i,street_preview[i]+","+kec_preview[i]+","+city_preview[i]+","+prov_preview[i]);
+        //    Log.v("Point-"+i,street_preview[i]+","+kec_preview[i]+","+city_preview[i]+","+prov_preview[i]);
         }
     }
 
@@ -381,11 +381,11 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
                     Geocoder gcd = new Geocoder(getApplicationContext(), INDONESIA);
                     List<Address> addresses = gcd.getFromLocation(lat_preview[i], lon_preview[i], 1);
                     if (addresses.size() > 0) {
-                        Log.v("Alamat ke-"+i,
-                                addresses.get(0).getThoroughfare()+
-                                        ","+addresses.get(0).getLocality()+
-                                        ","+addresses.get(0).getSubAdminArea()+
-                                        ","+addresses.get(0).getAdminArea());
+                    //    Log.v("Alamat ke-"+i,
+                    //            addresses.get(0).getThoroughfare()+
+                    //                    ","+addresses.get(0).getLocality()+
+                    //                    ","+addresses.get(0).getSubAdminArea()+
+                    //                    ","+addresses.get(0).getAdminArea());
                         street_preview[i] = addresses.get(0).getThoroughfare();
                         city_preview[i] = addresses.get(0).getSubAdminArea();
                         kec_preview[i] = addresses.get(0).getLocality();
@@ -436,11 +436,11 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
                 //Creating JSON Array of data
                 data = createJsonArray(qual_preview, lat_preview, lon_preview, street_preview,
                         city_preview, kec_preview, prov_preview, qual_preview.length);
-                Log.v("JSON Data", data.toString());
+            //    Log.v("JSON Data", data.toString());
                 return true;
             }catch (Exception e)
             {
-                Log.e("Error", e.getMessage());
+            //    Log.e("Error", e.getMessage());
             }
 
             return false;
@@ -490,7 +490,7 @@ public class Activity3a_App1GoResult extends AppCompatActivity {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json.getString("success") != null) {
-                    Log.v("Js", json.getString("message"));
+            //        Log.v("Js", json.getString("message"));
                 }
                 pDialog.dismiss();
                 sent = true;
