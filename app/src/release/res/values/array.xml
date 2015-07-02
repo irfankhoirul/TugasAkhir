@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="left_drawer_array">
+        <item>Informasi Kualitas Jalan</item>
+        <item>Informasi Kerusakan</item>
+        <item>Pengaturan</item>
+        <item>Personal</item>
+        <item>Tentang</item>
+        <item>Bantuan</item>
+        <item>Keluar</item>
+    </string-array>
+
+    <string-array name="filter">
+        <item>Nama Jalan</item>
+        <item>Kecamatan</item>
+        <item>Kota</item>
+        <item>Provinsi</item>
+        <item>Kualitas</item>
+
+    </string-array>
+
+    <string-array name="filterKhusus">
+        <item>Merk Smartphone</item>
+        <item>Model Smartphone</item>
+        <item>Merk Motor</item>
+        <item>Model Motor</item>
+        <item>Range Waktu</item>
+
+    </string-array>
+
+</resources>

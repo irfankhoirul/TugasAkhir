@@ -17,13 +17,6 @@
         <item>Provinsi</item>
         <item>Kualitas</item>
 
-        <!--
-        <item>Range Waktu</item>
-        <item>Merk Smartphone</item>
-        <item>Model Smartphone</item>
-        <item>Merk Motor</item>
-        <item>Model Motor</item>
-        -->
     </string-array>
 
     <string-array name="filterKhusus">
@@ -32,14 +25,14 @@
         <item>Merk Motor</item>
         <item>Model Motor</item>
         <item>Range Waktu</item>
-
     </string-array>
 
-    <string-array name="filter1">
-        <item>Choose Filter</item>
-        <item>Choose Filter</item>
-        <item>Choose Filter</item>
-        <item>Choose Filter</item>
+    <string-array name="filterLubang">
+        <item>Nama Jalan</item>
+        <item>Kecamatan</item>
+        <item>Kota</item>
+        <item>Provinsi</item>
+        <item>Range Waktu</item>
     </string-array>
 
 </resources>

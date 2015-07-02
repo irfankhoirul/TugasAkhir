@@ -56,7 +56,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity0_SplashScreen" >
+        <activity android:name=".Activity.Activity0_SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,28 +64,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity1_Login"
+            android:name=".Activity.Activity1_Login"
             android:label="Login" >
         </activity>
         <activity
-            android:name=".Activity5_Register"
+            android:name=".Activity.Activity5_Register"
             android:label="@string/title_activity___register" >
         </activity>
         <activity
-            android:name=".Activity3_App1Go"
+            android:name=".Activity.KualitasJalan.Activity3_KualitasJalan"
             android:label="@string/title_activity___test_ride_app1"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Activity8_Setting"
+            android:name=".Activity.Activity8_Setting"
             android:label="@string/title_activity___setting" >
         </activity>
         <activity
-            android:name=".Activity3a_App1GoResult"
+            android:name=".Activity.KualitasJalan.Activity3a_KualitasJalan_HasilPengukuran"
             android:label="@string/title_activity___test_ride_app1_result" >
         </activity>
         <activity
-            android:name=".Activity2_MainMap"
+            android:name=".Activity.Activity2_MainMap"
             android:label="@string/title_activity___test_ride_app1_preparation" >
         </activity>
         <activity
@@ -93,64 +93,64 @@
             android:label="@string/title_activity_drawer" >
         </activity>
         <activity
-            android:name=".Activity6_App1ResultMap"
+            android:name=".Activity.KualitasJalan.Activity6_ResultKualitasJalan"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_activity6__app1_result_map" >
         </activity>
         <activity
-            android:name=".Activity9_UserDetails"
+            android:name=".Activity.Activity9_UserDetails"
             android:label="@string/title_activity_activity9__user_details" >
         </activity>
         <activity
-            android:name=".Activity10_About"
+            android:name=".Activity.Activity10_About"
             android:label="@string/title_activity_activity10__about" >
         </activity>
         <activity
-            android:name=".Activity9a_UserDetailsEdit"
+            android:name=".Activity.Activity9a_UserDetailsEdit"
             android:label="@string/title_activity_activity9a__user_details_edit" >
         </activity>
         <activity
-            android:name=".Activity3b_App1Preview"
+            android:name=".Activity.KualitasJalan.Activity3b_KualitasJalan_HasilPengukuran_Preview"
             android:label="@string/title_activity_activity3b__app1_preview" >
         </activity>
         <activity
-            android:name=".Activity6a_App1ResultMapDetails"
+            android:name=".Activity.KualitasJalan.Activity6a_ResultKualitasJalan_ViewPoint"
             android:label="@string/title_activity_activity6a__app1_result_map_details" >
         </activity>
         <activity
-            android:name=".Activity5a_RegisterEmailVerification"
+            android:name=".Activity.Activity5a_RegisterEmailVerification"
             android:label="@string/title_activity_email_verification" >
         </activity>
         <activity
-            android:name=".Activity6b_App1ResultFilter"
+            android:name=".Activity.KualitasJalan.Activity6b_ResultKualitasJalan_FilterUmum"
             android:label="@string/title_activity_result_filter" >
         </activity>
         <activity
-            android:name=".Activity11_Help"
+            android:name=".Activity.Activity11_Help"
             android:label="@string/title_activity_activity11__help" >
         </activity>
         <activity
-            android:name=".Activity6c_App1SpecialResult"
+            android:name=".Activity.KualitasJalan.Activity6c_ResultKualitasJalan_FilterKhusus"
             android:label="@string/title_activity_activity6c__app1_special_result" >
         </activity>
         <activity
-            android:name=".Activity4_DiscoverPothole"
+            android:name=".Activity.TemukanLubang.Activity4_TemukanLubang"
             android:label="@string/title_activity_activity3c__discover_pothole" >
         </activity>
         <activity
-            android:name=".Activity4a_PotholeResult"
+            android:name=".Activity.TemukanLubang.Activity4a_TemukanLubang_HasilPengukuran"
             android:label="@string/title_activity_activity4a__pothole_result" >
         </activity>
         <activity
-            android:name=".Activity4b_PotholePreview"
+            android:name=".Activity.TemukanLubang.Activity4b_TemukanLubang_HasilPengukuran_Preview"
             android:label="@string/title_activity_activity4b__pothole_preview" >
         </activity>
         <activity
-            android:name=".Activity4c_ShowPothole"
+            android:name=".Activity.TemukanLubang.Activity7_ResultTemukanLubang"
             android:label="@string/title_activity_activity4c__show_pothole" >
         </activity>
         <activity
-            android:name=".Activity6d_PotholeDetails"
+            android:name=".Activity.TemukanLubang.Activity7a_ResultTemukanLubang_ViewPoint"
             android:label="@string/title_activity_activity6d__pothole_details" >
         </activity>
 
@@ -167,7 +167,7 @@
         </receiver>
 
         <service
-            android:name=".library.GcmService"
+            android:name=".NonActivity.GcmService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -177,6 +177,14 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".Activity.TemukanLubang.Activity7b_ResultTemukanLubang_Filter"
+            android:label="@string/title_activity_activity7b__result_temukan_lubang__filter" >
+        </activity>
+        <activity
+            android:name=".Activity.Activity12_AccelerometerCheck"
+            android:label="@string/title_activity_activity12__accelerometer_check" >
         </activity>
     </application>
 

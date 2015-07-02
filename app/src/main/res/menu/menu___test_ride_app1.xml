@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="proyekakhir.mapdemo.Activity3_App1Go">
+    tools:context="proyekakhir.mapdemo.Activity.KualitasJalan.Activity3_KualitasJalan">
     <item android:id="@+id/menu___test_ride_app1_stop"
         android:title="Stop"
         android:orderInCategory="100"

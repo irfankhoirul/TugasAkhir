@@ -17,7 +17,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import proyekakhir.mapdemo.library.DatabaseHandler;
+import proyekakhir.mapdemo.Activity.Activity10_About;
+import proyekakhir.mapdemo.Activity.Activity11_Help;
+import proyekakhir.mapdemo.Activity.Activity1_Login;
+import proyekakhir.mapdemo.Activity.Activity8_Setting;
+import proyekakhir.mapdemo.Activity.Activity9_UserDetails;
+import proyekakhir.mapdemo.Activity.KualitasJalan.Activity6_ResultKualitasJalan;
+import proyekakhir.mapdemo.NonActivity.DatabaseHandler;
+import proyekakhir.mapdemo.NonActivity.MySimpleArrayAdapter;
+import proyekakhir.mapdemo.NonActivity.User;
+import proyekakhir.mapdemo.Activity.TemukanLubang.Activity7_ResultTemukanLubang;
 
 
 public class DrawerActivity extends AppCompatActivity implements AdapterViewCompat.OnItemClickListener {
@@ -53,6 +62,7 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItems = getResources().getStringArray(R.array.left_drawer_array);
+
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
         TextView u = (TextView) header.findViewById(R.id.drawer_username);
@@ -128,7 +138,7 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
                 case 1: {
-                    Intent intent = new Intent(DrawerActivity.this, Activity6_App1ResultMap.class);
+                    Intent intent = new Intent(DrawerActivity.this, Activity6_ResultKualitasJalan.class);
                     intent.putExtra("where", "1");
                     intent.putExtra("start", 0);
                     intent.putExtra("end", 10);
@@ -138,7 +148,7 @@ public class DrawerActivity extends AppCompatActivity implements AdapterViewComp
                     break;
                 }
                 case 2: {
-                    Intent intent = new Intent(DrawerActivity.this, Activity4c_ShowPothole.class);
+                    Intent intent = new Intent(DrawerActivity.this, Activity7_ResultTemukanLubang.class);
                     intent.putExtra("where", "1");
                     intent.putExtra("start", 0);
                     intent.putExtra("end", 10);

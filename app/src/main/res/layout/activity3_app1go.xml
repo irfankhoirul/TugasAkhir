@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/viewFlipper2" >
 
-            <LinearLayout
+            <FrameLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +38,22 @@
                     android:layout_centerHorizontal="true"
 
                     />
-            </LinearLayout>
+
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/abc_ic_clear_mtrl_alpha"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    fab:image_size="24dp"
+                    fab:fab_colorNormal="#FF5252"
+                    fab:fab_colorPressed="#FFEB3B"
+                    fab:fab_colorRipple="#689F38"
+                    android:layout_gravity="right|bottom" />
+            </FrameLayout>
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"

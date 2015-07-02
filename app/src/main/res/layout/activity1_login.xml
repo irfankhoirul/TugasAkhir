@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:text="Not a member? SIGN UP NOW"
+        android:text="Belum punya Akun? DAFTAR SEKARANG"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="15dp"

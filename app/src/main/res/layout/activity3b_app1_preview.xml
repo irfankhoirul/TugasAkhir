@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
 
-    tools:context="proyekakhir.mapdemo.Activity3b_App1Preview">
+    tools:context="proyekakhir.mapdemo.Activity.KualitasJalan.Activity3b_KualitasJalan_HasilPengukuran_Preview">
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

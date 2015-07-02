@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="ACCOUNT INFORMATION"
+                    android:text="INFORMASI AKUN"
                     android:textColor="#ffffff"
                     android:id="@+id/textView12" />
             </LinearLayout>
@@ -64,7 +64,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textCapWords"
                             android:ems="10"
-                            android:hint="First Name"
+                            android:hint="Nama Depan"
                             android:layout_marginBottom="20px"
                             android:layout_marginTop="20px"
                             android:id="@+id/reg_FirstName"
@@ -83,7 +83,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
-                        android:hint="Last Name"
+                        android:hint="Nama Belakang"
                         android:ems="10"
                         android:layout_marginBottom="20px"
                         android:id="@+id/reg_LastName"
@@ -159,7 +159,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:hint="Re-type Password"
+                        android:hint="Masukkan Password Lagi"
                         android:ems="10"
                         android:id="@+id/reg_Password2"
                         android:layout_marginBottom="20px"
@@ -184,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="VEHICLE INFORMATIONS"
+                    android:text="Informasi Kendaraan"
                     android:textColor="#ffffff"
                     android:id="@+id/textView90" />
             </LinearLayout>
@@ -245,7 +245,7 @@
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Other, mention"
+                            android:text="Lainnya, sebutkan:"
                             android:id="@+id/reg_vehicle_other"
                             android:checked="false" />
 
@@ -263,7 +263,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:hint="Other"
+                        android:hint="Merk Lainnya"
                         android:ems="10"
                         android:id="@+id/reg_vehicle_otherName" />
                 </android.support.design.widget.TextInputLayout>
@@ -278,7 +278,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:hint="Type, ex : CBR 150"
+                        android:hint="Tipe, contoh : CBR 150"
                         android:ems="10"
                         android:id="@+id/reg_vehicle_type"
                         android:layout_marginBottom="20px"

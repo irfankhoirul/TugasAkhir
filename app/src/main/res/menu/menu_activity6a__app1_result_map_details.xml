@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="proyekakhir.mapdemo.Activity6a_App1ResultMapDetails">
+    tools:context="proyekakhir.mapdemo.Activity.KualitasJalan.Activity6a_ResultKualitasJalan_ViewPoint">
     <item android:id="@+id/menu_mainMap_satellite"
         android:title="Satellite View"
         android:orderInCategory="100"

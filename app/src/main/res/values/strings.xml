@@ -12,7 +12,7 @@
     <string name="title_activity___login">Login</string>
     <string name="title_activity___register">Register</string>
 <!--    <string name="title_activity___view_app1">_ViewApp1Activity</string>-->
-    <string name="title_activity___test_ride_app1">Road Test</string>
+    <string name="title_activity___test_ride_app1">Pengukuran Kualitas Jalan</string>
 <!--    <string name="title_activity___view_app2">_ViewApp2Activity</string>-->
 <!--    <string name="title_activity___submit_app2">_SubmitApp2Activity</string>-->
     <string name="title_activity___setting">Setting</string>
@@ -20,7 +20,7 @@
 <!--    <string name="title_activity___app1">_App1Activity</string>-->
 <!--    <string name="title_activity___app2">_App2Activity</string>-->
 <!--    <string name="title_activity___accelerometer">_AccelerometerActivity</string>-->
-    <string name="title_activity___test_ride_app1_result">Road Test Result</string>
+    <string name="title_activity___test_ride_app1_result">Hasil Pengukuran Kualitas Jalan</string>
     <string name="title_activity___test_ride_app1_preparation">Main Map</string>
 <!--    <string name="title_activity___test_ride_app1_details">_TestRideApp1DetailsActivity</string>-->
 <!--    <string name="title_activity_navigation">Navigation</string>-->
@@ -34,23 +34,25 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_drawer">DrawerActivity</string>
-    <string name="title_activity_activity4__app2_go">Found Broken Road</string>
-    <string name="title_activity_activity6__app1_result_map">Road Test Result Map</string>
+    <string name="title_activity_activity4__app2_go">Cari Jalan Rusak</string>
+    <string name="title_activity_activity6__app1_result_map">Hasil Pengukuran Kualitas Jalan</string>
     <string name="title_activity_activity7__app2_result_map">Broken Road Map</string>
-    <string name="title_activity_activity9__user_details">User Details</string>
-    <string name="title_activity_activity10__about">About</string>
-    <string name="title_activity_activity9a__user_details_edit">Edit My Details</string>
-    <string name="title_activity_activity3b__app1_preview">Result Preview</string>
-    <string name="title_activity_activity6a__app1_result_map_details">Details</string>
-    <string name="title_activity_email_verification">Email Verification</string>
-    <string name="title_activity_result_filter">Result Filter</string>
-    <string name="title_activity_activity11__help">Help</string>
+    <string name="title_activity_activity9__user_details">Detail User</string>
+    <string name="title_activity_activity10__about">Tentang</string>
+    <string name="title_activity_activity9a__user_details_edit">Ubah Detail User</string>
+    <string name="title_activity_activity3b__app1_preview">Preview Hasil Pengukuran</string>
+    <string name="title_activity_activity6a__app1_result_map_details">Detail</string>
+    <string name="title_activity_email_verification">Verifikasi Email</string>
+    <string name="title_activity_result_filter">Filter Hasil</string>
+    <string name="title_activity_activity11__help">Bantuan</string>
     <string name="title_activity_splash_screen">Splash Screen</string>
-    <string name="title_activity_activity6c__app1_special_result">Hasil Khusus</string>
+    <string name="title_activity_activity6c__app1_special_result">Filter Hasil Khusus</string>
     <string name="title_activity_activity3c__discover_pothole">Temukan Jalan Berlubang</string>
     <string name="title_activity_activity4a__pothole_result">Lubang Ditemukan</string>
     <string name="title_activity_activity4b__pothole_preview">Preview Lokasi Lubang</string>
     <string name="title_activity_activity4c__show_pothole">Lubang Ditemukan</string>
     <string name="title_activity_activity6d__pothole_details">Lokasi Lubang</string>
+    <string name="title_activity_activity7b__result_temukan_lubang__filter">Filter</string>
+    <string name="title_activity_activity12__accelerometer_check">Pengecekan Accelerometer</string>
 
 </resources>

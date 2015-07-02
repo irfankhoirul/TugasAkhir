@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="proyekakhir.mapdemo.Activity4a_PotholeResult">
+    tools:context="proyekakhir.mapdemo.Activity.TemukanLubang.Activity4a_TemukanLubang_HasilPengukuran">
 
 </menu>

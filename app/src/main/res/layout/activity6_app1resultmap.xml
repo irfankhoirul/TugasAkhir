@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
 
-    tools:context="proyekakhir.mapdemo.Activity3b_App1Preview"
+    tools:context="proyekakhir.mapdemo.Activity3b_KualitasJalan_HasilPengukuran_Previewan_HasilPengukuran_Preview"
     android:orientation="vertical">
 
     <Button

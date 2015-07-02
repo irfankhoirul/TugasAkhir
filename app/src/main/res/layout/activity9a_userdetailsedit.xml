@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="ACCOUNT INFORMATION"
+                    android:text="INFORMASI AKUN"
                     android:textColor="#ffffff"
                     android:id="@+id/textView12" />
             </LinearLayout>
@@ -53,113 +53,141 @@
                 android:background="#D7CCC8"
                 android:gravity="center_horizontal">
 
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:ems="10"
-                    android:hint="First Name"
-                    android:layout_marginBottom="20px"
-                    android:layout_marginTop="20px"
-                    android:id="@+id/edit_FirstName"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:ems="10"
+                        android:hint="Nama Depan"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginTop="20px"
+                        android:id="@+id/edit_FirstName"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:hint="Last Name"
-                    android:ems="10"
-                    android:layout_marginBottom="20px"
-                    android:id="@+id/edit_LastName"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:hint="Nama Belakang"
+                        android:ems="10"
+                        android:layout_marginBottom="20px"
+                        android:id="@+id/edit_LastName"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="E-Mail"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:ems="10"
-                    android:layout_marginBottom="20px"
-                    android:id="@+id/edit_Email"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:hint="E-Mail"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:ems="10"
+                        android:layout_marginBottom="20px"
+                        android:id="@+id/edit_Email"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Username"
-                    android:ems="10"
-                    android:id="@+id/edit_Username"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:layout_marginBottom="20px"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Username"
+                        android:ems="10"
+                        android:id="@+id/edit_Username"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="Old Password"
-                    android:ems="10"
-                    android:id="@+id/edit_OldPassword"
-                    android:layout_marginBottom="20px"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password Lama"
+                        android:ems="10"
+                        android:id="@+id/edit_OldPassword"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="New Password"
-                    android:ems="10"
-                    android:id="@+id/edit_Password"
-                    android:layout_marginBottom="20px"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password Baru"
+                        android:ems="10"
+                        android:id="@+id/edit_Password"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="Re-type New Password"
-                    android:ems="10"
-                    android:id="@+id/edit_Password2"
-                    android:layout_marginBottom="20px"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_gravity="center_horizontal" />
-
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password Baru"
+                        android:ems="10"
+                        android:id="@+id/edit_Password2"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_gravity="center_horizontal" />
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
@@ -176,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="VEHICLE INFORMATIONS"
+                    android:text="INFORMASI KENDARAAN"
                     android:textColor="#ffffff"
                     android:id="@+id/textView90" />
             </LinearLayout>
@@ -237,39 +265,48 @@
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Other, mention"
+                            android:text="Lainnya, sebutkan:"
                             android:id="@+id/edit_vehicle_other"
                             android:checked="false" />
 
-                        <EditText
-                            android:background="#eeeeee"
-                            android:padding="10dp"
-                            android:layout_width="wrap_content"
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:hint="Other"
-                            android:ems="10"
-                            android:id="@+id/edit_vehicle_otherName"
-                            />
+                            android:layout_marginTop="10dp">
+                            <EditText
+                                android:background="#eeeeee"
+                                android:padding="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:hint="Merk Lainnya"
+                                android:ems="10"
+                                android:id="@+id/edit_vehicle_otherName"
+                                />
+                        </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <EditText
-                    android:background="#eeeeee"
-                    android:padding="10dp"
-                    android:layout_width="fill_parent"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Type, ex : CBR 150"
-                    android:ems="10"
-                    android:id="@+id/edit_vehicle_type"
-                    android:layout_marginBottom="20px"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10px"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="20px" />
-
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:background="#eeeeee"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="Tipe, contoh : CBR 150"
+                        android:ems="10"
+                        android:id="@+id/edit_vehicle_type"
+                        android:layout_marginBottom="20px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="20px" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
