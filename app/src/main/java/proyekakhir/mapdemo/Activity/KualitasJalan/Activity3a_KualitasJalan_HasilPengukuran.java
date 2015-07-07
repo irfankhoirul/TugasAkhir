@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,14 +33,15 @@ import java.util.List;
 import java.util.Locale;
 
 import proyekakhir.mapdemo.Activity.Activity2_MainMap;
-import proyekakhir.mapdemo.R;
-import proyekakhir.mapdemo.NonActivity.User;
 import proyekakhir.mapdemo.NonActivity.DatabaseHandler;
+import proyekakhir.mapdemo.NonActivity.User;
 import proyekakhir.mapdemo.NonActivity.UserFunctions;
+import proyekakhir.mapdemo.R;
 
 
 public class Activity3a_KualitasJalan_HasilPengukuran extends AppCompatActivity {
 
+    int q1=0, q2=0, q3=0, t=0;
     String data = null;
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
     private String ID_USER = "";
@@ -75,6 +77,7 @@ public class Activity3a_KualitasJalan_HasilPengukuran extends AppCompatActivity 
     String timeEnd, tempTimeEnd;
 
     Button sendToServer, preview;
+    TextView Ringkasan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +94,11 @@ public class Activity3a_KualitasJalan_HasilPengukuran extends AppCompatActivity 
         timeEnd = jam+":"+menit;
 
         getAllIntentData();
+
+        TextView Total = (TextView) findViewById(R.id.Total);
+        Total.setText("Total Data : "+t);
+        Ringkasan = (TextView) findViewById(R.id.Ringkasan);
+        Ringkasan.setText("Baik : "+q1+" - Sedang : "+q2+" - Buruk : "+q3);
 
         //Get Username
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
@@ -188,8 +196,18 @@ public class Activity3a_KualitasJalan_HasilPengukuran extends AppCompatActivity 
         lat_preview = intent.getDoubleArrayExtra("lat-prev");
         lon_preview = intent.getDoubleArrayExtra("lon-prev");
         qual_preview = intent.getIntArrayExtra("qual-prev");
-        Toast.makeText(getApplicationContext(), "Lat:"+lat_preview.length+
-                " Lon:"+lon_preview.length+" Qual:"+qual_preview.length, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Lat:"+lat_preview.length+
+//                " Lon:"+lon_preview.length+" Qual:"+qual_preview.length, Toast.LENGTH_SHORT).show();
+
+        t = qual_preview.length;
+        for(int i=0; i< t; i++){
+            if(qual_preview[i] == 1)
+                q1++;
+            else if (qual_preview[i] == 2)
+                q2++;
+            else
+                q3++;
+        }
 
     }
 

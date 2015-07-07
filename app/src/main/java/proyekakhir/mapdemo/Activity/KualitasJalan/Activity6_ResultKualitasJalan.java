@@ -32,18 +32,19 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import proyekakhir.mapdemo.Activity.Activity2_MainMap;
+import proyekakhir.mapdemo.NonActivity.DatabaseHandler;
 import proyekakhir.mapdemo.NonActivity.Group;
 import proyekakhir.mapdemo.NonActivity.MyExpandableListAdapter_KondisiJalan;
-import proyekakhir.mapdemo.NonActivity.DatabaseHandler;
+import proyekakhir.mapdemo.NonActivity.User;
 import proyekakhir.mapdemo.NonActivity.UserFunctions;
 import proyekakhir.mapdemo.R;
-import proyekakhir.mapdemo.NonActivity.User;
 
 
 public class Activity6_ResultKualitasJalan extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -105,7 +106,6 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
         caller = intent.getIntExtra("caller", 0);
         if(caller == 1){
             range = intent.getStringExtra("range");
-            Log.v("Range Intent1", range);
         }
 
  //       Toast.makeText(getBaseContext(), "Caller : "+caller, Toast.LENGTH_LONG).show();
@@ -322,13 +322,23 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
                         resultProv = new ArrayList<>(daftarJalan.length());
                         resultPersentase = new ArrayList<>(daftarJalan.length());
 
+
                         for (int i = 0; i < daftarJalan.length(); i++) {
                             resultNamaJalan.add(daftarJalan.getJSONObject(i).getString("nama_jalan"));
                             resultKualitas.add(daftarJalan.getJSONObject(i).getString("kualitas"));
                             resultKec.add(daftarJalan.getJSONObject(i).getString("kec"));
                             resultKota.add(daftarJalan.getJSONObject(i).getString("kota"));
                             resultProv.add(daftarJalan.getJSONObject(i).getString("prov"));
-                            resultPersentase.add(daftarJalan.getJSONObject(i).getString("persentase"));
+
+                            String tmpBaik = daftarJalan.getJSONObject(i).getString("Baik");
+                            String tmpSedang = daftarJalan.getJSONObject(i).getString("Sedang");
+                            String tmpBuruk = daftarJalan.getJSONObject(i).getString("Buruk");
+                            int tmpTotal = Integer.parseInt(tmpBaik)+Integer.parseInt(tmpSedang)+Integer.parseInt(tmpBuruk);
+                            float prcBaik = (Float.parseFloat(tmpBaik))/tmpTotal*100;
+                            float prcSedang = (Float.parseFloat(tmpSedang))/tmpTotal*100;
+                            float prcBuruk = (Float.parseFloat(tmpBuruk))/tmpTotal*100;
+                            resultPersentase.add("[Baik : "+new DecimalFormat("##.##").format(prcBaik)+" %];[Sedang : "+new DecimalFormat("##.##").format(prcSedang)+" %];[Buruk : "+new DecimalFormat("##.##").format(prcBuruk)+" %]");
+                            Log.v("Persentase", prcBaik+","+prcSedang+","+prcBuruk);
                         }
                         dataLoaded = true;
 
@@ -340,7 +350,7 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
                                 if (uniqueCity.toArray()[j].toString().equalsIgnoreCase(resultKota.get(i))) {
                                     group.namaJalan.add(resultNamaJalan.get(i));
                                     //    group.alamatJalan.add(resultKec.get(i) + ", " + resultKota.get(i) + ", " + resultProv.get(i));
-                                    group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase : " + resultPersentase.get(i) + "%");
+                                    group.kondisiJalan.add("Kualitas jalan : " + resultKualitas.get(i) + ", Persentase :" + resultPersentase.get(i));
                                     group.nilaiKondisi.add(resultKualitas.get(i));
                                     group.kec.add(resultKec.get(i));
                                     group.kota.add(resultKota.get(i));
@@ -351,7 +361,7 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
                         }
 
                         ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
-                        MyExpandableListAdapter_KondisiJalan adapter = new MyExpandableListAdapter_KondisiJalan(Activity6_ResultKualitasJalan.this, groups);
+                        MyExpandableListAdapter_KondisiJalan adapter = new MyExpandableListAdapter_KondisiJalan(Activity6_ResultKualitasJalan.this, groups, where, caller);
                         listView.setAdapter(adapter);
                     } else if (Integer.parseInt(json.getString("success")) == 2) {
                         max = true;
@@ -373,6 +383,7 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
 //                Log.v("Json Out 1", json.toString());
 //            }
             pDialog.dismiss();
+
         }
     }
 }

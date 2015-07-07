@@ -6,6 +6,7 @@ package proyekakhir.mapdemo.NonActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +26,16 @@ public class MyExpandableListAdapter_KondisiJalan extends BaseExpandableListAdap
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
+    public String where = "";
+    public int caller = 0;
 
-    public MyExpandableListAdapter_KondisiJalan(Activity act, SparseArray<Group> groups) {
+    public MyExpandableListAdapter_KondisiJalan(Activity act, SparseArray<Group> groups, String p_where, int p_caller) {
         activity = act;
         this.groups = groups;
         inflater = act.getLayoutInflater();
+        Log.v("Where expandableAdapter", p_where);
+        where = p_where;
+        caller = p_caller;
     }
 
     @Override
@@ -107,6 +113,8 @@ public class MyExpandableListAdapter_KondisiJalan extends BaseExpandableListAdap
                 Toast.makeText(activity, namaJalan+", "+kec+", "+kota+", "+prov, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(activity, Activity6a_ResultKualitasJalan_ViewPoint.class);
                 i.putExtra("fullAddress", namaJalan+"-"+kec+"-"+kota);
+                i.putExtra("where", where);
+                i.putExtra("caller", caller);
                 activity.startActivity(i);
             }
         });

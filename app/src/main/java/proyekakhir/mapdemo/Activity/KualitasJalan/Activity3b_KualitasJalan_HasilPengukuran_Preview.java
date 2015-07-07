@@ -2,6 +2,7 @@ package proyekakhir.mapdemo.Activity.KualitasJalan;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -53,43 +54,24 @@ public class Activity3b_KualitasJalan_HasilPengukuran_Preview extends AppCompatA
     }
 
     public void showMarker(){
+
         for(int i = 0; i<qual_prev.length; i++){
             if(qual_prev[i] == 1) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q1")
+                        .title("Baik")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
             }
-            /*
             else if(qual_prev[i] == 2) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q2")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
-            }
-            else if(qual_prev[i] == 3) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q3")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
-            }
-            else if(qual_prev[i] == 4) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q4")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
-            }
-            */
-            else if(qual_prev[i] == 2) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q5")
+                        .title("Sedang")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
             }
             else if(qual_prev[i] == 3) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat_prev[i], lon_prev[i]))
-                        .title("Q6")
+                        .title("Buruk")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
             }
         }

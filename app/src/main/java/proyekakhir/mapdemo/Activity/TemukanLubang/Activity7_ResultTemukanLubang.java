@@ -60,7 +60,7 @@ public class Activity7_ResultTemukanLubang extends AppCompatActivity implements 
     String where = "";
     int start, end;
     Boolean max = false;
-    String userID, range;
+    String userID, range = "";
     int caller;
 
     private String SERVER_ADDRESS = "http://surveyorider.zz.mu/SurveyoRiderServices/";
@@ -103,8 +103,12 @@ public class Activity7_ResultTemukanLubang extends AppCompatActivity implements 
         caller = intent.getIntExtra("caller", 0);
         if(caller == 1){
             range = intent.getStringExtra("range");
-            Log.v("Range Intent", range);
         }
+        else if (caller == 0) {
+            range = "";
+        }
+        Log.v("Range Intent", range);
+
 
         new NetCheck().execute();
 
@@ -282,18 +286,19 @@ public class Activity7_ResultTemukanLubang extends AppCompatActivity implements 
         protected JSONObject doInBackground(String... args) {
             JSONObject json = null;
             UserFunctions userFunction = new UserFunctions();
-        //    if(caller == 0) {
-                json = userFunction.getAllPotholeData(where, Integer.toString(start), Integer.toString(end), userID);
-        //    }
-        //    else if(caller == 1) {
-        //        json = userFunction.getAllPotholeData(where, Integer.toString(start), Integer.toString(end), userID, range);
-        //    }
+            String tmpRange = range;
+            if(caller == 1) {
+                range = " AND " + range;
+            }
+            Log.v("Range Intent Now", range);
+            json = userFunction.getAllPotholeData(where, Integer.toString(start), Integer.toString(end), userID, range);
+            range = tmpRange;
             return json;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
-            Log.v("Ini Json", json.toString());
+        //    Log.v("Ini Json", json.toString());
             try {
                 if (Integer.parseInt(json.getString("success")) == 1) {
                     JSONObject jsonObj = new JSONObject(json.toString());

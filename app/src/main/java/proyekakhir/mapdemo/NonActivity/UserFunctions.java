@@ -152,7 +152,7 @@ public class UserFunctions {
     /**
      * Function to Get All Roads
      **/
-    public JSONObject getAllPotholeData(String where, String start, String end, String userId){
+    public JSONObject getAllPotholeData(String where, String start, String end, String userId, String range){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", "getAllPotholeData"));
@@ -160,7 +160,7 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("where", where));
         params.add(new BasicNameValuePair("start", start));
         params.add(new BasicNameValuePair("end", end));
-//        params.add(new BasicNameValuePair("range", range));
+        params.add(new BasicNameValuePair("range", range));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
 
         return json;
@@ -186,11 +186,13 @@ public class UserFunctions {
     /**
      * Function to Get Road Details
      **/
-    public JSONObject getRoadDataDetails(String fullAddress){
+    public JSONObject getRoadDataDetails(String fullAddress, int caller, String where){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", "getRoadDataDetails"));
         params.add(new BasicNameValuePair("full_address", fullAddress));
+        params.add(new BasicNameValuePair("where", where));
+        params.add(new BasicNameValuePair("caller", Integer.toString(caller)));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
 
         return json;

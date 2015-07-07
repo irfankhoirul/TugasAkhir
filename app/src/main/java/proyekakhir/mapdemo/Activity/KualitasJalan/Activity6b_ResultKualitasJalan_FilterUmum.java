@@ -406,9 +406,7 @@ public class Activity6b_ResultKualitasJalan_FilterUmum extends AppCompatActivity
                                 .actionListener(new ActionClickListener() {
                                     @Override
                                     public void onActionClicked(Snackbar snackbar) {
-                                        Intent intent = getIntent();
-                                        finish();
-                                        startActivity(intent);
+                                        new NetCheck().execute();
                                     }
                                 }) // action button's ActionClickListener
                                 .actionColor(Color.parseColor("#CDDC39"))

@@ -181,7 +181,7 @@ public class Activity7b_ResultTemukanLubang_Filter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (spinner.getSelectedItemPosition() == 4) {
-                    filter5 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd + "' AND";
+                    filter5 = "tanggal BETWEEN '" + dateBegin + "' AND '" + dateEnd +"'";
                     if (filterList.get("range") == null)
                         filterList.put("range", filter5);
                     else {
@@ -397,9 +397,7 @@ public class Activity7b_ResultTemukanLubang_Filter extends AppCompatActivity {
                                 .actionListener(new ActionClickListener() {
                                     @Override
                                     public void onActionClicked(Snackbar snackbar) {
-                                        Intent intent = getIntent();
-                                        finish();
-                                        startActivity(intent);
+                                        new NetCheck().execute();
                                     }
                                 }) // action button's ActionClickListener
                                 .actionColor(Color.parseColor("#CDDC39"))

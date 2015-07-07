@@ -28,4 +28,12 @@
 
     </string-array>
 
+    <string-array name="filterLubang">
+        <item>Nama Jalan</item>
+        <item>Kecamatan</item>
+        <item>Kota</item>
+        <item>Provinsi</item>
+        <item>Range Waktu</item>
+    </string-array>
+
 </resources>

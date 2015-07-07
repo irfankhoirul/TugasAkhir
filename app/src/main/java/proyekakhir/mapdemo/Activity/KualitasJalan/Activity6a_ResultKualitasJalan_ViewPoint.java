@@ -3,7 +3,9 @@ package proyekakhir.mapdemo.Activity.KualitasJalan;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -11,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,6 +24,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +42,9 @@ import proyekakhir.mapdemo.R;
 
 public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity {
     private GoogleMap mMap;
-    public String fullAddress = "";
+    public String fullAddress = "", where = "";
+    Bitmap blue, yellow, red;
+    int caller = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,21 @@ public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity 
 
         Intent intent = getIntent();
         fullAddress = intent.getStringExtra("fullAddress");
+        where = intent.getStringExtra("where");
+        Log.v("Where point", where);
+        caller = intent.getIntExtra("caller", 0);
+
+        BitmapDrawable bd=(BitmapDrawable) getResources().getDrawable(R.drawable.ic_marker_blue);
+        Bitmap b=bd.getBitmap();
+        blue = Bitmap.createScaledBitmap(b, b.getWidth() * 4/5, b.getHeight() * 4/5, false);
+
+        BitmapDrawable bd1=(BitmapDrawable) getResources().getDrawable(R.drawable.ic_marker_orange);
+        Bitmap b1=bd1.getBitmap();
+        yellow = Bitmap.createScaledBitmap(b1, b1.getWidth()* 4/5,b1.getHeight()* 4/5, false);
+
+        BitmapDrawable bd2=(BitmapDrawable) getResources().getDrawable(R.drawable.ic_marker_red);
+        Bitmap b2=bd2.getBitmap();
+        red = Bitmap.createScaledBitmap(b2, b2.getWidth()* 4/5,b2.getHeight()* 4/5, false);
 
         new NetCheck().execute();
         setUpMapIfNeeded();
@@ -177,7 +200,20 @@ public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity 
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+
+                SnackbarManager.show(
+                        Snackbar.with(Activity6a_ResultKualitasJalan_ViewPoint.this)
+                                .text("Koneksi Gagal!")
+                                .actionLabel("COBA LAGI") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        new NetCheck().execute();
+                                    }
+                                }) // action button's ActionClickListener
+                                .actionColor(Color.parseColor("#CDDC39"))
+                        , Activity6a_ResultKualitasJalan_ViewPoint.this);
             }
         }
     }
@@ -199,14 +235,14 @@ public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity 
         @Override
         protected JSONObject doInBackground(String... args) {
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.getRoadDataDetails(fullAddress);
+            JSONObject json = userFunction.getRoadDataDetails(fullAddress, caller, where);
             return json;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
             try{
-            //    Log.v("Road Details", json.toString());
+                Log.v("Road Details", json.toString());
 
                 if(Integer.parseInt(json.getString("success")) == 1){
                     JSONObject jsonObj = new JSONObject(json.toString());
@@ -216,44 +252,37 @@ public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity 
                     for(int i=0; i<daftarTitik.length(); i++){
                         lat = Double.parseDouble(daftarTitik.getJSONObject(i).getString("lat"));
                         lon = Double.parseDouble(daftarTitik.getJSONObject(i).getString("lon"));
+                        String tanggal = daftarTitik.getJSONObject(i).getString("tanggal");
                         int qual = Integer.parseInt(daftarTitik.getJSONObject(i).getString("kualitas"));
                         if(qual == 1) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
-                                    .title("Q1")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
+                                    .title("Baik")
+                                    .snippet("" + lat.toString() +
+                                                    " : " + lon.toString() +
+                                                    " [" + tanggal+"]"
+                                    )
+                                    .icon(BitmapDescriptorFactory.fromBitmap(blue)));
                         }
-                        /*
                         else if(qual == 2) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
-                                    .title("Q2")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
+                                    .title("Sedang")
+                                    .snippet("" + lat.toString() +
+                                                    " : " + lon.toString() +
+                                                    " [" + tanggal+"]"
+                                    )
+                                    .icon(BitmapDescriptorFactory.fromBitmap(yellow)));
                         }
                         else if(qual == 3) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lon))
-                                    .title("Q3")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lime)));
-                        }
-                        else if(qual == 4) {
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(lat, lon))
-                                    .title("Q4")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow)));
-                        }
-                        */
-                        else if(qual == 2) {
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(lat, lon))
-                                    .title("Q2")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_orange)));
-                        }
-                        else if(qual == 3) {
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(lat, lon))
-                                    .title("Q3")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
+                                    .title("Buruk")
+                                    .snippet("" + lat.toString() +
+                                                    " : " + lon.toString() +
+                                                    " [" + tanggal+"]"
+                                    )
+                                    .icon(BitmapDescriptorFactory.fromBitmap(red)));
                         }
                     //    Log.v("Titik", "Titik Ke-"+i );
                     }
