@@ -402,6 +402,7 @@ public class Activity4_TemukanLubang extends AppCompatActivity implements Sensor
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-4.6540159, 119.1574415), 3.0f));
 
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override

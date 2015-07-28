@@ -98,6 +98,7 @@ public class Activity6a_ResultKualitasJalan_ViewPoint extends AppCompatActivity 
         mMap.setMyLocationEnabled(true);
         mMap.setBuildingsEnabled(true); //add
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-4.6540159, 119.1574415), 3.0f));
 
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 

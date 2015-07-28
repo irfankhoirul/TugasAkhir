@@ -42,8 +42,8 @@ public class Activity7a_ResultTemukanLubang_ViewPoint extends ActionBarActivity 
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
-                .title("Q2")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_light_blue)));
+                .title("Lokasi Kerusakan")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red)));
         LatLng loc= new LatLng(lat, lon);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
     }
@@ -70,6 +70,7 @@ public class Activity7a_ResultTemukanLubang_ViewPoint extends ActionBarActivity 
         mMap.setMyLocationEnabled(true);
         mMap.setBuildingsEnabled(true); //add
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-4.6540159, 119.1574415), 3.0f));
 
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 

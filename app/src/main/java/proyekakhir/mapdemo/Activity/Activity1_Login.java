@@ -95,7 +95,7 @@ public class Activity1_Login extends Activity {
         //            finish();
         //        }else {
                     if (_act1_tf_username.getText().toString().equals("") || _act1_tf_password.getText().toString().equals("")) {
-                        Toast.makeText(getBaseContext(), "Fill Username and Password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Masukkan Username dan Password", Toast.LENGTH_SHORT).show();
                     //    Snackbar.make(arg0, "Fill Your Username and Password", Snackbar.LENGTH_SHORT).show();
                     }
                     else {
@@ -345,7 +345,7 @@ public class Activity1_Login extends Activity {
 
                     }else{
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Incorrect Username or Password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Password atau Username Salah!", Toast.LENGTH_SHORT).show();
 //                        Snackbar.make(arg0_view, "Incorrect Username or Password!", Snackbar.LENGTH_SHORT).show();
                     }
                 }
@@ -434,7 +434,7 @@ public class Activity1_Login extends Activity {
                             if(verified.equals("1")) {
                                 DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                                 db.addUser(user);
-                                Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "Login Berhasil!", Toast.LENGTH_SHORT).show();
 //                                Snackbar.make(arg0_view, "Login Successful!", Snackbar.LENGTH_SHORT).show();
                                 Intent i = new Intent(Activity1_Login.this, Activity2_MainMap.class);
                                 startActivity(i);
@@ -442,7 +442,7 @@ public class Activity1_Login extends Activity {
                                 finish();
                             }
                             else {
-                                Toast.makeText(getBaseContext(), "You haven't verified yet. Please verify your email!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "Anda belum melakukan verifikasi alamat Email. Silakan melakukan verifikasi terlebih dahulu!", Toast.LENGTH_SHORT).show();
 
                                 pDialog.dismiss();
                                 new EmailVer().execute();

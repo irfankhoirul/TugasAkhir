@@ -19,17 +19,17 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
 import com.melnykov.fab.FloatingActionButton;
 
-import proyekakhir.mapdemo.DrawerActivity;
 import proyekakhir.mapdemo.Activity.KualitasJalan.Activity3_KualitasJalan;
-import proyekakhir.mapdemo.R;
 import proyekakhir.mapdemo.Activity.TemukanLubang.Activity4_TemukanLubang;
+import proyekakhir.mapdemo.DrawerActivity;
 import proyekakhir.mapdemo.NonActivity.StaticPref;
+import proyekakhir.mapdemo.R;
 
 public class Activity2_MainMap extends DrawerActivity {
     SharedPreferences pref;
@@ -97,7 +97,7 @@ public class Activity2_MainMap extends DrawerActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
                                         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-                                            Toast.makeText(getApplicationContext(), "Please enable your GPS connection!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Nyalakan koneksi GPS anda!", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             if(umumKhusus == 1 ) {
@@ -164,7 +164,7 @@ public class Activity2_MainMap extends DrawerActivity {
                 setUpMap();
             }
             else if(mMap == null)
-                Toast.makeText(getApplicationContext(), "Loaded failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Map gagal dibuka!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -172,7 +172,7 @@ public class Activity2_MainMap extends DrawerActivity {
         mMap.setMyLocationEnabled(true);
 //        mMap.setBuildingsEnabled(true); //add
 //        mMap.getUiSettings().setZoomControlsEnabled(true);
-
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-4.6540159, 119.1574415), 3.0f));
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {

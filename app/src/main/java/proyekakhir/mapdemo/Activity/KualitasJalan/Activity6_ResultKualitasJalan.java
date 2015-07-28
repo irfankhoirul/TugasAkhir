@@ -306,7 +306,7 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
 
         @Override
         protected void onPostExecute(JSONObject json) {
-//            if(caller == 0 ) {
+            Log.v("Json Ini", json.toString());
                 try {
                     if (Integer.parseInt(json.getString("success")) == 1) {
                         JSONObject jsonObj = new JSONObject(json.toString());
@@ -365,23 +365,15 @@ public class Activity6_ResultKualitasJalan extends AppCompatActivity implements 
                         listView.setAdapter(adapter);
                     } else if (Integer.parseInt(json.getString("success")) == 2) {
                         max = true;
-//                    Toast.makeText(getBaseContext(), "Maximum!!", Toast.LENGTH_SHORT).show();
-//                    } else if (Integer.parseInt(json.getString("success")) != 2 && Integer.parseInt(json.getString("success")) != 1) {
-//                        Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getBaseContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception ex) {
-//                Log.e("Error when getting json", ex.getMessage());
+                    Log.e("Error disini", ex.getMessage());
                     Toast.makeText(getBaseContext(), "Error when getting json", Toast.LENGTH_SHORT).show();
                 }
-        //        Log.v("Json Out", json.toString());
-//            }
-//            else {
-//                Toast.makeText(getBaseContext(), json.toString(), Toast.LENGTH_SHORT).show();
-//                Log.v("Json Out 1", json.toString());
-//            }
+
             pDialog.dismiss();
 
         }

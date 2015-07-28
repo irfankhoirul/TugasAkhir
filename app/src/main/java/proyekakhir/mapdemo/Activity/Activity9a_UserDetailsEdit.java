@@ -245,13 +245,13 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
             public void onClick(View v) {
                 boolean allow = valueCheck();
                 if(allow) {
-                    Toast.makeText(getBaseContext(), "Right Value", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getBaseContext(), "Right Value", Toast.LENGTH_SHORT).show();
                     getValue();
 //                    NetAsync(v);
                     new NetCheck().execute();
                 }
                 else
-                    Toast.makeText(getBaseContext(), "Please check again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Silakan periksa kembali!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -379,7 +379,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
                 !(edit_Password.getText().toString().equals(edit_Password2.getText().toString()))
                 ) {
             ret = false;
-            Toast.makeText(getBaseContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Password tidak sesuai!", Toast.LENGTH_SHORT).show();
         }
 
         else ret = true;
@@ -556,7 +556,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Koneksi gagal!", Toast.LENGTH_SHORT).show();
                 //    registerErrorMsg.setText("Error in Network Connection");
             }
         }
@@ -625,7 +625,7 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
 
 //                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
-                        Toast.makeText(getBaseContext(), json.getString("success_msg")+" jPlease re-login!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), json.getString("success_msg")+" Silakan login kembali!", Toast.LENGTH_LONG).show();
 
                         /**
                          * Removes all the previous data in the SQlite database
@@ -642,12 +642,12 @@ public class Activity9a_UserDetailsEdit extends AppCompatActivity {
 
                     else if (Integer.parseInt(red) == 1){
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Incorrect Password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Password Salah!", Toast.LENGTH_SHORT).show();
                     }
 
                 }   else{
                     pDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Error occured."+json.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Terjadi kesalahan."+json.getString("error_msg"), Toast.LENGTH_SHORT).show();
                 }
 
             } catch (JSONException e) {

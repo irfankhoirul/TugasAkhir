@@ -47,11 +47,11 @@
     <string name="title_activity_activity11__help">Bantuan</string>
     <string name="title_activity_splash_screen">Splash Screen</string>
     <string name="title_activity_activity6c__app1_special_result">Filter Hasil Khusus</string>
-    <string name="title_activity_activity3c__discover_pothole">Temukan Jalan Berlubang</string>
-    <string name="title_activity_activity4a__pothole_result">Lubang Ditemukan</string>
-    <string name="title_activity_activity4b__pothole_preview">Preview Lokasi Lubang</string>
-    <string name="title_activity_activity4c__show_pothole">Lubang Ditemukan</string>
-    <string name="title_activity_activity6d__pothole_details">Lokasi Lubang</string>
+    <string name="title_activity_activity3c__discover_pothole">Temukan Kerusakan Jalan</string>
+    <string name="title_activity_activity4a__pothole_result">LKerusakan Jalan Ditemukan</string>
+    <string name="title_activity_activity4b__pothole_preview">Preview Lokasi Kerusakan</string>
+    <string name="title_activity_activity4c__show_pothole">Kerusakan Jalan Ditemukan</string>
+    <string name="title_activity_activity6d__pothole_details">Lokasi Kerusakan Jalan</string>
     <string name="title_activity_activity7b__result_temukan_lubang__filter">Filter</string>
     <string name="title_activity_activity12__accelerometer_check">Pengecekan Accelerometer</string>
 

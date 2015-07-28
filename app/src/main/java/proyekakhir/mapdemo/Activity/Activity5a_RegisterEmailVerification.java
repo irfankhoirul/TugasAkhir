@@ -59,8 +59,8 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
         bt_changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(newEmail.equals(null)){
-                    Toast.makeText(getBaseContext(), "Please Type Your New Email!", Toast.LENGTH_LONG).show();
+                if(newEmail.getText().equals(null)){
+                    Toast.makeText(getBaseContext(), "Silakan masukkan alamat email anda yang baru!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     newEmailAddress = newEmail.getText().toString();
@@ -85,11 +85,11 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
 
                 String txt = verificationCode.getText().toString();
                 if(txt.equals(token)) {
-                    Toast.makeText(getBaseContext(), "Token Accepted!", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getBaseContext(), "Token Accepted!", Toast.LENGTH_LONG).show();
                     new NetCheck().execute();
                 }
                 else
-                    Toast.makeText(getBaseContext(), "Token Incorrect!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Kode Verifikasi salah!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -281,7 +281,7 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Koneksi gagal!", Toast.LENGTH_SHORT).show();
                 //    registerErrorMsg.setText("Error in Network Connection");
             }
         }
@@ -317,13 +317,13 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json.getString("success") != null) {
-                    Toast.makeText(getBaseContext(), "Verification Success. Please Login.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Verifikasi berhasil. Silakan Login.", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent (Activity5a_RegisterEmailVerification.this, Activity1_Login.class);
                     startActivity(i);
                     finish();
                 }else{
                     pDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Failed to Verify User!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Verifikasi gagal!", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {
@@ -381,7 +381,7 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
         @Override
         protected void onPostExecute(String json) {
             if(Integer.parseInt(json)==1){
-                Toast.makeText(getBaseContext(), "Verification Sent. Please Check Your Email!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Kode verifikasi terkirim. Silakan cek email anda!", Toast.LENGTH_LONG).show();
             }
 
             pDialog.dismiss();
@@ -419,7 +419,7 @@ public class Activity5a_RegisterEmailVerification extends AppCompatActivity {
                 //    Toast.makeText(getBaseContext(), "Your Email successfully changed. Please check your new Email to get your verification code.", Toast.LENGTH_SHORT).show();
                     new EmailVer().execute();
                 }else{
-                    Toast.makeText(getBaseContext(), "Failed to Verify User!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Verifikasi gagal!", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {

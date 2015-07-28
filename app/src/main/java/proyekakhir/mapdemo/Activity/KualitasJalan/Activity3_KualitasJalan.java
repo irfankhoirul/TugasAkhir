@@ -453,7 +453,7 @@ public class Activity3_KualitasJalan extends AppCompatActivity implements
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
-
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-4.6540159, 119.1574415), 3.0f));
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {

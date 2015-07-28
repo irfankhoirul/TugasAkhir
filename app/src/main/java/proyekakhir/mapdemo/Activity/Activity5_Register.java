@@ -109,7 +109,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
                     NetAsync(v);
                 }
                 else
-                    Toast.makeText(getBaseContext(), "Please check again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Periksa Kembali!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -181,7 +181,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
                 !(reg_Password.getText().toString().equals(reg_Password2.getText().toString()))
         ) {
             ret = false;
-            Toast.makeText(getBaseContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Password tidak cocok!", Toast.LENGTH_SHORT).show();
         }
         else ret = true;
 
@@ -471,7 +471,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
             }
             else{
                 nDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Error in Network Connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Koneksi gagal!", Toast.LENGTH_SHORT).show();
             //    registerErrorMsg.setText("Error in Network Connection");
             }
         }
@@ -519,7 +519,7 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 //                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(getBaseContext(), "Error registering GMS!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Registrasi GMS gagal!", Toast.LENGTH_SHORT).show();
             }
             pDialog.dismiss();
         }
@@ -586,20 +586,20 @@ public class Activity5_Register extends AppCompatActivity implements View.OnClic
 
                         else if (Integer.parseInt(red) ==2){
                             pDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Username sudah digunakan!", Toast.LENGTH_SHORT).show();
                         }
                         else if (Integer.parseInt(red) ==4){
                             pDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Username already exists coy!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Username sudah digunakan!", Toast.LENGTH_SHORT).show();
                         }
                         else if (Integer.parseInt(red) ==3){
                             pDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Invalid Email id", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Email salah!", Toast.LENGTH_SHORT).show();
                         }
 
                     }   else{
                         pDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Error occured in registration here", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Registrasi gagal!", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
